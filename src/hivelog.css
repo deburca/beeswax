@@ -444,11 +444,11 @@ body.hivelog-page .vertical-tabs {
   border: 1px solid var(--bw-hairline);
   border-radius: 6px;
   background: var(--bw-surface);
-  overflow: hidden;
 }
 
 body.hivelog-page .vertical-tabs__menu {
-  border-top: 0;
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px 0 0 6px;
   background: var(--bw-surface-2);
 }
 
