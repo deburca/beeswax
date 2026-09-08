@@ -6,6 +6,7 @@ libraries:
 logo: logo-dark.svg
 description: 'A customized version of Mercury with a sprinkling of Bee, honey, and wax'
 core_version_requirement: ^11
+version: '1.0.0'
 generator: 'mercury:1.0.5'
 regions:
   content: Content
