@@ -286,6 +286,42 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Embedded child-list filter form (apiary / hive canonical pages).
+ * The module (css/hivelog.filter-form.css) paints it a flat #fafafa
+ * box with a plain-grey border; recolour to the beeswax surface
+ * palette and give the fields a real border so they read on the
+ * tinted panel. Non-layered so they beat Mercury's @layer form rules.
+ * ------------------------------------------------------------------ */
+.hivelog-filter-form {
+  background: var(--bw-surface-2);
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+}
+
+.hivelog-filter-form .form-item label {
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-filter-form .form-item input,
+.hivelog-filter-form .form-item select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--bw-hairline);
+  border-radius: 4px;
+  background: var(--bw-surface);
+  color: var(--bw-ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.hivelog-filter-form .form-item input:focus,
+.hivelog-filter-form .form-item select:focus {
+  outline: none;
+  border-color: var(--bw-accent);
+  box-shadow: 0 0 0 2px var(--bw-accent-tint);
+}
+
+/* ------------------------------------------------------------------ *
  * Financial reports (per-apiary + combined). The module
  * (css/hivelog.tables.css) owns the right-alignment and the total-row
  * emphasis; here we only recolour and set the mono figure face. Rules
