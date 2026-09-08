@@ -13,3 +13,11 @@ regions:
   footer: Footer
 dependencies:
   - 'cva:cva'
+
+# Tom Select for the HiveLog table filters. hivelog/filter_form is
+# attached directly by each HivelogXFilterForm::buildForm(), so
+# libraries-extend fires and the widget loads only where a filter form
+# renders (the apiary / hive canonical pages, the full calendar).
+libraries-extend:
+  hivelog/filter_form:
+    - beeswax/hivelog-filter-select

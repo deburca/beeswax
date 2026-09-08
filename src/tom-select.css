@@ -1,0 +1,81 @@
+/**
+ * @file tom-select.css
+ * Beeswax theming for the Tom Select widget that replaces the HiveLog
+ * table-filter <select>s (see lib/hivelog-filter-select.js). Loads after
+ * lib/vendor/tom-select/tom-select.min.css; every rule is scoped to
+ * `.hivelog-filter-form` and outranks Tom Select's own single-class
+ * selectors. Colours come from the --bw-* tokens, so light / dark follow
+ * the rest of the theme. preprocess: false — edit without a rebuild.
+ */
+
+.hivelog-filter-form .ts-wrapper {
+  min-width: 8rem;
+}
+
+/* The visible control — match the plain filter fields
+   (src/hivelog.css `.hivelog-filter-form .form-item input`). */
+.hivelog-filter-form .ts-control {
+  min-height: 0;
+  padding: 0.35rem 1.6rem 0.35rem 0.5rem;
+  border: 1px solid var(--bw-hairline);
+  border-radius: 4px;
+  background: var(--bw-surface);
+  color: var(--bw-ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  box-shadow: none;
+}
+
+.hivelog-filter-form .ts-control input {
+  color: var(--bw-ink);
+  font-size: inherit;
+}
+
+.hivelog-filter-form .ts-wrapper.focus .ts-control {
+  border-color: var(--bw-accent);
+  box-shadow: 0 0 0 2px var(--bw-accent-tint);
+}
+
+/* Caret. */
+.hivelog-filter-form .ts-wrapper.single .ts-control::after {
+  border-color: var(--bw-ink-muted) transparent transparent;
+}
+
+.hivelog-filter-form .ts-wrapper.single.dropdown-active .ts-control::after {
+  border-color: transparent transparent var(--bw-ink-muted);
+}
+
+/* The popup panel. */
+.hivelog-filter-form .ts-dropdown {
+  margin-top: 0.25rem;
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-surface);
+  box-shadow: var(--shadow);
+  color: var(--bw-ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.hivelog-filter-form .ts-dropdown .option {
+  padding: 0.4rem 0.6rem;
+  color: var(--bw-ink);
+}
+
+.hivelog-filter-form .ts-dropdown .option.active {
+  background: var(--bw-accent-tint);
+  color: var(--bw-ink);
+}
+
+.hivelog-filter-form .ts-dropdown .option.selected {
+  font-weight: 600;
+}
+
+.hivelog-filter-form .ts-dropdown .option.selected.active {
+  background: var(--bw-accent-tint);
+}
+
+.hivelog-filter-form .ts-dropdown .no-results {
+  color: var(--bw-ink-muted);
+}
