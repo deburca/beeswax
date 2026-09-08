@@ -259,8 +259,14 @@
 [class^="hivelog-"][class$="-table"] td {
   padding: 0.55rem 0.85rem;
   border-bottom: 1px solid var(--bw-hairline);
-  text-align: left;
   vertical-align: top;
+}
+
+/* Weak left default so the financial-report tables can right-align their
+   figure columns from css/hivelog.tables.css without a specificity war. */
+:where(.hivelog-entity-table, [class^="hivelog-"][class$="-table"]) th,
+:where(.hivelog-entity-table, [class^="hivelog-"][class$="-table"]) td {
+  text-align: left;
 }
 
 .hivelog-entity-table thead th,
@@ -280,27 +286,32 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Financial reports (per-apiary + combined).
+ * Financial reports (per-apiary + combined). The module
+ * (css/hivelog.tables.css) owns the right-alignment and the total-row
+ * emphasis; here we only recolour and set the mono figure face. Rules
+ * target cells directly so they beat the body face the generic table
+ * rule above puts on the <table> element.
  * ------------------------------------------------------------------ */
-.hivelog-inventory-report-table td[align="right"],
-.hivelog-inventory-report-table .num,
-.hivelog-inventory-report-trend td:not(:first-child),
-.hivelog-inventory-report-table td:not(:first-child) {
+.hivelog-inventory-report-table td,
+.hivelog-inventory-report-table th {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-.hivelog-inventory-report-breakdown,
-.hivelog-inventory-report-trend {
-  margin-top: 1.5rem;
+/* Text columns (apiary name / year in the labelled summary + trend,
+   Item / Type / Quantity in the breakdown) go back to the body face. */
+.hivelog-inventory-report-table--labelled td:first-child,
+.hivelog-inventory-report-table--labelled th:first-child,
+.hivelog-inventory-report-trend .hivelog-inventory-report-table td:first-child,
+.hivelog-inventory-report-trend .hivelog-inventory-report-table th:first-child,
+.hivelog-inventory-report-breakdown .hivelog-inventory-report-table td:not(:last-child),
+.hivelog-inventory-report-breakdown .hivelog-inventory-report-table th:not(:last-child) {
+  font-family: var(--font-body);
 }
 
-/* The "All apiaries" total row on the combined report. */
-.hivelog-inventory-report-table th[scope="row"],
-.hivelog-inventory-report-table tbody tr:last-child th,
-.hivelog-inventory-report-table tbody tr:last-child td {
-  font-weight: 600;
+.hivelog-inventory-report-total td {
   background: var(--bw-surface-2);
+  border-top-color: var(--bw-hairline);
 }
 
 /* ------------------------------------------------------------------ *
@@ -308,7 +319,10 @@
  * /hivelog/calendar-actions, … These use a core EntityListBuilder, so
  * the markup is a bare <table class="responsive-enabled"> with no
  * hivelog class. Scoped to the `hivelog-page` body class added by
- * beeswax's preprocess_html so the rest of the site is untouched.
+ * beeswax's preprocess_html so the rest of the site is untouched, and
+ * to `table:not([class*="hivelog"])` so the module's own classed tables
+ * (dashboard, detail, financial report) keep their own styling —
+ * including their right-aligned figure columns.
  * ------------------------------------------------------------------ */
 body.hivelog-page {
   background: var(--bw-ground);
@@ -328,22 +342,22 @@ body.hivelog-page a {
   color: var(--bw-accent);
 }
 
-body.hivelog-page .region-content table {
+body.hivelog-page .region-content table:not([class*="hivelog"]) {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-body);
   font-size: 0.9rem;
 }
 
-body.hivelog-page .region-content th,
-body.hivelog-page .region-content td {
+body.hivelog-page .region-content table:not([class*="hivelog"]) th,
+body.hivelog-page .region-content table:not([class*="hivelog"]) td {
   padding: 0.55rem 0.85rem;
   border-bottom: 1px solid var(--bw-hairline);
   text-align: left;
   vertical-align: top;
 }
 
-body.hivelog-page .region-content thead th {
+body.hivelog-page .region-content table:not([class*="hivelog"]) thead th {
   border-bottom: 1px solid var(--bw-hairline);
   background: var(--bw-surface-2);
   color: var(--bw-ink-faint);
@@ -353,11 +367,11 @@ body.hivelog-page .region-content thead th {
   letter-spacing: 0.06em;
 }
 
-body.hivelog-page .region-content tbody tr:hover {
+body.hivelog-page .region-content table:not([class*="hivelog"]) tbody tr:hover {
   background: var(--bw-surface-2);
 }
 
-body.hivelog-page .region-content tbody tr:last-child td {
+body.hivelog-page .region-content table:not([class*="hivelog"]) tbody tr:last-child td {
   border-bottom: 0;
 }
 
