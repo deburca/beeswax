@@ -430,3 +430,79 @@ body.hivelog-page .region-content .action-links {
 body.hivelog-page .pager__link {
   color: var(--bw-accent);
 }
+
+/* ------------------------------------------------------------------ *
+ * Vertical tabs on entity edit/add forms (queen, hive, inspection …).
+ * Core (core/misc/vertical-tabs.css) paints these flat #ccc / #eee
+ * with a dotted hover outline. Keep core's left-rail layout but
+ * recolour the rail, the tabs and the selected state to the beeswax
+ * surface / ink / pine palette so the forms match the rest of
+ * HiveLog. Non-layered + `body.hivelog-page` prefix so these beat the
+ * un-layered core rules on load order and specificity.
+ * ------------------------------------------------------------------ */
+body.hivelog-page .vertical-tabs {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-surface);
+  overflow: hidden;
+}
+
+body.hivelog-page .vertical-tabs__menu {
+  border-top: 0;
+  background: var(--bw-surface-2);
+}
+
+body.hivelog-page .vertical-tabs__menu-item {
+  border: 0;
+  border-bottom: 1px solid var(--bw-hairline);
+  background: transparent;
+}
+
+body.hivelog-page .vertical-tabs__menu-item:last-child {
+  border-bottom: 0;
+}
+
+body.hivelog-page .vertical-tabs__menu-item a {
+  padding: 0.6rem 0.85rem;
+  color: var(--bw-ink-muted);
+}
+
+body.hivelog-page .vertical-tabs__menu-item a:hover {
+  outline: 0;
+  background: var(--bw-surface);
+}
+
+body.hivelog-page .vertical-tabs__menu-item a:focus-visible {
+  outline: 2px solid var(--bw-accent);
+  outline-offset: -2px;
+}
+
+body.hivelog-page .vertical-tabs__menu-item.is-selected {
+  border-right: 0;
+  border-left: 3px solid var(--bw-accent);
+  background: var(--bw-surface);
+}
+
+body.hivelog-page .vertical-tabs__menu-item.is-selected a {
+  padding-left: calc(0.85rem - 3px);
+}
+
+body.hivelog-page .vertical-tabs__menu-item-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--bw-ink);
+}
+
+body.hivelog-page .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-item-title {
+  color: var(--bw-accent);
+}
+
+body.hivelog-page .vertical-tabs__menu-item-summary {
+  margin-top: 0.15rem;
+  color: var(--bw-ink-faint);
+  font-size: 0.8rem;
+}
+
+body.hivelog-page .vertical-tabs__pane {
+  padding: 0.5rem 1.25rem 1rem;
+}
