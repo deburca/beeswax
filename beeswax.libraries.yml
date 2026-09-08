@@ -38,12 +38,13 @@ motion:
   dependencies:
     - core/once
 
-# Upgrades the HiveLog table-filter <select>s to Tom Select so the option
-# list can be themed (a native <select> popup is browser chrome). Attached
-# via `libraries-extend` on hivelog/filter_form in beeswax.info.yml, so it
-# loads only on pages with a HiveLog filter form. Tom Select v2.4.3,
-# Apache-2.0, vendored under lib/vendor/tom-select/.
-hivelog-filter-select:
+# Upgrades HiveLog <select>s to Tom Select so the option list can be
+# themed (a native <select> popup is browser chrome). Attached via
+# `libraries-extend` on hivelog/filter_form and hivelog/forms in
+# beeswax.info.yml, so it loads only where a HiveLog filter form or
+# entity add/edit form renders. Tom Select v2.4.3, Apache-2.0, vendored
+# under lib/vendor/tom-select/.
+hivelog-select:
   version: VERSION
   css:
     theme:
@@ -51,7 +52,7 @@ hivelog-filter-select:
       src/tom-select.css: { preprocess: false }
   js:
     lib/vendor/tom-select/tom-select.complete.min.js: { minified: true, preprocess: false, weight: -10 }
-    lib/hivelog-filter-select.js: {}
+    lib/hivelog-select.js: {}
   dependencies:
     - core/drupal
     - core/once

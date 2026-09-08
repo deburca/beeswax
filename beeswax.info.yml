@@ -14,10 +14,15 @@ regions:
 dependencies:
   - 'cva:cva'
 
-# Tom Select for the HiveLog table filters. hivelog/filter_form is
-# attached directly by each HivelogXFilterForm::buildForm(), so
-# libraries-extend fires and the widget loads only where a filter form
-# renders (the apiary / hive canonical pages, the full calendar).
+# Tom Select for HiveLog <select>s. Both libraries are attached directly
+# by the forms that own them — hivelog/filter_form by each
+# HivelogXFilterForm::buildForm() (apiary / hive canonical pages, the
+# full calendar), hivelog/forms by each entity add/edit form — so
+# libraries-extend fires and the widget loads only where one of those
+# renders. lib/hivelog-select.js scopes to `.hivelog-filter-form select`
+# and `.hivelog-entity-form select`.
 libraries-extend:
   hivelog/filter_form:
-    - beeswax/hivelog-filter-select
+    - beeswax/hivelog-select
+  hivelog/forms:
+    - beeswax/hivelog-select

@@ -1,25 +1,28 @@
 /**
  * @file tom-select.css
- * Beeswax theming for the Tom Select widget that replaces the HiveLog
- * table-filter <select>s (see lib/hivelog-filter-select.js). Loads after
+ * Beeswax theming for the Tom Select widget that replaces HiveLog
+ * <select>s (see lib/hivelog-select.js) — the table-filter selects and
+ * the entity add/edit form selects. Loads after
  * lib/vendor/tom-select/tom-select.min.css; every rule is scoped to
- * `.hivelog-filter-form` and outranks Tom Select's own single-class
- * selectors. Colours come from the --bw-* tokens, so light / dark follow
- * the rest of the theme. preprocess: false — edit without a rebuild.
+ * `body.hivelog-page` so it outranks Tom Select's own single-class
+ * selectors (`.ts-wrapper.single.input-active .ts-control` = 0,4,0 — the
+ * `body.hivelog-page … .ts-control` selectors here are 0,4,1) without
+ * depending on load order. Colours come from the --bw-* tokens, so
+ * light / dark follow the rest of the theme. preprocess: false.
  */
 
-.hivelog-filter-form .ts-wrapper {
+body.hivelog-page .ts-wrapper {
   min-width: 8rem;
 }
 
-/* The visible control — match the plain filter fields
-   (src/hivelog.css `.hivelog-filter-form .form-item input`).
-   `.ts-wrapper.single` gives every selector 4 classes so it ties Tom
-   Select's own `.ts-wrapper.single.input-active .ts-control`
-   (background:#fff + cursor:text while the widget is in use) and wins on
-   load order — without that the field, and its light text in dark mode,
-   turned white on click. */
-.hivelog-filter-form .ts-wrapper.single .ts-control {
+/* The visible control — match the plain form fields
+   (src/hivelog.css `.hivelog-filter-form .form-item input`). The
+   `.ts-wrapper.single` chain is what ties Tom Select's own
+   `.ts-wrapper.single.input-active .ts-control` (background:#fff +
+   cursor:text while the widget is in use); the `body.hivelog-page`
+   prefix then wins outright — without it the field, and its light text
+   in dark mode, turned white on click. */
+body.hivelog-page .ts-wrapper.single .ts-control {
   min-height: 0;
   padding: 0.35rem 1.6rem 0.35rem 0.5rem;
   border: 1px solid var(--bw-hairline);
@@ -33,33 +36,33 @@
   cursor: pointer;
 }
 
-.hivelog-filter-form .ts-wrapper.single .ts-control,
-.hivelog-filter-form .ts-wrapper.single .ts-control input,
-.hivelog-filter-form .ts-wrapper.single .ts-control .item {
+body.hivelog-page .ts-wrapper.single .ts-control,
+body.hivelog-page .ts-wrapper.single .ts-control input,
+body.hivelog-page .ts-wrapper.single .ts-control .item {
   color: var(--bw-ink);
 }
 
-.hivelog-filter-form .ts-wrapper.single .ts-control input {
+body.hivelog-page .ts-wrapper.single .ts-control input {
   font-size: inherit;
   background: transparent;
 }
 
-.hivelog-filter-form .ts-wrapper.single.focus .ts-control {
+body.hivelog-page .ts-wrapper.single.focus .ts-control {
   border-color: var(--bw-accent);
   box-shadow: 0 0 0 2px var(--bw-accent-tint);
 }
 
 /* Caret. */
-.hivelog-filter-form .ts-wrapper.single .ts-control::after {
+body.hivelog-page .ts-wrapper.single .ts-control::after {
   border-color: var(--bw-ink-muted) transparent transparent;
 }
 
-.hivelog-filter-form .ts-wrapper.single.dropdown-active .ts-control::after {
+body.hivelog-page .ts-wrapper.single.dropdown-active .ts-control::after {
   border-color: transparent transparent var(--bw-ink-muted);
 }
 
 /* The popup panel. */
-.hivelog-filter-form .ts-dropdown {
+body.hivelog-page .ts-dropdown {
   margin-top: 0.25rem;
   border: 1px solid var(--bw-hairline);
   border-radius: 6px;
@@ -70,24 +73,24 @@
   font-size: 0.9rem;
 }
 
-.hivelog-filter-form .ts-dropdown .option {
+body.hivelog-page .ts-dropdown .option {
   padding: 0.4rem 0.6rem;
   color: var(--bw-ink);
 }
 
-.hivelog-filter-form .ts-dropdown .option.active {
+body.hivelog-page .ts-dropdown .option.active {
   background: var(--bw-accent-tint);
   color: var(--bw-ink);
 }
 
-.hivelog-filter-form .ts-dropdown .option.selected {
+body.hivelog-page .ts-dropdown .option.selected {
   font-weight: 600;
 }
 
-.hivelog-filter-form .ts-dropdown .option.selected.active {
+body.hivelog-page .ts-dropdown .option.selected.active {
   background: var(--bw-accent-tint);
 }
 
-.hivelog-filter-form .ts-dropdown .no-results {
+body.hivelog-page .ts-dropdown .no-results {
   color: var(--bw-ink-muted);
 }
