@@ -34,8 +34,8 @@
   --hivelog-btn-danger-bg: var(--bw-critical);
   --hivelog-btn-danger-fg: #ffffff;
   --hivelog-btn-danger-border: var(--bw-critical);
-  --hivelog-btn-danger-bg-hover: var(--bw-critical);
-  --hivelog-btn-danger-border-hover: var(--bw-critical);
+  --hivelog-btn-danger-bg-hover: var(--bw-critical-hover);
+  --hivelog-btn-danger-border-hover: var(--bw-critical-hover);
 
   --hivelog-btn-radius: 6px;
 }

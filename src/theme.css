@@ -76,6 +76,7 @@
   --bw-accent-hover: #26583f;
   --bw-accent-tint: #e6efe8;
   --bw-critical: #b3261e;
+  --bw-critical-hover: #941d16;
   --bw-critical-tint: #f6e4e2;
   --bw-warning: #a4630a;
   --bw-warning-tint: #f4ead6;
@@ -129,6 +130,7 @@
   --bw-accent-hover: #7cc4a0;
   --bw-accent-tint: #22302a;
   --bw-critical: #e2685f;
+  --bw-critical-hover: #ec8079;
   --bw-critical-tint: #3a2320;
   --bw-warning: #d99a3c;
   --bw-warning-tint: #352a1a;
