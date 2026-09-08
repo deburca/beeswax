@@ -13,8 +13,12 @@
 }
 
 /* The visible control — match the plain filter fields
-   (src/hivelog.css `.hivelog-filter-form .form-item input`). */
-.hivelog-filter-form .ts-control {
+   (src/hivelog.css `.hivelog-filter-form .form-item input`). The
+   `.ts-wrapper` in every selector keeps specificity at 3 classes so it
+   beats Tom Select's own `.ts-wrapper.single.input-active .ts-control`
+   (which forces `background:#fff` + `cursor:text` while the widget is
+   being interacted with). */
+.hivelog-filter-form .ts-wrapper .ts-control {
   min-height: 0;
   padding: 0.35rem 1.6rem 0.35rem 0.5rem;
   border: 1px solid var(--bw-hairline);
@@ -25,10 +29,16 @@
   font-size: 0.9rem;
   line-height: 1.4;
   box-shadow: none;
+  cursor: pointer;
 }
 
-.hivelog-filter-form .ts-control input {
+.hivelog-filter-form .ts-wrapper .ts-control,
+.hivelog-filter-form .ts-wrapper .ts-control input,
+.hivelog-filter-form .ts-wrapper .ts-control .item {
   color: var(--bw-ink);
+}
+
+.hivelog-filter-form .ts-wrapper .ts-control input {
   font-size: inherit;
 }
 
