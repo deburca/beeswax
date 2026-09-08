@@ -125,9 +125,9 @@ body.hivelog-page {
 }
 
 /* ------------------------------------------------------------------ *
- * Header strip — week badge + CBR line. The badge deviates from the
- * token surface: a white ground (not surface-2), muted text (not
- * --hivelog-ink) and a softer radius.
+ * Header strip — week badge. Deviates from the token surface: a white
+ * ground (not surface-2), muted text (not --hivelog-ink) and a softer
+ * radius.
  * ------------------------------------------------------------------ */
 .hivelog-dashboard__week {
   border-radius: 5px;
@@ -135,15 +135,13 @@ body.hivelog-page {
   color: var(--bw-ink-muted);
 }
 
+/* CBR line — border + background now come from the token bridge
+ * (--hivelog-border / --hivelog-surface-2), and the link colour from the
+ * --hivelog-btn-primary-bg bridge. Kept: the softer radius and muted
+ * text, since the module hard-codes a 4px radius and color: #374151. */
 .hivelog-cbr-summary {
-  border: 1px solid var(--bw-hairline);
   border-radius: 6px;
-  background: var(--bw-surface);
   color: var(--bw-ink-muted);
-}
-
-.hivelog-cbr-summary a {
-  color: var(--bw-accent);
 }
 
 /* ------------------------------------------------------------------ *
