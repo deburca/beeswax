@@ -122,18 +122,9 @@ final class ThemeHooks {
     // Get the theme base path for font preloading.
     $variables['beeswax_path'] = $this->requestStack->getCurrentRequest()->getBasePath() . '/' . $this->themeList->getPath('beeswax');
 
-    // Tag every HiveLog page so src/hivelog.css can scope its skin — the
-    // module's own `.hivelog-*` classes only exist on the dashboard and a
-    // few custom controllers; the plain entity-list collections
-    // (/hivelog/hives, /inspections, /calendar-actions …) render core
-    // table markup with no hook of their own. Matched on the route's path
-    // so `entity.*.collection` routes (route name not `hivelog.*`) count
-    // too. See ADR-0060 / task 0061; a `hivelog-page` class in the module
-    // itself is task 0062.
-    $path = $this->routeMatch->getRouteObject()?->getPath() ?? '';
-    if ($path === '/hivelog' || str_starts_with($path, '/hivelog/')) {
-      $variables['attributes']['class'][] = 'hivelog-page';
-    }
+    // The `hivelog-page` <body> class that src/hivelog.css scopes to is
+    // added by the module itself (hivelog_preprocess_html(), hivelog
+    // >= 1.8.3) — no theme-side copy needed.
   }
 
   /**

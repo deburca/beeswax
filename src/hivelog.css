@@ -4,15 +4,21 @@
  * Fraunces / IBM Plex + beeswax / pine identity of the dashboard mockup
  * (hivelog/docs/project-management/projects/dashboard-landing-page-mockup.html).
  *
- * ADR-0060 / task 0061. Plain CSS, loaded via `libraries-extend` in
- * beeswax.info.yml over the module's own CSS libraries, so it lands
- * exactly where the module's CSS already loads (and nowhere else).
- * preprocess: false — edit without rebuilding.
+ * ADR-0060 / tasks 0061-0062. Plain CSS, loaded globally from the
+ * theme's `global` library (beeswax.libraries.yml) — not via
+ * `libraries-extend`, which does not reach the module CSS that the
+ * entity-list SDCs pull in only transitively. Every selector here is
+ * `.hivelog-*`- or `body.hivelog-page`-scoped, so loading it site-wide
+ * is inert off HiveLog. preprocess: false — edit without rebuilding.
  *
  * Rules here mirror the module's own selectors so, loading after them,
  * equal-specificity wins. Colours come from the --bw-* tokens in
- * src/theme.css; where the module already exposes a token
- * (--hivelog-btn-*), we override the token, not the rule.
+ * src/theme.css; where the module exposes tokens (--hivelog-btn-* and,
+ * since hivelog 1.8.3, the --hivelog-* surface set) we redefine the
+ * token, not the rule — the blocks below only carry what the token
+ * surface can't express (type, layout, additive hovers, and the few
+ * spots where the skin deliberately picks a different role than the
+ * module's own token).
  */
 
 /* ------------------------------------------------------------------ *
@@ -43,6 +49,38 @@
 .dark {
   --hivelog-btn-primary-fg: #12201a;
   --hivelog-btn-danger-fg: #12201a;
+}
+
+/* ------------------------------------------------------------------ *
+ * Surface token bridge (hivelog >= 1.8.3, task 0062).
+ *
+ * The module's dashboard / attention / stat-tile / split / entity-table
+ * / filter-form / report CSS reads these --hivelog-* properties; point
+ * them at the beeswax palette and every one of those surfaces re-skins
+ * with no per-selector rule. --bw-* already flip in .dark, so this
+ * follows the colour scheme for free. Scoped to body.hivelog-page (not
+ * :root) so the mapping can't leak to a non-HiveLog page that happens
+ * to reuse a class name.
+ *
+ * Where the skin wants a *different* role than the module's token (the
+ * pine hexagon vs --hivelog-warning, the muted week badge and tile
+ * label, the pine upcoming week number) the deviating rule is kept in
+ * its section below.
+ * ------------------------------------------------------------------ */
+body.hivelog-page {
+  --hivelog-surface: var(--bw-surface);
+  --hivelog-surface-2: var(--bw-surface-2);
+  --hivelog-ground: var(--bw-surface-2);
+  --hivelog-ink: var(--bw-ink);
+  --hivelog-ink-muted: var(--bw-ink-muted);
+  --hivelog-ink-faint: var(--bw-ink-faint);
+  --hivelog-hairline: var(--bw-hairline);
+  --hivelog-border: var(--bw-hairline);
+  --hivelog-rule: var(--bw-hairline);
+  --hivelog-critical: var(--bw-critical);
+  --hivelog-critical-tint: var(--bw-critical-tint);
+  --hivelog-warning: var(--bw-warning);
+  --hivelog-warning-tint: var(--bw-warning-tint);
 }
 
 /* ------------------------------------------------------------------ *
@@ -79,21 +117,19 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Masthead.
+ * Masthead. The hexagon mark is pine, not the module's amber
+ * --hivelog-warning — kept here as a deliberate deviation.
  * ------------------------------------------------------------------ */
 .hivelog-masthead__mark {
   color: var(--bw-accent);
 }
 
-.hivelog-masthead__sub {
-  color: var(--bw-ink-muted);
-}
-
 /* ------------------------------------------------------------------ *
- * Header strip — week badge + CBR line.
+ * Header strip — week badge + CBR line. The badge deviates from the
+ * token surface: a white ground (not surface-2), muted text (not
+ * --hivelog-ink) and a softer radius.
  * ------------------------------------------------------------------ */
 .hivelog-dashboard__week {
-  border: 1px solid var(--bw-hairline);
   border-radius: 5px;
   background: var(--bw-surface);
   color: var(--bw-ink-muted);
@@ -111,42 +147,13 @@
 }
 
 /* ------------------------------------------------------------------ *
- * "Needs attention".
+ * "Needs attention". Panel / row / chip colours all come from the
+ * token bridge now; only the drop shadow and the hover affordances
+ * (the module has none) live here. The chip text is muted rather than
+ * the module's --hivelog-ink.
  * ------------------------------------------------------------------ */
 .hivelog-attention {
-  border: 1px solid var(--bw-hairline);
-  border-radius: 6px;
-  background: var(--bw-surface);
   box-shadow: var(--shadow);
-}
-
-.hivelog-attention__header {
-  border-bottom: 1px solid var(--bw-hairline);
-}
-
-.hivelog-attention__count--warning {
-  color: var(--bw-warning);
-}
-
-.hivelog-attention__count--danger {
-  color: var(--bw-critical);
-}
-
-.hivelog-attention__empty {
-  color: var(--bw-ink-muted);
-}
-
-.hivelog-attention__row {
-  border-bottom: 1px solid var(--bw-hairline);
-  border-left: 4px solid var(--bw-ink-faint);
-}
-
-.hivelog-attention__row--critical {
-  border-left-color: var(--bw-critical);
-}
-
-.hivelog-attention__row--warning {
-  border-left-color: var(--bw-warning);
 }
 
 .hivelog-attention__row:hover {
@@ -154,26 +161,8 @@
 }
 
 .hivelog-attention__chip {
-  border-radius: 3px;
-  background: var(--bw-surface-2);
   color: var(--bw-ink-muted);
-  text-transform: uppercase;
   letter-spacing: 0.04em;
-}
-
-.hivelog-attention__chip--critical {
-  background: var(--bw-critical-tint);
-  color: var(--bw-critical);
-}
-
-.hivelog-attention__chip--warning {
-  background: var(--bw-warning-tint);
-  color: var(--bw-warning);
-}
-
-.hivelog-attention__ctx,
-.hivelog-attention__ctx a {
-  color: var(--bw-ink-muted);
 }
 
 .hivelog-attention__ctx a:hover {
@@ -181,23 +170,11 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Stat tiles.
+ * Stat tiles. Grid / tile / hover / sub colours come from the token
+ * bridge; the label is deliberately fainter than the module's
+ * --hivelog-ink-muted, and the value gets the lighter weight + tighter
+ * tracking of the mockup.
  * ------------------------------------------------------------------ */
-.hivelog-stat-tiles {
-  border: 1px solid var(--bw-hairline);
-  border-radius: 6px;
-  background: var(--bw-hairline);
-}
-
-.hivelog-stat-tile {
-  background: var(--bw-surface);
-}
-
-.hivelog-stat-tile:hover,
-.hivelog-stat-tile:focus {
-  background: var(--bw-surface-2);
-}
-
 .hivelog-stat-tile__value {
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -208,30 +185,11 @@
   letter-spacing: 0.06em;
 }
 
-.hivelog-stat-tile__sub {
-  color: var(--bw-ink-muted);
-}
-
-.hivelog-stat-tile__sub--critical {
-  color: var(--bw-critical);
-}
-
-.hivelog-stat-tile__sub--warning {
-  color: var(--bw-warning);
-}
-
 /* ------------------------------------------------------------------ *
- * "Upcoming" / "Recent activity" split.
+ * "Upcoming" / "Recent activity" split. Row rules and the empty line
+ * come from the token bridge; the week number is pine and the "when" /
+ * "where" columns are faint — both deviations from the module tokens.
  * ------------------------------------------------------------------ */
-.hivelog-dashboard__block-empty {
-  color: var(--bw-ink-muted);
-}
-
-.hivelog-upcoming__row,
-.hivelog-recent__row {
-  border-top: 1px solid var(--bw-hairline);
-}
-
 .hivelog-upcoming__wk {
   color: var(--bw-accent);
 }
@@ -258,7 +216,6 @@
 [class^="hivelog-"][class$="-table"] th,
 [class^="hivelog-"][class$="-table"] td {
   padding: 0.55rem 0.85rem;
-  border-bottom: 1px solid var(--bw-hairline);
   vertical-align: top;
 }
 
@@ -287,14 +244,14 @@
 
 /* ------------------------------------------------------------------ *
  * Embedded child-list filter form (apiary / hive canonical pages).
- * The module (css/hivelog.filter-form.css) paints it a flat #fafafa
- * box with a plain-grey border; recolour to the beeswax surface
- * palette and give the fields a real border so they read on the
- * tinted panel. Non-layered so they beat Mercury's @layer form rules.
+ * Panel ground + border come from the token bridge; here we round it
+ * a little more than the module's 4px, force the label colour (the
+ * module sets an explicit near-black #1a1a1a for contrast on a plain
+ * page, which reads heavy on the tinted panel) and give the fields a
+ * real border so they read on the panel. Non-layered so they beat
+ * Mercury's @layer form rules.
  * ------------------------------------------------------------------ */
 .hivelog-filter-form {
-  background: var(--bw-surface-2);
-  border: 1px solid var(--bw-hairline);
   border-radius: 6px;
 }
 
@@ -347,7 +304,6 @@
 
 .hivelog-inventory-report-total td {
   background: var(--bw-surface-2);
-  border-top-color: var(--bw-hairline);
 }
 
 /* ------------------------------------------------------------------ *
