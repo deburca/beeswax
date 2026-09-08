@@ -13,12 +13,13 @@
 }
 
 /* The visible control — match the plain filter fields
-   (src/hivelog.css `.hivelog-filter-form .form-item input`). The
-   `.ts-wrapper` in every selector keeps specificity at 3 classes so it
-   beats Tom Select's own `.ts-wrapper.single.input-active .ts-control`
-   (which forces `background:#fff` + `cursor:text` while the widget is
-   being interacted with). */
-.hivelog-filter-form .ts-wrapper .ts-control {
+   (src/hivelog.css `.hivelog-filter-form .form-item input`).
+   `.ts-wrapper.single` gives every selector 4 classes so it ties Tom
+   Select's own `.ts-wrapper.single.input-active .ts-control`
+   (background:#fff + cursor:text while the widget is in use) and wins on
+   load order — without that the field, and its light text in dark mode,
+   turned white on click. */
+.hivelog-filter-form .ts-wrapper.single .ts-control {
   min-height: 0;
   padding: 0.35rem 1.6rem 0.35rem 0.5rem;
   border: 1px solid var(--bw-hairline);
@@ -32,17 +33,18 @@
   cursor: pointer;
 }
 
-.hivelog-filter-form .ts-wrapper .ts-control,
-.hivelog-filter-form .ts-wrapper .ts-control input,
-.hivelog-filter-form .ts-wrapper .ts-control .item {
+.hivelog-filter-form .ts-wrapper.single .ts-control,
+.hivelog-filter-form .ts-wrapper.single .ts-control input,
+.hivelog-filter-form .ts-wrapper.single .ts-control .item {
   color: var(--bw-ink);
 }
 
-.hivelog-filter-form .ts-wrapper .ts-control input {
+.hivelog-filter-form .ts-wrapper.single .ts-control input {
   font-size: inherit;
+  background: transparent;
 }
 
-.hivelog-filter-form .ts-wrapper.focus .ts-control {
+.hivelog-filter-form .ts-wrapper.single.focus .ts-control {
   border-color: var(--bw-accent);
   box-shadow: 0 0 0 2px var(--bw-accent-tint);
 }
