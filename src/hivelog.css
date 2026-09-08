@@ -1,0 +1,382 @@
+/**
+ * @file hivelog.css
+ * Beeswax skin for the HiveLog module — gives every HiveLog surface the
+ * Fraunces / IBM Plex + beeswax / pine identity of the dashboard mockup
+ * (hivelog/docs/project-management/projects/dashboard-landing-page-mockup.html).
+ *
+ * ADR-0060 / task 0061. Plain CSS, loaded via `libraries-extend` in
+ * beeswax.info.yml over the module's own CSS libraries, so it lands
+ * exactly where the module's CSS already loads (and nowhere else).
+ * preprocess: false — edit without rebuilding.
+ *
+ * Rules here mirror the module's own selectors so, loading after them,
+ * equal-specificity wins. Colours come from the --bw-* tokens in
+ * src/theme.css; where the module already exposes a token
+ * (--hivelog-btn-*), we override the token, not the rule.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Button tokens — re-skin every HiveLog button at once (ADR-0012).
+ * ------------------------------------------------------------------ */
+:root {
+  --hivelog-btn-bg: var(--bw-surface-2);
+  --hivelog-btn-fg: var(--bw-ink);
+  --hivelog-btn-border: var(--bw-hairline);
+  --hivelog-btn-bg-hover: var(--bw-accent-tint);
+  --hivelog-btn-border-hover: var(--bw-ink-faint);
+
+  --hivelog-btn-primary-bg: var(--bw-accent);
+  --hivelog-btn-primary-fg: #ffffff;
+  --hivelog-btn-primary-border: var(--bw-accent);
+  --hivelog-btn-primary-bg-hover: var(--bw-accent-hover);
+  --hivelog-btn-primary-border-hover: var(--bw-accent-hover);
+
+  --hivelog-btn-danger-bg: var(--bw-critical);
+  --hivelog-btn-danger-fg: #ffffff;
+  --hivelog-btn-danger-border: var(--bw-critical);
+  --hivelog-btn-danger-bg-hover: var(--bw-critical);
+  --hivelog-btn-danger-border-hover: var(--bw-critical);
+
+  --hivelog-btn-radius: 6px;
+}
+
+.dark {
+  --hivelog-btn-primary-fg: #12201a;
+  --hivelog-btn-danger-fg: #12201a;
+}
+
+/* ------------------------------------------------------------------ *
+ * Typography — HiveLog scope only.
+ * ------------------------------------------------------------------ */
+.hivelog-dashboard,
+.hivelog-attention,
+.hivelog-stat-tiles,
+[class*="hivelog-inventory-report"],
+[class^="hivelog-"][class*="-table"] {
+  font-family: var(--font-body);
+  color: var(--bw-ink);
+}
+
+.hivelog-masthead__word,
+.hivelog-attention__heading,
+.hivelog-dashboard__block-heading,
+.hivelog-inventory-report-breakdown h3,
+.hivelog-inventory-report-trend h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+.hivelog-dashboard__week,
+.hivelog-attention__count,
+.hivelog-attention__chip,
+.hivelog-stat-tile__value,
+.hivelog-stat-tile__sub,
+.hivelog-upcoming__wk,
+.hivelog-recent__when {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ *
+ * Masthead.
+ * ------------------------------------------------------------------ */
+.hivelog-masthead__mark {
+  color: var(--bw-accent);
+}
+
+.hivelog-masthead__sub {
+  color: var(--bw-ink-muted);
+}
+
+/* ------------------------------------------------------------------ *
+ * Header strip — week badge + CBR line.
+ * ------------------------------------------------------------------ */
+.hivelog-dashboard__week {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 5px;
+  background: var(--bw-surface);
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-cbr-summary {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-surface);
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-cbr-summary a {
+  color: var(--bw-accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * "Needs attention".
+ * ------------------------------------------------------------------ */
+.hivelog-attention {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-surface);
+  box-shadow: var(--shadow);
+}
+
+.hivelog-attention__header {
+  border-bottom: 1px solid var(--bw-hairline);
+}
+
+.hivelog-attention__count--warning {
+  color: var(--bw-warning);
+}
+
+.hivelog-attention__count--danger {
+  color: var(--bw-critical);
+}
+
+.hivelog-attention__empty {
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-attention__row {
+  border-bottom: 1px solid var(--bw-hairline);
+  border-left: 4px solid var(--bw-ink-faint);
+}
+
+.hivelog-attention__row--critical {
+  border-left-color: var(--bw-critical);
+}
+
+.hivelog-attention__row--warning {
+  border-left-color: var(--bw-warning);
+}
+
+.hivelog-attention__row:hover {
+  background: var(--bw-surface-2);
+}
+
+.hivelog-attention__chip {
+  border-radius: 3px;
+  background: var(--bw-surface-2);
+  color: var(--bw-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hivelog-attention__chip--critical {
+  background: var(--bw-critical-tint);
+  color: var(--bw-critical);
+}
+
+.hivelog-attention__chip--warning {
+  background: var(--bw-warning-tint);
+  color: var(--bw-warning);
+}
+
+.hivelog-attention__ctx,
+.hivelog-attention__ctx a {
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-attention__ctx a:hover {
+  color: var(--bw-accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Stat tiles.
+ * ------------------------------------------------------------------ */
+.hivelog-stat-tiles {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-hairline);
+}
+
+.hivelog-stat-tile {
+  background: var(--bw-surface);
+}
+
+.hivelog-stat-tile:hover,
+.hivelog-stat-tile:focus {
+  background: var(--bw-surface-2);
+}
+
+.hivelog-stat-tile__value {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.hivelog-stat-tile__label {
+  color: var(--bw-ink-faint);
+  letter-spacing: 0.06em;
+}
+
+.hivelog-stat-tile__sub {
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-stat-tile__sub--critical {
+  color: var(--bw-critical);
+}
+
+.hivelog-stat-tile__sub--warning {
+  color: var(--bw-warning);
+}
+
+/* ------------------------------------------------------------------ *
+ * "Upcoming" / "Recent activity" split.
+ * ------------------------------------------------------------------ */
+.hivelog-dashboard__block-empty {
+  color: var(--bw-ink-muted);
+}
+
+.hivelog-upcoming__row,
+.hivelog-recent__row {
+  border-top: 1px solid var(--bw-hairline);
+}
+
+.hivelog-upcoming__wk {
+  color: var(--bw-accent);
+}
+
+.hivelog-recent__when,
+.hivelog-upcoming__where {
+  color: var(--bw-ink-faint);
+}
+
+/* ------------------------------------------------------------------ *
+ * Entity-list tables (hivelog:entity-table SDC) + detail / report
+ * tables (hivelog/tables). One surface-2 header, hairline rows, mono
+ * numerics.
+ * ------------------------------------------------------------------ */
+.hivelog-entity-table,
+[class^="hivelog-"][class$="-table"] {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+}
+
+.hivelog-entity-table th,
+.hivelog-entity-table td,
+[class^="hivelog-"][class$="-table"] th,
+[class^="hivelog-"][class$="-table"] td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--bw-hairline);
+  text-align: left;
+  vertical-align: top;
+}
+
+.hivelog-entity-table thead th,
+[class^="hivelog-"][class$="-table"] thead th {
+  border-bottom: 1px solid var(--bw-hairline);
+  background: var(--bw-surface-2);
+  color: var(--bw-ink-faint);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[class^="hivelog-"][class$="-table"] tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Financial reports (per-apiary + combined).
+ * ------------------------------------------------------------------ */
+.hivelog-inventory-report-table td[align="right"],
+.hivelog-inventory-report-table .num,
+.hivelog-inventory-report-trend td:not(:first-child),
+.hivelog-inventory-report-table td:not(:first-child) {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.hivelog-inventory-report-breakdown,
+.hivelog-inventory-report-trend {
+  margin-top: 1.5rem;
+}
+
+/* The "All apiaries" total row on the combined report. */
+.hivelog-inventory-report-table th[scope="row"],
+.hivelog-inventory-report-table tbody tr:last-child th,
+.hivelog-inventory-report-table tbody tr:last-child td {
+  font-weight: 600;
+  background: var(--bw-surface-2);
+}
+
+/* ------------------------------------------------------------------ *
+ * Plain entity-list collections — /hivelog/hives, /hivelog/inspections,
+ * /hivelog/calendar-actions, … These use a core EntityListBuilder, so
+ * the markup is a bare <table class="responsive-enabled"> with no
+ * hivelog class. Scoped to the `hivelog-page` body class added by
+ * beeswax's preprocess_html so the rest of the site is untouched.
+ * ------------------------------------------------------------------ */
+body.hivelog-page {
+  background: var(--bw-ground);
+  color: var(--bw-ink);
+  font-family: var(--font-body);
+}
+
+body.hivelog-page h1,
+body.hivelog-page h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: var(--bw-ink);
+}
+
+body.hivelog-page a {
+  color: var(--bw-accent);
+}
+
+body.hivelog-page .region-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+body.hivelog-page .region-content th,
+body.hivelog-page .region-content td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--bw-hairline);
+  text-align: left;
+  vertical-align: top;
+}
+
+body.hivelog-page .region-content thead th {
+  border-bottom: 1px solid var(--bw-hairline);
+  background: var(--bw-surface-2);
+  color: var(--bw-ink-faint);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+body.hivelog-page .region-content tbody tr:hover {
+  background: var(--bw-surface-2);
+}
+
+body.hivelog-page .region-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Core list tables sit in a scroll wrapper on some builders; give the
+   table itself a hairline frame so it reads as a panel like the
+   dashboard surfaces. */
+body.hivelog-page .region-content table.responsive-enabled {
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* "Add …" action link above a collection. */
+body.hivelog-page .region-content .action-links {
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+/* Pager. */
+body.hivelog-page .pager__link {
+  color: var(--bw-accent);
+}

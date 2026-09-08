@@ -1,0 +1,135 @@
+/**
+ * @file theme.css
+ * Beeswax design tokens — the beeswax / pine-green palette and the
+ * Fraunces / IBM Plex type stacks from the HiveLog dashboard mockup
+ * (hivelog/docs/project-management/projects/dashboard-landing-page-mockup.html),
+ * see ADR-0060 / task 0061.
+ *
+ * The shadcn-style variable names are kept so Mercury's Tailwind `@theme`
+ * mapping in src/main.css keeps working; only the values change. The
+ * `--bw-*` variables are Beeswax additions consumed by the HiveLog skin
+ * (src/hivelog.css).
+ *
+ * preprocess: false — edit without rebuilding the compiled CSS.
+ */
+
+:root {
+  /* Core surfaces / ink (mockup: --ground / --surface / --surface-2 / --ink). */
+  --background: #faf8f4;
+  --foreground: #241d15;
+  --card: #ffffff;
+  --card-foreground: #241d15;
+  --muted: #f3eee4;
+  --muted-foreground: #6f6555;
+  --secondary: #f3eee4;
+  --secondary-foreground: #241d15;
+  --border: #e7e0d1;
+  --input: #e7e0d1;
+
+  /* Pine accent (mockup: --accent / --accent-tint). `--accent` in this
+     token set is the subtle tint; `--primary` is the solid pine. */
+  --primary: #2f6b4f;
+  --primary-foreground: #ffffff;
+  --accent: #e6efe8;
+  --accent-foreground: #2f6b4f;
+
+  /* Semantic (mockup: --critical). */
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+
+  /* Type. Body/UI = IBM Plex Sans; display/wordmark = Fraunces (applied
+     by the HiveLog skin); numerics/chips = IBM Plex Mono. */
+  --font-sans: "IBM Plex Sans", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Fraunces", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius: 0.375rem; /* 6px — mockup panel radius */
+
+  --shadow-x: 0;
+  --shadow-y: 1px;
+  --shadow-blur: 3px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.07;
+  --shadow-color: #241d15;
+  --shadow-2xs: 0 1px 2px hsl(35 24% 12% / 0.05);
+  --shadow-xs: 0 1px 2px hsl(35 24% 12% / 0.06);
+  --shadow-sm: 0 1px 2px hsl(35 24% 12% / 0.06), 0 4px 12px hsl(35 24% 12% / 0.06);
+  --shadow: 0 1px 2px hsl(35 24% 12% / 0.06), 0 8px 22px hsl(35 24% 12% / 0.07);
+  --shadow-md: 0 1px 2px hsl(35 24% 12% / 0.06), 0 8px 22px hsl(35 24% 12% / 0.07);
+  --shadow-lg: 0 2px 4px hsl(35 24% 12% / 0.07), 0 12px 28px hsl(35 24% 12% / 0.09);
+  --shadow-xl: 0 2px 6px hsl(35 24% 12% / 0.08), 0 18px 40px hsl(35 24% 12% / 0.1);
+  --shadow-2xl: 0 2px 8px hsl(35 24% 12% / 0.1), 0 24px 52px hsl(35 24% 12% / 0.12);
+
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  /* --- Beeswax additions, consumed by the HiveLog skin --- */
+  --bw-ground: #faf8f4;
+  --bw-surface: #ffffff;
+  --bw-surface-2: #f3eee4;
+  --bw-ink: #241d15;
+  --bw-ink-muted: #6f6555;
+  --bw-ink-faint: #9a9081;
+  --bw-hairline: #e7e0d1;
+  --bw-accent: #2f6b4f;
+  --bw-accent-hover: #26583f;
+  --bw-accent-tint: #e6efe8;
+  --bw-critical: #b3261e;
+  --bw-critical-tint: #f6e4e2;
+  --bw-warning: #a4630a;
+  --bw-warning-tint: #f4ead6;
+
+  /* Navbar height (kept from Mercury for the hero overlay). */
+  --navbar-height: calc(var(--spacing) * 15);
+
+  @media (min-width: 768px) {
+    --navbar-height: calc(var(--spacing) * 18);
+  }
+}
+
+.dark {
+  --background: #181510;
+  --foreground: #efe9db;
+  --card: #221e17;
+  --card-foreground: #efe9db;
+  --muted: #2b261d;
+  --muted-foreground: #b4a994;
+  --secondary: #2b261d;
+  --secondary-foreground: #efe9db;
+  --border: #39322a;
+  --input: #39322a;
+
+  --primary: #63b389;
+  --primary-foreground: #12201a;
+  --accent: #22302a;
+  --accent-foreground: #63b389;
+
+  --destructive: #e2685f;
+  --destructive-foreground: #12201a;
+
+  --shadow-color: #000000;
+  --shadow-2xs: 0 1px 2px hsl(0 0% 0% / 0.45);
+  --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.45);
+  --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.45), 0 4px 14px hsl(0 0% 0% / 0.4);
+  --shadow: 0 1px 2px hsl(0 0% 0% / 0.45), 0 8px 24px hsl(0 0% 0% / 0.4);
+  --shadow-md: 0 1px 2px hsl(0 0% 0% / 0.45), 0 8px 24px hsl(0 0% 0% / 0.4);
+  --shadow-lg: 0 2px 4px hsl(0 0% 0% / 0.5), 0 12px 30px hsl(0 0% 0% / 0.45);
+  --shadow-xl: 0 2px 6px hsl(0 0% 0% / 0.5), 0 18px 42px hsl(0 0% 0% / 0.5);
+  --shadow-2xl: 0 2px 8px hsl(0 0% 0% / 0.55), 0 24px 54px hsl(0 0% 0% / 0.55);
+
+  --bw-ground: #181510;
+  --bw-surface: #221e17;
+  --bw-surface-2: #2b261d;
+  --bw-ink: #efe9db;
+  --bw-ink-muted: #b4a994;
+  --bw-ink-faint: #867c6b;
+  --bw-hairline: #39322a;
+  --bw-accent: #63b389;
+  --bw-accent-hover: #7cc4a0;
+  --bw-accent-tint: #22302a;
+  --bw-critical: #e2685f;
+  --bw-critical-tint: #3a2320;
+  --bw-warning: #d99a3c;
+  --bw-warning-tint: #352a1a;
+}

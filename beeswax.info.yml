@@ -1,0 +1,15 @@
+name: 'Bee, honey, and wax inspired theme'
+type: theme
+'base theme': false
+libraries:
+  - beeswax/global
+logo: logo-dark.svg
+description: 'A customized version of Mercury with a sprinkling of Bee, honey, and wax'
+core_version_requirement: ^11
+generator: 'mercury:1.0.5'
+regions:
+  content: Content
+  header: Header
+  footer: Footer
+dependencies:
+  - 'cva:cva'
