@@ -3,16 +3,32 @@
  * Beeswax theming for the Tom Select widget that replaces HiveLog
  * <select>s (see lib/hivelog-select.js) — the table-filter selects and
  * the entity add/edit form selects. Loads after
- * lib/vendor/tom-select/tom-select.min.css; every rule is scoped to
- * `body.hivelog-page` so it outranks Tom Select's own single-class
- * selectors (`.ts-wrapper.single.input-active .ts-control` = 0,4,0 — the
- * `body.hivelog-page … .ts-control` selectors here are 0,4,1) without
- * depending on load order. Colours come from the --bw-* tokens, so
- * light / dark follow the rest of the theme. preprocess: false.
+ * lib/vendor/tom-select/tom-select.min.css. The control / dropdown
+ * theming is scoped to `body.hivelog-page` so it outranks Tom Select's
+ * own single-class selectors (`.ts-wrapper.single.input-active
+ * .ts-control` = 0,4,0 — the `body.hivelog-page … .ts-control`
+ * selectors here are 0,4,1) without depending on load order; the
+ * wrapper sizing is scoped per form type. Colours come from the --bw-*
+ * tokens, so light / dark follow the rest of the theme. preprocess: false.
  */
 
-body.hivelog-page .ts-wrapper {
+/* Wrapper sizing is context-specific. In the compact filter row the
+   control sizes to its content; on an entity add/edit form it matches
+   the sibling text inputs (css/hivelog.forms.css — width:100%,
+   max-width:40rem, lifted to 100% on phones). */
+.hivelog-filter-form .ts-wrapper {
   min-width: 8rem;
+}
+
+.hivelog-entity-form .ts-wrapper {
+  width: 100%;
+  max-width: 40rem;
+}
+
+@media (max-width: 480px) {
+  .hivelog-entity-form .ts-wrapper {
+    max-width: 100%;
+  }
 }
 
 /* The visible control — match the plain form fields
