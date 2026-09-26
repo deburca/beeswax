@@ -97,9 +97,7 @@ body.hivelog-page {
 
 .hivelog-masthead__word,
 .hivelog-attention__heading,
-.hivelog-dashboard__block-heading,
-.hivelog-inventory-report-breakdown h3,
-.hivelog-inventory-report-trend h3 {
+.hivelog-dashboard__block-heading {
   font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: 0.005em;
@@ -320,6 +318,12 @@ body.hivelog-page {
   font-family: var(--font-body);
 }
 
+/* Also now covers the Financial Report's "Breakdown by item" / "5-Year
+   Trend" headings — hivelog task 0128 moved them from h3 to h2, which
+   made the old .hivelog-inventory-report-breakdown/-trend h3 selector
+   here dead (removed above); this generic rule already produced the
+   identical font-family/weight/letter-spacing, so there was no visual
+   regression, just an unreachable selector. */
 body.hivelog-page h1,
 body.hivelog-page h2 {
   font-family: var(--font-serif);
@@ -372,12 +376,6 @@ body.hivelog-page .region-content table.responsive-enabled {
   border: 1px solid var(--bw-hairline);
   border-radius: 6px;
   overflow: hidden;
-}
-
-/* "Add …" action link above a collection. */
-body.hivelog-page .region-content .action-links {
-  margin: 0 0 1rem;
-  padding: 0;
 }
 
 /* Pager. */
