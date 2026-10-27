@@ -39,7 +39,9 @@
    prefix then wins outright — without it the field, and its light text
    in dark mode, turned white on click. */
 body.hivelog-page .ts-wrapper.single .ts-control {
-  min-height: 0;
+  /* As tall as a text input beside it (the filter rows mix the two). */
+  min-height: 2.25rem;
+  align-items: center;
   padding: 0.35rem 1.6rem 0.35rem 0.5rem;
   border: 1px solid var(--bw-hairline);
   border-radius: 4px;

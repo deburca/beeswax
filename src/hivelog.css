@@ -248,6 +248,10 @@ body.hivelog-page {
 
 body.hivelog-page .hivelog-filter-form .form-item input,
 body.hivelog-page .hivelog-filter-form .form-item select {
+  /* block, not the inline default: an inline input leaves a line-box gap
+     below it, which made a text filter's item 3px taller than a select's and
+     its label sit 2px higher. */
+  display: block;
   min-height: 2.25rem;
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--bw-hairline);
