@@ -17,15 +17,15 @@
 {% block content %}
   {% set site_logo_url = site_logo ? file_url(site_logo) : '' %}
 
-  <a href="{{ home_url|default('/') }}" class="inline-block" rel="home">
+  <a href="{{ home_url|default('/') }}" class="inline-flex items-center gap-3" rel="home">
     {% block branding %}
       {% if site_logo %}
-        <div class="branding">
+        <div class="branding h-10 w-10 shrink-0">
           <img class="h-full w-full" src="{{ site_logo_url }}" alt="{{ site_name }}" />
         </div>
       {% endif %}
       {% if site_name %}
-        <div class="heading-responsive-4xl font-[var(--hgc-font-weight-h1)]">
+        <div class="heading-responsive-2xl leading-none font-[var(--hgc-font-weight-h1)]">
           {{ site_name }}
         </div>
       {% endif %}
