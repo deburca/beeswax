@@ -730,3 +730,36 @@ body.hivelog-page select:not(.ts-hidden-accessible) {
     color: #12201a;
   }
 }
+
+/* Breadcrumb on one line (task 0240). The trail is already cut to Home … and
+   the last two crumbs, but a long record title ("Inspection of VV-01 on
+   2026-06-18") wrapped on a phone and pushed the final crumb to the far edge.
+   The link and the current page now shrink to an ellipsis instead; the icons
+   and Home keep their size. */
+body.hivelog-page nav[aria-label="breadcrumb"] ol {
+  flex-wrap: nowrap;
+}
+
+body.hivelog-page nav[aria-label="breadcrumb"] li {
+  flex: none;
+  min-width: 0;
+}
+
+/* The parent link gives way first (a much higher shrink factor), so the page
+   you are on keeps its name until the parent has nothing left to give. */
+body.hivelog-page nav[aria-label="breadcrumb"] li:has(> a):not(:first-child) {
+  flex: 0 100 auto;
+}
+
+body.hivelog-page nav[aria-label="breadcrumb"] li.active {
+  flex: 0 1 auto;
+}
+
+body.hivelog-page nav[aria-label="breadcrumb"] li > a,
+body.hivelog-page nav[aria-label="breadcrumb"] li.active {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
