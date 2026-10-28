@@ -497,11 +497,6 @@ body.hivelog-page h3.hivelog-list-heading__title {
   color: var(--bw-ink);
 }
 
-body.hivelog-page .hivelog-list-heading {
-  align-items: center;
-  gap: 0.5rem 1rem;
-}
-
 /* ------------------------------------------------------------------ *
  * Table text. The cells inherited 18px from the section wrapper while
  * the buttons beside them are 14px; settle on one reading size.
