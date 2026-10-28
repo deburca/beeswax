@@ -89,6 +89,7 @@ final class ThemeHooks {
       '#options' => [
         'light' => t('Light'),
         'dark' => t('Dark'),
+        'auto' => t('Match the device (light or dark)'),
       ],
     ];
     $message = $this->t("See <code>@path</code> to learn how to customize Beeswax's fonts, colors, and components.", [

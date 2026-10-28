@@ -33,6 +33,19 @@
 <!DOCTYPE html>
 <html {{ html_attributes.addClass(html_classes) }}>
   <head>
+    {% if scheme|default('light') == 'auto' %}
+      {# Match the device: set the `dark` class before anything paints (no flash of the light page) and follow a change
+         of the device's setting while the page is open. With JavaScript off the page stays light. #}
+      <meta name="color-scheme" content="light dark">
+      <script>
+        (function () {
+          var query = window.matchMedia('(prefers-color-scheme: dark)');
+          function apply() { document.documentElement.classList.toggle('dark', query.matches); }
+          apply();
+          query.addEventListener('change', apply);
+        })();
+      </script>
+    {% endif %}
     <head-placeholder token="{{ placeholder_token }}">
     <title>
       {{ head_title|safe_join(' | ') }}

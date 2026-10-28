@@ -7,8 +7,8 @@ beeswax.settings:
       label: Color scheme
       constraints:
         Choice:
-          # @see beeswax_form_system_theme_settings_alter()
-          - vanilla-light
-          - vanilla-dark
-          - byte-light
-          - byte-dark
+          # @see \Drupal\beeswax\Hook\ThemeHooks::themeSettingsFormAlter()
+          # `auto` follows the visitor's device (prefers-color-scheme).
+          - light
+          - dark
+          - auto
