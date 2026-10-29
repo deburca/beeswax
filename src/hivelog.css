@@ -797,9 +797,25 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
-  padding: 1rem 0 1.5rem;
+  padding: 0 0 1.5rem;
+  /* The Footer component ends in an empty bottom row (its own rule above and
+     padding all round, 1.5rem on a phone, 2rem from 768px). Pull the line up
+     into that row, so it reads as sitting under the rule; undone below for a
+     site that puts content in that row. */
+  margin-top: -1rem;
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .beeswax-footer-meta {
+    margin-top: -1.5rem;
+  }
+}
+
+footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
+  margin-top: 0;
+  padding-top: 0.75rem;
 }
 
 .beeswax-footer-meta__links {
