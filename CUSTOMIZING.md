@@ -14,6 +14,14 @@ change a colour here first, then there. *Match the device* sets the `dark` class
 `templates/layout/html.html.twig` (before anything paints, and again when the device's setting changes); with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its *Dark mode* to *Auto* too so its login and admin pages agree.
 
+### Footer small print
+
+Under the footer region the theme adds one line: the versions running ("HiveLog 3.4.0 · Beeswax 1.3.0", so a bug report can
+name them) and, if you set them under Appearance > Beeswax, a **Contact** link (an email address or a web address) and a
+**Get the Vinculum app** link (a web address). Leave a setting empty for no link. The settings are `footer_contact` and
+`footer_app_url` in `beeswax.settings`; the markup is in `templates/layout/page.html.twig` and the style is
+`.beeswax-footer-meta` in `src/hivelog.css`.
+
 ### Advanced customizations
 
 If you want to make deeper customizations (e.g., to components or JavaScript), you will need to convert Beeswax to a custom theme with the same machine name. You can do this by running the following at the command line, from the Drupal project root (assuming `web` is the web root):
