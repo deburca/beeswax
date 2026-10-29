@@ -12,6 +12,7 @@ use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeSettingsProvider;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -25,9 +26,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Contains hook implementations for Beeswax.
  */
 final class ThemeHooks {
-
   use MessengerTrait;
   use StringTranslationTrait;
+
+  /**
+   * Core's sign-in forms, drawn as a card (see formAlter()).
+   */
+  private const AUTH_FORMS = [
+    'user_login_form',
+    'user_register_form',
+    'user_pass',
+    'user_pass_reset',
+    'user_logout_confirm',
+  ];
 
   /**
    * The Drupal root.
@@ -125,6 +136,21 @@ final class ThemeHooks {
     // @todo revisit in https://drupal.org/node/3114318
     if (isset($data['preview']['#access']) && $data['preview']['#access'] === FALSE) {
       unset($data['preview']);
+    }
+  }
+
+  /**
+   * Marks the sign-in forms so they are drawn as one framed, centred card.
+   *
+   * A site's own form (a demo sign-up, a two-factor code, a captcha step)
+   * opts in by adding the same class in its own form.
+   *
+   * @see src/hivelog.css "Sign-in cards"
+   */
+  #[Hook('form_alter')]
+  public function formAlter(array &$form, FormStateInterface $form_state, string $form_id): void {
+    if (in_array($form_id, self::AUTH_FORMS, TRUE)) {
+      $form['#attributes']['class'][] = 'beeswax-auth-form';
     }
   }
 

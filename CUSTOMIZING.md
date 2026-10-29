@@ -120,3 +120,16 @@ This is all the code required to be in each component. The ComponentType instanc
 All the objects created this way will be stored in a global variable so you can do stuff with them later. Since the `namespace` variable at the top of component.js is `beeswaxComponents`, you would find the Accordion's ComponentType instance at `window.beeswaxComponents.accordion`.
 
 Furthermore, `window.beeswaxComponents.accordion.instances` is an array of all the ComponentInstance objects, and `window.beeswaxComponents.accordion.elements` is an array of all the component container elements.
+
+## Sign-in cards
+
+Log in, password reset and log out are drawn as one framed card, centred on wide
+screens; the breadcrumb and title above it are narrowed to the same column. Core's
+forms get the class `beeswax-auth-form` from the theme. A form of your own (a
+sign-up, a two-factor code, a captcha step) opts in by adding it:
+
+```php
+$form['#attributes']['class'][] = 'beeswax-auth-form';
+```
+
+The card is `--bw-auth-width` wide (default `30rem`); redefine it on `:root` to change it.
