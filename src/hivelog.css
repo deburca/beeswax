@@ -789,52 +789,101 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
 }
 
 /* ------------------------------------------------------------------ *
- * Footer small print (beeswax >= 1.3.0): contact and app links from the
- * theme settings, and the HiveLog / Beeswax versions. Its own classes,
- * so it is inert where there is no footer.
+ * Footer small print, modelled on the shh footer: its own row under the
+ * footer component, a menu and the Contact / app links at the left, the
+ * copyright, the credit and the versions at the right (stacked and left
+ * aligned on a phone). With only the versions set, they sit alone at the left.
  * ------------------------------------------------------------------ */
 .beeswax-footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  display: grid;
   gap: 0.5rem 1.5rem;
-  padding: 0 0 1.5rem;
-  /* The Footer component ends in an empty bottom row (its own rule above and
-     padding all round, 1.5rem on a phone, 2rem from 768px). Pull the line up
-     into that row, so it reads as sitting under the rule; undone below for a
-     site that puts content in that row. */
-  margin-top: -1rem;
+  padding: 0.75rem 0 1.5rem;
+  border-top: 1px solid var(--bw-hairline);
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
 
 @media (min-width: 768px) {
   .beeswax-footer-meta {
-    margin-top: -1.5rem;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    padding-top: 1rem;
+  }
+
+  .beeswax-footer-meta__end:not(:only-child) {
+    text-align: right;
+  }
+
+  .beeswax-footer-meta__end:only-child {
+    grid-column: 1 / -1;
   }
 }
 
-footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
-  margin-top: 0;
-  padding-top: 0.75rem;
+/* The footer component's own bottom row, when nothing is in it: the small
+   print draws that row now, so the empty one is not shown as well. */
+footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(:has(.site-footer--bottom-col *)) {
+  display: none;
 }
 
-.beeswax-footer-meta__links {
+.beeswax-footer-meta__start {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: 0.25rem 1.25rem;
+}
+
+.beeswax-footer-meta__start :is(ul, li) {
+  display: contents;
+}
+
+.beeswax-footer-meta__start ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.beeswax-footer-meta__links a {
+.beeswax-footer-meta__start a {
+  color: var(--bw-ink);
+}
+
+.beeswax-footer-meta__start a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.beeswax-footer-meta__end {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.beeswax-footer-meta__end p {
+  margin: 0;
+}
+
+.beeswax-footer-meta__copyright {
+  color: var(--bw-ink);
+}
+
+.beeswax-footer-meta__credit a {
+  color: var(--bw-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.beeswax-footer-meta__icon {
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+
+.beeswax-footer-meta__icon--heart {
+  color: var(--bw-critical);
+}
+
+.beeswax-footer-meta__icon--sparkle {
   color: var(--bw-accent);
 }
 
 .beeswax-footer-meta__versions {
-  margin: 0;
   color: var(--bw-ink-faint);
 }
 
@@ -1052,10 +1101,16 @@ body.path-user main article {
  * ------------------------------------------------------------------ */
 :root {
   --bw-auth-width: 30rem;
+  /* The account edit and cancel forms are long: a wider card. */
+  --bw-account-width: 40rem;
 }
 
 body:has(.beeswax-auth-form) header[role="banner"] > .container {
   max-width: calc(var(--bw-auth-width) + 2rem);
+}
+
+body:has(.beeswax-auth-form--wide) header[role="banner"] > .container {
+  max-width: calc(var(--bw-account-width) + 2rem);
 }
 
 :is(body, body.path-user) form.beeswax-auth-form {
@@ -1072,6 +1127,10 @@ body:has(.beeswax-auth-form) header[role="banner"] > .container {
   :is(body, body.path-user) form.beeswax-auth-form {
     padding: 1.75rem 2rem 2rem;
   }
+}
+
+:is(body, body.path-user) form.beeswax-auth-form.beeswax-auth-form--wide {
+  max-width: var(--bw-account-width);
 }
 
 /* The first block and the last sit on the card's padding, not on their own
@@ -1216,13 +1275,14 @@ body.path-user table.gin--sticky-table-header {
   display: none !important;
 }
 
-/* A second button in a card (Cancel beside Confirm) is the quiet one. */
-form.beeswax-auth-form .form-actions :is(input[type="submit"], a).button:not(.button--primary, .button--danger) {
+/* A second button in a card (Cancel beside Confirm) is the quiet one; the first
+   (Log in, Save) keeps the theme's own button, primary or not. */
+form.beeswax-auth-form .form-actions > :is(input[type="submit"], a).button:not(:first-child, .button--primary, .button--danger) {
   border: 1px solid var(--bw-field-border);
   background: transparent;
   color: var(--bw-ink);
 }
 
-form.beeswax-auth-form .form-actions :is(input[type="submit"], a).button:not(.button--primary, .button--danger):hover {
+form.beeswax-auth-form .form-actions > :is(input[type="submit"], a).button:not(:first-child, .button--primary, .button--danger):hover {
   background: var(--bw-surface-2);
 }

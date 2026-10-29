@@ -6,6 +6,7 @@ namespace Drupal\beeswax\Hook;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Breadcrumb\ChainBreadcrumbBuilderInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
@@ -14,6 +15,8 @@ use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeSettingsProvider;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\beeswax\RenderCallbacks;
@@ -45,6 +48,17 @@ final class ThemeHooks {
     'tfa_setup',
     'tfa_disable',
     'tfa_base_overview',
+    // A person's own account: edit and cancel (wider, see WIDE_AUTH_FORMS).
+    'user_form',
+    'user_cancel_form',
+  ];
+
+  /**
+   * Cards that carry a long form, drawn at the account width.
+   */
+  private const WIDE_AUTH_FORMS = [
+    'user_form',
+    'user_cancel_form',
   ];
 
   /**
@@ -62,6 +76,8 @@ final class ThemeHooks {
     private readonly ChainBreadcrumbBuilderInterface $breadcrumb,
     private readonly ModuleHandlerInterface $moduleHandler,
     private readonly ModuleExtensionList $moduleList,
+    private readonly MenuLinkTreeInterface $menuLinkTree,
+    private readonly ConfigFactoryInterface $configFactory,
     #[Autowire(param: 'app.root')] string $appRoot,
   ) {
     self::$appRoot ??= $appRoot;
@@ -124,6 +140,29 @@ final class ThemeHooks {
       '#default_value' => $this->themeSettings->getSetting('footer_app_url'),
       '#description' => t('A web address (https://…), such as the app\'s App Store page. Shown as a "Get the Vinculum app" link in the footer; leave empty for none.'),
     ];
+    $form['footer_menu'] = [
+      '#type' => 'textfield',
+      '#title' => t('Footer: menu'),
+      '#default_value' => $this->themeSettings->getSetting('footer_menu'),
+      '#description' => t('The machine name of a menu (such as <code>footer</code>) to list at the left of the footer\'s small print. Remove that menu from the footer component, or its links show twice. Leave empty for none.'),
+    ];
+    $form['footer_copyright'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Footer: show "© year site name"'),
+      '#default_value' => $this->themeSettings->getSetting('footer_copyright'),
+    ];
+    $form['footer_credit_name'] = [
+      '#type' => 'textfield',
+      '#title' => t('Footer: credit name'),
+      '#default_value' => $this->themeSettings->getSetting('footer_credit_name'),
+      '#description' => t('Shows "Made with ♥ by <em>name</em> with a sprinkle of ✦". Leave empty for no credit line.'),
+    ];
+    $form['footer_credit_url'] = [
+      '#type' => 'textfield',
+      '#title' => t('Footer: credit link'),
+      '#default_value' => $this->themeSettings->getSetting('footer_credit_url'),
+      '#description' => t('A web address (https://…) the credit name links to; leave empty for no link.'),
+    ];
     $message = $this->t("See <code>@path</code> to learn how to customize Beeswax's fonts, colors, and components.", [
       '@path' => $this->themeList->getPath('beeswax') . '/CUSTOMIZING.md',
     ]);
@@ -158,6 +197,9 @@ final class ThemeHooks {
   public function formAlter(array &$form, FormStateInterface $form_state, string $form_id): void {
     if (in_array($form_id, self::AUTH_FORMS, TRUE)) {
       $form['#attributes']['class'][] = 'beeswax-auth-form';
+      if (in_array($form_id, self::WIDE_AUTH_FORMS, TRUE)) {
+        $form['#attributes']['class'][] = 'beeswax-auth-form--wide';
+      }
     }
   }
 
@@ -219,15 +261,21 @@ final class ThemeHooks {
   }
 
   /**
-   * The footer's small print: contact, app link and the versions running.
+   * The footer's small print, modelled on the shh footer.
    *
-   * Contact and app link come from the theme settings and show only when set
-   * (an address with no scheme is read as an email address; anything that is
-   * neither an email nor an http(s) URL is dropped). The versions are the
-   * installed HiveLog module's and this theme's, so a bug report can name them.
+   * Left: a menu (the `footer_menu` setting) and the Contact and app links.
+   * Right: "© year site name", an optional credit line and the versions
+   * running. Each part shows only when it is set; with none set the footer
+   * shows the versions alone, as it did before.
    *
-   * @return array{links: list<array{text: \Drupal\Core\StringTranslation\TranslatableMarkup, url: string}>, versions: string}
-   *   Empty when there is nothing to show.
+   * Contact and app link come from the theme settings (an address with no
+   * scheme is read as an email address; anything that is neither an email nor
+   * an http(s) URL is dropped). The versions are the installed HiveLog
+   * module's and this theme's, so a bug report can name them.
+   *
+   * @return array<string, mixed>
+   *   `menu` (a render array or NULL), `links` (list of text and url),
+   *   `copyright`, `credit` (name and optional url, or NULL) and `versions`.
    */
   private function footerMeta(): array {
     $links = [];
@@ -251,7 +299,38 @@ final class ThemeHooks {
     $theme_version = $this->themeList->getExtensionInfo('beeswax')['version'] ?? '';
     $versions[] = 'Beeswax' . ($theme_version ? ' ' . $theme_version : '');
 
-    return ['links' => $links, 'versions' => implode(' · ', $versions)];
+    $site_name = (string) $this->configFactory->get('system.site')->get('name');
+    $credit_name = trim((string) $this->themeSettings->getSetting('footer_credit_name'));
+
+    return [
+      'menu' => $this->footerMenu(),
+      'links' => $links,
+      'copyright' => $this->themeSettings->getSetting('footer_copyright') ? '© ' . date('Y') . ' ' . $site_name : '',
+      'credit' => $credit_name === '' ? NULL : [
+        'name' => $credit_name,
+        'url' => $this->webUrl(trim((string) $this->themeSettings->getSetting('footer_credit_url'))),
+      ],
+      'versions' => implode(' · ', $versions),
+    ];
+  }
+
+  /**
+   * The footer menu named in the theme settings, access-checked, one level.
+   */
+  private function footerMenu(): ?array {
+    $name = trim((string) $this->themeSettings->getSetting('footer_menu'));
+    if ($name === '') {
+      return NULL;
+    }
+    $tree = $this->menuLinkTree->load($name, (new MenuTreeParameters())->setMaxDepth(1)->onlyEnabledLinks());
+    $tree = $this->menuLinkTree->transform($tree, [
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+    ]);
+    if (!$tree) {
+      return NULL;
+    }
+    return $this->menuLinkTree->build($tree);
   }
 
   /**

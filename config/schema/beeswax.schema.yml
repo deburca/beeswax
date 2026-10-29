@@ -20,3 +20,19 @@ beeswax.settings:
       type: string
       requiredKey: false
       label: Footer app link (a web address)
+    footer_menu:
+      type: string
+      requiredKey: false
+      label: Footer menu (machine name)
+    footer_copyright:
+      type: boolean
+      requiredKey: false
+      label: Footer copyright line
+    footer_credit_name:
+      type: string
+      requiredKey: false
+      label: Footer credit name
+    footer_credit_url:
+      type: string
+      requiredKey: false
+      label: Footer credit link (a web address)
