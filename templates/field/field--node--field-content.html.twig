@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Theme override for a page's body (field_content).
+ *
+ * Wraps it in .beeswax-prose, which gives running text (headings, paragraphs,
+ * lists, links) a readable width and rhythm; the page-type body is bare HTML
+ * that the base styles reset to nothing, as on a privacy policy.
+ */
+#}
+<div{{ attributes.addClass('beeswax-prose') }}>
+  {% for item in items %}
+    {{ item.content }}
+  {% endfor %}
+</div>
