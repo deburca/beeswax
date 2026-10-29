@@ -36,6 +36,7 @@
  * - page.sidebar_first: Items for the first sidebar.
  * - page.sidebar_second: Items for the second sidebar.
  * - page.footer: Items for the footer region.
+ * - footer_meta: The footer's small print: `links` (contact, app) and `versions`.
  * - page.breadcrumb: Items for the breadcrumb region.
  *
  * Additional:
@@ -90,9 +91,23 @@
     {% endif %}
   </main>
 
-  {% if page.footer %}
+  {% if page.footer or footer_meta.versions %}
     <footer role="contentinfo">
       {{ page.footer }}
+      {% if footer_meta.versions %}
+        <div class="container mx-auto px-4">
+          <div class="beeswax-footer-meta">
+            {% if footer_meta.links %}
+              <ul class="beeswax-footer-meta__links">
+                {% for link in footer_meta.links %}
+                  <li><a href="{{ link.url }}">{{ link.text }}</a></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
+          </div>
+        </div>
+      {% endif %}
     </footer>
   {% endif %}
 </div>

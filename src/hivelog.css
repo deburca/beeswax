@@ -321,7 +321,9 @@ body.hivelog-page {
    identical font-family/weight/letter-spacing, so there was no visual
    regression, just an unreachable selector. */
 body.hivelog-page h1,
-body.hivelog-page h2 {
+body.hivelog-page h2,
+body.path-user h1,
+body.path-user h2 {
   font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: 0.005em;
@@ -467,7 +469,8 @@ body.hivelog-page .vertical-tabs__pane {
  * ~2.5rem at most, section headings 1.5rem — the dashboard's own
  * section headings are already about that size.
  * ------------------------------------------------------------------ */
-body.hivelog-page h1 {
+body.hivelog-page h1,
+body.path-user h1 {
   font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
   line-height: 1.15;
 }
@@ -781,4 +784,38 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
   --hivelog-error-nail: #2c1c08;
   --hivelog-error-sign: #f3ead3;
   --hivelog-error-question: #f0b86a;
+}
+
+/* ------------------------------------------------------------------ *
+ * Footer small print (beeswax >= 1.3.0): contact and app links from the
+ * theme settings, and the HiveLog / Beeswax versions. Its own classes,
+ * so it is inert where there is no footer.
+ * ------------------------------------------------------------------ */
+.beeswax-footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 1rem 0 1.5rem;
+  color: var(--bw-ink-muted);
+  font-size: 0.85rem;
+}
+
+.beeswax-footer-meta__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.beeswax-footer-meta__links a {
+  color: var(--bw-accent);
+}
+
+.beeswax-footer-meta__versions {
+  margin: 0;
+  color: var(--bw-ink-faint);
 }

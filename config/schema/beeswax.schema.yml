@@ -12,3 +12,11 @@ beeswax.settings:
           - light
           - dark
           - auto
+    footer_contact:
+      type: string
+      requiredKey: false
+      label: Footer contact (an email address or web address)
+    footer_app_url:
+      type: string
+      requiredKey: false
+      label: Footer app link (a web address)

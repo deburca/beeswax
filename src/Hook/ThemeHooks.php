@@ -8,6 +8,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Breadcrumb\ChainBreadcrumbBuilderInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeExtensionList;
 use Drupal\Core\Extension\ThemeSettingsProvider;
@@ -42,6 +43,7 @@ final class ThemeHooks {
     private readonly TitleResolverInterface $titleResolver,
     private readonly ChainBreadcrumbBuilderInterface $breadcrumb,
     private readonly ModuleHandlerInterface $moduleHandler,
+    private readonly ModuleExtensionList $moduleList,
     #[Autowire(param: 'app.root')] string $appRoot,
   ) {
     self::$appRoot ??= $appRoot;
@@ -91,6 +93,18 @@ final class ThemeHooks {
         'dark' => t('Dark'),
         'auto' => t('Match the device (light or dark)'),
       ],
+    ];
+    $form['footer_contact'] = [
+      '#type' => 'textfield',
+      '#title' => t('Footer: contact'),
+      '#default_value' => $this->themeSettings->getSetting('footer_contact'),
+      '#description' => t('An email address or a web address (https://…). Shown as a "Contact" link in the footer; leave empty for none.'),
+    ];
+    $form['footer_app_url'] = [
+      '#type' => 'textfield',
+      '#title' => t('Footer: app link'),
+      '#default_value' => $this->themeSettings->getSetting('footer_app_url'),
+      '#description' => t('A web address (https://…), such as the app\'s App Store page. Shown as a "Get the Vinculum app" link in the footer; leave empty for none.'),
     ];
     $message = $this->t("See <code>@path</code> to learn how to customize Beeswax's fonts, colors, and components.", [
       '@path' => $this->themeList->getPath('beeswax') . '/CUSTOMIZING.md',
@@ -146,6 +160,8 @@ final class ThemeHooks {
     $variables['breadcrumb'] = $this->breadcrumb->build($this->routeMatch)
       ->toRenderable();
 
+    $variables['footer_meta'] = $this->footerMeta();
+
     $route_name = $this->routeMatch->getRouteName();
     if ($route_name === 'entity.canvas_page.canonical' || str_starts_with($this->routeMatch->getRouteObject()?->getPath() ?? '', '/canvas/')) {
       $variables['rendered_by_canvas'] = TRUE;
@@ -168,5 +184,49 @@ final class ThemeHooks {
       $variables['rendered_by_canvas'] = FALSE;
     }
   }
+
+  /**
+   * The footer's small print: contact, app link and the versions running.
+   *
+   * Contact and app link come from the theme settings and show only when set
+   * (an address with no scheme is read as an email address; anything that is
+   * neither an email nor an http(s) URL is dropped). The versions are the
+   * installed HiveLog module's and this theme's, so a bug report can name them.
+   *
+   * @return array{links: list<array{text: \Drupal\Core\StringTranslation\TranslatableMarkup, url: string}>, versions: string}
+   *   Empty when there is nothing to show.
+   */
+  private function footerMeta(): array {
+    $links = [];
+    $contact = trim((string) $this->themeSettings->getSetting('footer_contact'));
+    if ($contact !== '') {
+      $url = filter_var($contact, FILTER_VALIDATE_EMAIL) ? 'mailto:' . $contact : $this->webUrl($contact);
+      if ($url) {
+        $links[] = ['text' => $this->t('Contact'), 'url' => $url];
+      }
+    }
+    $app = $this->webUrl(trim((string) $this->themeSettings->getSetting('footer_app_url')));
+    if ($app) {
+      $links[] = ['text' => $this->t('Get the Vinculum app'), 'url' => $app];
+    }
+
+    $versions = [];
+    if ($this->moduleHandler->moduleExists('hivelog')) {
+      $version = $this->moduleList->getExtensionInfo('hivelog')['version'] ?? '';
+      $versions[] = 'HiveLog' . ($version ? ' ' . $version : '');
+    }
+    $theme_version = $this->themeList->getExtensionInfo('beeswax')['version'] ?? '';
+    $versions[] = 'Beeswax' . ($theme_version ? ' ' . $theme_version : '');
+
+    return ['links' => $links, 'versions' => implode(' · ', $versions)];
+  }
+
+  /**
+   * Returns the URL if it is an http(s) address, otherwise NULL.
+   */
+  private function webUrl(string $value): ?string {
+    return preg_match('#^https?://[^\s]+$#i', $value) ? $value : NULL;
+  }
+
 
 }
