@@ -36,7 +36,7 @@
  * - page.sidebar_first: Items for the first sidebar.
  * - page.sidebar_second: Items for the second sidebar.
  * - page.footer: Items for the footer region.
- * - footer_meta: The footer's small print: `links` (contact, app) and `versions`.
+ * - footer_meta: The footer's small print: `menu`, `links` (contact, app), `copyright`, `credit` and `versions`.
  * - page.breadcrumb: Items for the breadcrumb region.
  *
  * Additional:
@@ -97,14 +97,32 @@
       {% if footer_meta.versions %}
         <div class="container mx-auto px-4">
           <div class="beeswax-footer-meta">
-            {% if footer_meta.links %}
-              <ul class="beeswax-footer-meta__links">
-                {% for link in footer_meta.links %}
-                  <li><a href="{{ link.url }}">{{ link.text }}</a></li>
-                {% endfor %}
-              </ul>
+            {% if footer_meta.menu or footer_meta.links %}
+              <div class="beeswax-footer-meta__start">
+                {{ footer_meta.menu }}
+                {% if footer_meta.links %}
+                  <ul class="beeswax-footer-meta__links">
+                    {% for link in footer_meta.links %}
+                      <li><a href="{{ link.url }}">{{ link.text }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endif %}
+            {% if footer_meta.copyright %}
+              <p class="beeswax-footer-meta__copyright">{{ footer_meta.copyright }}</p>
             {% endif %}
             <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
+            {% if footer_meta.credit %}
+              <p class="beeswax-footer-meta__credit">
+                {{ 'Made with'|t }}
+                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--heart">{{ icon('phosphor', 'heart-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'love'|t }}</span>
+                {{ 'by'|t }}
+                {% if footer_meta.credit.url %}<a href="{{ footer_meta.credit.url }}">{{ footer_meta.credit.name }}</a>{% else %}{{ footer_meta.credit.name }}{% endif %}
+                {{ 'with a sprinkle of'|t }}
+                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--sparkle">{{ icon('phosphor', 'sparkle-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'AI'|t }}</span>
+              </p>
+            {% endif %}
           </div>
         </div>
       {% endif %}
