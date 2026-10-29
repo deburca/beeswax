@@ -133,3 +133,12 @@ $form['#attributes']['class'][] = 'beeswax-auth-form';
 ```
 
 The card is `--bw-auth-width` wide (default `30rem`); redefine it on `:root` to change it.
+
+## Modules that send administrators to the admin theme
+
+`tfa` (two-factor setup), `scheduler` (the scheduled-content list on a person's page) and `webform` (a person's
+submissions) each draw some of a person's own pages in the admin theme for administrators. To keep them in Beeswax
+for everyone, add a theme negotiator to your site (a service tagged `theme_negotiator` with a priority above
+scheduler's 10) that returns the default theme for those route names, and clear `_admin_route` on the `tfa.*`
+routes in a route subscriber so the header and footer blocks show. The hivelog.eu site does this in its
+`hvg_landing` module (`UserPagesThemeNegotiator`, `UserPagesRouteSubscriber`).
