@@ -109,22 +109,20 @@
                 {% endif %}
               </div>
             {% endif %}
-            <div class="beeswax-footer-meta__end">
-              {% if footer_meta.copyright %}
-                <p class="beeswax-footer-meta__copyright">{{ footer_meta.copyright }}</p>
-              {% endif %}
-              {% if footer_meta.credit %}
-                <p class="beeswax-footer-meta__credit">
-                  {{ 'Made with'|t }}
-                  <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--heart">{{ icon('phosphor', 'heart-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'love'|t }}</span>
-                  {{ 'by'|t }}
-                  {% if footer_meta.credit.url %}<a href="{{ footer_meta.credit.url }}">{{ footer_meta.credit.name }}</a>{% else %}{{ footer_meta.credit.name }}{% endif %}
-                  {{ 'with a sprinkle of'|t }}
-                  <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--sparkle">{{ icon('phosphor', 'sparkle-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'AI'|t }}</span>
-                </p>
-              {% endif %}
-              <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
-            </div>
+            {% if footer_meta.copyright %}
+              <p class="beeswax-footer-meta__copyright">{{ footer_meta.copyright }}</p>
+            {% endif %}
+            <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
+            {% if footer_meta.credit %}
+              <p class="beeswax-footer-meta__credit">
+                {{ 'Made with'|t }}
+                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--heart">{{ icon('phosphor', 'heart-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'love'|t }}</span>
+                {{ 'by'|t }}
+                {% if footer_meta.credit.url %}<a href="{{ footer_meta.credit.url }}">{{ footer_meta.credit.name }}</a>{% else %}{{ footer_meta.credit.name }}{% endif %}
+                {{ 'with a sprinkle of'|t }}
+                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--sparkle">{{ icon('phosphor', 'sparkle-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'AI'|t }}</span>
+              </p>
+            {% endif %}
           </div>
         </div>
       {% endif %}

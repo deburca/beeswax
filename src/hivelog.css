@@ -791,31 +791,57 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
 
 /* ------------------------------------------------------------------ *
  * Footer small print, modelled on the shh footer: its own row under the
- * footer component, a menu and the Contact / app links at the left, the
- * copyright, the credit and the versions at the right (stacked and left
- * aligned on a phone). With only the versions set, they sit alone at the left.
+ * footer component. Two columns on a wide screen, in two rows that line up
+ * across the columns: the menu and the Contact / app links beside the
+ * copyright, then the versions beside the credit. On a phone they stack,
+ * left aligned. With only the versions set, they sit alone at the left.
  * ------------------------------------------------------------------ */
 .beeswax-footer-meta {
   display: grid;
-  gap: 0.5rem 1.5rem;
+  grid-template-areas:
+    "start"
+    "copyright"
+    "credit"
+    "versions";
+  gap: 0.35rem 1.5rem;
   padding: 0.75rem 0 1.5rem;
   border-top: 1px solid var(--bw-hairline);
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
 
+.beeswax-footer-meta > * {
+  margin: 0;
+}
+
+.beeswax-footer-meta__start {
+  grid-area: start;
+}
+
+.beeswax-footer-meta__copyright {
+  grid-area: copyright;
+}
+
+.beeswax-footer-meta__credit {
+  grid-area: credit;
+}
+
+.beeswax-footer-meta__versions {
+  grid-area: versions;
+}
+
 @media (min-width: 768px) {
   .beeswax-footer-meta {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-areas:
+      "start copyright"
+      "versions credit";
     padding-top: 1rem;
   }
 
-  .beeswax-footer-meta__end:not(:only-child) {
+  .beeswax-footer-meta__copyright,
+  .beeswax-footer-meta__credit {
     text-align: right;
-  }
-
-  .beeswax-footer-meta__end:only-child {
-    grid-column: 1 / -1;
   }
 }
 
@@ -849,16 +875,6 @@ footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(
 .beeswax-footer-meta__start a:hover {
   text-decoration: underline;
   text-underline-offset: 2px;
-}
-
-.beeswax-footer-meta__end {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.beeswax-footer-meta__end p {
-  margin: 0;
 }
 
 .beeswax-footer-meta__copyright {
