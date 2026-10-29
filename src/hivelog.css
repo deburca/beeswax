@@ -323,7 +323,8 @@ body.hivelog-page {
 body.hivelog-page h1,
 body.hivelog-page h2,
 body.path-user h1,
-body.path-user h2 {
+body.path-user h2,
+body:has(.beeswax-auth-form) h1 {
   font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: 0.005em;
@@ -470,7 +471,7 @@ body.hivelog-page .vertical-tabs__pane {
  * section headings are already about that size.
  * ------------------------------------------------------------------ */
 body.hivelog-page h1,
-body.path-user h1 {
+:is(body.path-user, body:has(.beeswax-auth-form)) h1 {
   font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
   line-height: 1.15;
 }
@@ -524,7 +525,7 @@ body.hivelog-page h3.hivelog-list-heading__title {
   --bw-field-border: #4a4237;
 }
 
-:is(body.hivelog-page, body.path-user)
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form))
   :is(
     input[type="text"],
     input[type="email"],
@@ -539,7 +540,7 @@ body.hivelog-page h3.hivelog-list-heading__title {
     textarea,
     select
   ),
-:is(body.hivelog-page, body.path-user) .ts-control {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .ts-control {
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--bw-field-border);
   border-radius: 6px;
@@ -551,7 +552,7 @@ body.hivelog-page h3.hivelog-list-heading__title {
   box-shadow: none;
 }
 
-:is(body.hivelog-page, body.path-user)
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form))
   :is(
     input[type="text"],
     input[type="email"],
@@ -566,23 +567,23 @@ body.hivelog-page h3.hivelog-list-heading__title {
     textarea,
     select
   ):focus,
-:is(body.hivelog-page, body.path-user) .ts-wrapper.focus .ts-control {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .ts-wrapper.focus .ts-control {
   border-color: var(--bw-accent);
   background-color: var(--bw-surface);
   box-shadow: 0 0 0 3px var(--bw-accent-tint);
   outline: none;
 }
 
-:is(body.hivelog-page, body.path-user) select:focus {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) select:focus {
   color: var(--bw-ink);
 }
 
-:is(body.hivelog-page, body.path-user) textarea {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) textarea {
   min-height: 7rem;
 }
 
-:is(body.hivelog-page, body.path-user) input[type="checkbox"],
-:is(body.hivelog-page, body.path-user) input[type="radio"] {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) input[type="checkbox"],
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) input[type="radio"] {
   accent-color: var(--bw-accent);
   width: 1.1rem;
   height: 1.1rem;
@@ -590,13 +591,13 @@ body.hivelog-page h3.hivelog-list-heading__title {
 
 /* The file picker: the browser's grey "Choose Files" becomes a secondary
    button, the "no file" text sits beside it in muted ink. */
-:is(body.hivelog-page, body.path-user) input[type="file"] {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) input[type="file"] {
   color: var(--bw-ink-muted);
   font-family: var(--font-body);
   font-size: 0.9rem;
 }
 
-:is(body.hivelog-page, body.path-user) input[type="file"]::file-selector-button {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) input[type="file"]::file-selector-button {
   margin-right: 0.75rem;
   padding: 0.45rem 0.95rem;
   border: 1px solid var(--bw-field-border);
@@ -608,20 +609,20 @@ body.hivelog-page h3.hivelog-list-heading__title {
   cursor: pointer;
 }
 
-:is(body.hivelog-page, body.path-user) input[type="file"]::file-selector-button:hover {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) input[type="file"]::file-selector-button:hover {
   background: var(--bw-accent-tint);
   border-color: var(--bw-ink-faint);
 }
 
 /* Collapsible field groups (details inside a tab, e.g. Pictures). */
-:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .hivelog-entity-form details:not(.vertical-tabs__pane) {
   margin-block: 1rem;
   padding: 0;
   border: 1px solid var(--bw-hairline);
   border-radius: 6px;
 }
 
-:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > summary {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .hivelog-entity-form details:not(.vertical-tabs__pane) > summary {
   padding: 0.6rem 0.85rem;
   background: var(--bw-surface-2);
   border-radius: 6px;
@@ -630,21 +631,21 @@ body.hivelog-page h3.hivelog-list-heading__title {
   cursor: pointer;
 }
 
-:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane)[open] > summary {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .hivelog-entity-form details:not(.vertical-tabs__pane)[open] > summary {
   border-bottom: 1px solid var(--bw-hairline);
   border-radius: 6px 6px 0 0;
 }
 
-:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > :not(summary) {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .hivelog-entity-form details:not(.vertical-tabs__pane) > :not(summary) {
   margin-inline: 0.85rem;
 }
 
-:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > .details-wrapper {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .hivelog-entity-form details:not(.vertical-tabs__pane) > .details-wrapper {
   padding-block: 0.5rem 0.75rem;
 }
 
 /* A native select was shorter and smaller than the text inputs beside it. */
-:is(body.hivelog-page, body.path-user) select:not(.ts-hidden-accessible) {
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) select:not(.ts-hidden-accessible) {
   min-height: 2.6rem;
   font-size: 1rem;
 }
@@ -845,24 +846,24 @@ footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
  * text, groups, the action row) HiveLog's own forms get from the
  * module's hivelog.forms.css.
  * ------------------------------------------------------------------ */
-body.path-user
+:is(body.path-user, body:has(.beeswax-auth-form))
   :is(
     form.user-form,
     form.user-login-form,
     form.user-register-form,
     form.user-pass,
-    form.user-cancel-form
+    form.user-cancel-form, form.beeswax-auth-form
   ) {
   max-width: 40rem;
   margin-block: 1rem 2rem;
 }
 
-body.path-user :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form) .form-item {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form) .form-item {
   margin-block: 1.1rem;
 }
 
-body.path-user
-  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form)
   :is(.form-item > label, legend, .fieldset__label) {
   display: block;
   margin-bottom: 0.3rem;
@@ -870,23 +871,23 @@ body.path-user
   font-weight: 600;
 }
 
-body.path-user
-  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form)
   .form-item
   :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="submit"]), select, textarea) {
   width: 100%;
   box-sizing: border-box;
 }
 
-body.path-user :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form) :is(.description, .form-item__description) {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form) :is(.description, .form-item__description) {
   margin-top: 0.3rem;
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
 
 /* A check box or radio sits beside its label, and the label is body weight. */
-body.path-user
-  :is(.user-form, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-cancel-form, .beeswax-auth-form)
   :is(.form-type-checkbox, .form-type-radio) {
   display: flex;
   align-items: flex-start;
@@ -894,16 +895,16 @@ body.path-user
   margin-block: 0.5rem;
 }
 
-body.path-user
-  :is(.user-form, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-cancel-form, .beeswax-auth-form)
   :is(.form-type-checkbox, .form-type-radio)
   > input {
   flex: none;
   margin-top: 0.15rem;
 }
 
-body.path-user
-  :is(.user-form, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-cancel-form, .beeswax-auth-form)
   :is(.form-type-checkbox, .form-type-radio)
   > label {
   display: inline;
@@ -912,7 +913,7 @@ body.path-user
 }
 
 /* Groups (the cancel method, locale settings, the picture): one hairline box. */
-body.path-user :is(.user-form, .user-cancel-form) :is(fieldset, details) {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) :is(fieldset, details) {
   margin-block: 1.25rem;
   padding: 0;
   border: 1px solid var(--bw-hairline);
@@ -920,11 +921,11 @@ body.path-user :is(.user-form, .user-cancel-form) :is(fieldset, details) {
   background: var(--bw-surface);
 }
 
-body.path-user :is(.user-form, .user-cancel-form) fieldset {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) fieldset {
   padding: 0.75rem 1rem 1rem;
 }
 
-body.path-user :is(.user-form, .user-cancel-form) details > summary {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) details > summary {
   padding: 0.6rem 0.85rem;
   border-radius: 6px;
   background: var(--bw-surface-2);
@@ -933,40 +934,40 @@ body.path-user :is(.user-form, .user-cancel-form) details > summary {
   cursor: pointer;
 }
 
-body.path-user :is(.user-form, .user-cancel-form) details[open] > summary {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) details[open] > summary {
   border-bottom: 1px solid var(--bw-hairline);
   border-radius: 6px 6px 0 0;
 }
 
-body.path-user :is(.user-form, .user-cancel-form) details > :not(summary) {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) details > :not(summary) {
   margin-inline: 0.85rem;
 }
 
-body.path-user :is(.user-form, .user-cancel-form) details > .details-wrapper {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) details > .details-wrapper {
   padding-block: 0.5rem 0.75rem;
 }
 
 /* The password strength meter and the match hint under the new password. */
-body.path-user .password-strength__meter {
+:is(body.path-user, body:has(.beeswax-auth-form)) .password-strength__meter {
   height: 0.4rem;
   margin-top: 0.4rem;
   border-radius: 999px;
   background: var(--bw-hairline);
 }
 
-body.path-user .password-strength__indicator {
+:is(body.path-user, body:has(.beeswax-auth-form)) .password-strength__indicator {
   border-radius: 999px;
 }
 
-body.path-user :is(.password-strength__title, .password-strength__text, .password-confirm-message, .password-suggestions) {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.password-strength__title, .password-strength__text, .password-confirm-message, .password-suggestions) {
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
 
 /* The action row: Save (or Log in) first; a link beside it ("Cancel account")
    reads as the destructive way out. */
-body.path-user
-  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form)
   .form-actions {
   display: flex;
   flex-wrap: wrap;
@@ -975,22 +976,22 @@ body.path-user
   margin-top: 1.5rem;
 }
 
-body.path-user :is(.user-form, .user-cancel-form) .form-actions a {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form) .form-actions a {
   color: var(--bw-critical);
 }
 
 /* The profile page (/user/N): the markup is a bare avatar and label/value
    pairs; give the pairs the same small-caps label over value as a HiveLog
    detail table. */
-body.path-user article.contextual-region {
+:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region {
   display: grid;
   gap: 1.1rem;
   max-width: 40rem;
   margin-block: 1rem 2rem;
 }
 
-body.path-user article.contextual-region > div:nth-child(2) > div:first-child,
-body.path-user article.contextual-region .label {
+:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region > div:nth-child(2) > div:first-child,
+:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region .label {
   margin: 0 0 0.15rem;
   color: var(--bw-ink-muted);
   font-family: var(--font-body);
@@ -1000,6 +1001,69 @@ body.path-user article.contextual-region .label {
   text-transform: uppercase;
 }
 
-body.path-user article.contextual-region .form-item {
+:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region .form-item {
   margin: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Sign-in cards (beeswax >= 1.5.0): log in, register, reset password,
+ * log out, and any form a site marks with `.beeswax-auth-form` (the
+ * demo sign-up does). One framed card, centred on wide screens: the
+ * breadcrumb and title above it are narrowed to the same column so
+ * their edge lines up with the card's. Phone: the card is the full
+ * width, the frame stays. A site can widen it with --bw-auth-width.
+ * ------------------------------------------------------------------ */
+:root {
+  --bw-auth-width: 30rem;
+}
+
+body:has(.beeswax-auth-form) header[role="banner"] > .container {
+  max-width: calc(var(--bw-auth-width) + 2rem);
+}
+
+:is(body, body.path-user) form.beeswax-auth-form {
+  box-sizing: border-box;
+  max-width: var(--bw-auth-width);
+  margin: 0.5rem auto 3rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--bw-field-border);
+  border-radius: 8px;
+  background: var(--bw-surface);
+}
+
+@media (min-width: 768px) {
+  :is(body, body.path-user) form.beeswax-auth-form {
+    padding: 1.75rem 2rem 2rem;
+  }
+}
+
+/* The first block and the last sit on the card's padding, not on their own
+   margin. (Hidden inputs come first, so it is first-of-type, not first-child.) */
+/* (Written long: it must outrank the rhythm rules above.) */
+:is(body, body.path-user) form.beeswax-auth-form > div:first-of-type {
+  margin-top: 0;
+}
+
+form.beeswax-auth-form .form-actions {
+  margin-bottom: 0;
+}
+
+/* The log-in button is the card's one action: full width on a phone. */
+@media (max-width: 480px) {
+  form.beeswax-auth-form .form-actions > :is(input, button)[type="submit"] {
+    flex: 1 1 100%;
+  }
+}
+
+/* The sign-up's lead-in paragraph, the sentence above the fields. */
+form.beeswax-auth-form > p:first-of-type {
+  margin: 0 0 1.25rem;
+  color: var(--bw-ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* The two password boxes sit as two ordinary fields. */
+form.beeswax-auth-form .password-confirm-message {
+  margin-top: 0.3rem;
 }
