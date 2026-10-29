@@ -983,15 +983,15 @@ footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
 /* The profile page (/user/N): the markup is a bare avatar and label/value
    pairs; give the pairs the same small-caps label over value as a HiveLog
    detail table. */
-:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region {
+:is(body.path-user, body:has(.beeswax-auth-form)) article {
   display: grid;
   gap: 1.1rem;
   max-width: 40rem;
   margin-block: 1rem 2rem;
 }
 
-:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region > div:nth-child(2) > div:first-child,
-:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region .label {
+:is(body.path-user, body:has(.beeswax-auth-form)) article > div:not(.contextual) > div:first-child:not(:only-child),
+:is(body.path-user, body:has(.beeswax-auth-form)) article .label {
   margin: 0 0 0.15rem;
   color: var(--bw-ink-muted);
   font-family: var(--font-body);
@@ -1001,7 +1001,7 @@ footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
   text-transform: uppercase;
 }
 
-:is(body.path-user, body:has(.beeswax-auth-form)) article.contextual-region .form-item {
+:is(body.path-user, body:has(.beeswax-auth-form)) article .form-item {
   margin: 0;
 }
 
