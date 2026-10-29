@@ -763,3 +763,22 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ------------------------------------------------------------------ *
+ * Error pages (hivelog >= 3.2.0, task 0238): the 404 / 403 scene is
+ * drawn from --hivelog-error-* properties; light uses the module's
+ * hive-and-meadow fallbacks, dark gets a dusk palette. The bees, the
+ * sign and the ink stay as they are, so the picture reads the same.
+ * ------------------------------------------------------------------ */
+.dark {
+  --hivelog-error-sky: #2d2a3a;
+  --hivelog-error-ground: #3b4a2b;
+  --hivelog-error-trail: #a98a4f;
+  --hivelog-error-wood-dark: #4d3114;
+  --hivelog-error-wood: #a97c3a;
+  --hivelog-error-wood-light: #b98b48;
+  --hivelog-error-roof: #5e3d17;
+  --hivelog-error-nail: #2c1c08;
+  --hivelog-error-sign: #f3ead3;
+  --hivelog-error-question: #f0b86a;
+}
