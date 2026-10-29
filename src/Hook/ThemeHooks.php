@@ -38,6 +38,13 @@ final class ThemeHooks {
     'user_pass',
     'user_pass_reset',
     'user_logout_confirm',
+    // Two-factor authentication (tfa module): the code entry, the setup
+    // steps, switching it off, and the overview of what is set up.
+    'tfa_login_form',
+    'tfa_entry_form',
+    'tfa_setup',
+    'tfa_disable',
+    'tfa_base_overview',
   ];
 
   /**
