@@ -22,6 +22,14 @@ name them) and, if you set them under Appearance > Beeswax, a **Contact** link (
 `footer_app_url` in `beeswax.settings`; the markup is in `templates/layout/page.html.twig` and the style is
 `.beeswax-footer-meta` in `src/hivelog.css`.
 
+### Account pages
+
+Log in, register, reset password, the profile page and edit / cancel account are ordinary pages in this theme (`body.path-user`
+in `src/hivelog.css`): the same header, footer, field boxes and buttons as the HiveLog pages. Drupal draws the edit and
+cancel pages in the *admin* theme unless the route's `_admin_route` option is cleared, and the Gin Login module draws the
+log-in pages in Gin; a site that wants them here must undo both (for example `hvg_landing`'s route subscriber in the
+`cms2` project, and uninstalling Gin Login).
+
 ### Advanced customizations
 
 If you want to make deeper customizations (e.g., to components or JavaScript), you will need to convert Beeswax to a custom theme with the same machine name. You can do this by running the following at the command line, from the Drupal project root (assuming `web` is the web root):

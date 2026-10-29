@@ -512,7 +512,8 @@ body.hivelog-page h3.hivelog-list-heading__title {
 /* ------------------------------------------------------------------ *
  * Form fields. Beeswax's base gives inputs only a bottom rule while
  * the selects and the tom-select pickers were boxed, so a form mixed
- * three looks. On HiveLog pages every field is one box: hairline-dark
+ * three looks. On HiveLog pages and the account pages (`body.path-user`:
+ * profile, edit, log in, reset) every field is one box: hairline-dark
  * border, 6px radius, a pine focus ring.
  * ------------------------------------------------------------------ */
 :root {
@@ -523,7 +524,7 @@ body.hivelog-page h3.hivelog-list-heading__title {
   --bw-field-border: #4a4237;
 }
 
-body.hivelog-page
+:is(body.hivelog-page, body.path-user)
   :is(
     input[type="text"],
     input[type="email"],
@@ -538,7 +539,7 @@ body.hivelog-page
     textarea,
     select
   ),
-body.hivelog-page .ts-control {
+:is(body.hivelog-page, body.path-user) .ts-control {
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--bw-field-border);
   border-radius: 6px;
@@ -550,7 +551,7 @@ body.hivelog-page .ts-control {
   box-shadow: none;
 }
 
-body.hivelog-page
+:is(body.hivelog-page, body.path-user)
   :is(
     input[type="text"],
     input[type="email"],
@@ -565,23 +566,23 @@ body.hivelog-page
     textarea,
     select
   ):focus,
-body.hivelog-page .ts-wrapper.focus .ts-control {
+:is(body.hivelog-page, body.path-user) .ts-wrapper.focus .ts-control {
   border-color: var(--bw-accent);
   background-color: var(--bw-surface);
   box-shadow: 0 0 0 3px var(--bw-accent-tint);
   outline: none;
 }
 
-body.hivelog-page select:focus {
+:is(body.hivelog-page, body.path-user) select:focus {
   color: var(--bw-ink);
 }
 
-body.hivelog-page textarea {
+:is(body.hivelog-page, body.path-user) textarea {
   min-height: 7rem;
 }
 
-body.hivelog-page input[type="checkbox"],
-body.hivelog-page input[type="radio"] {
+:is(body.hivelog-page, body.path-user) input[type="checkbox"],
+:is(body.hivelog-page, body.path-user) input[type="radio"] {
   accent-color: var(--bw-accent);
   width: 1.1rem;
   height: 1.1rem;
@@ -589,13 +590,13 @@ body.hivelog-page input[type="radio"] {
 
 /* The file picker: the browser's grey "Choose Files" becomes a secondary
    button, the "no file" text sits beside it in muted ink. */
-body.hivelog-page input[type="file"] {
+:is(body.hivelog-page, body.path-user) input[type="file"] {
   color: var(--bw-ink-muted);
   font-family: var(--font-body);
   font-size: 0.9rem;
 }
 
-body.hivelog-page input[type="file"]::file-selector-button {
+:is(body.hivelog-page, body.path-user) input[type="file"]::file-selector-button {
   margin-right: 0.75rem;
   padding: 0.45rem 0.95rem;
   border: 1px solid var(--bw-field-border);
@@ -607,20 +608,20 @@ body.hivelog-page input[type="file"]::file-selector-button {
   cursor: pointer;
 }
 
-body.hivelog-page input[type="file"]::file-selector-button:hover {
+:is(body.hivelog-page, body.path-user) input[type="file"]::file-selector-button:hover {
   background: var(--bw-accent-tint);
   border-color: var(--bw-ink-faint);
 }
 
 /* Collapsible field groups (details inside a tab, e.g. Pictures). */
-body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane) {
+:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) {
   margin-block: 1rem;
   padding: 0;
   border: 1px solid var(--bw-hairline);
   border-radius: 6px;
 }
 
-body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane) > summary {
+:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > summary {
   padding: 0.6rem 0.85rem;
   background: var(--bw-surface-2);
   border-radius: 6px;
@@ -629,21 +630,21 @@ body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane) > summa
   cursor: pointer;
 }
 
-body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane)[open] > summary {
+:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane)[open] > summary {
   border-bottom: 1px solid var(--bw-hairline);
   border-radius: 6px 6px 0 0;
 }
 
-body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane) > :not(summary) {
+:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > :not(summary) {
   margin-inline: 0.85rem;
 }
 
-body.hivelog-page .hivelog-entity-form details:not(.vertical-tabs__pane) > .details-wrapper {
+:is(body.hivelog-page, body.path-user) .hivelog-entity-form details:not(.vertical-tabs__pane) > .details-wrapper {
   padding-block: 0.5rem 0.75rem;
 }
 
 /* A native select was shorter and smaller than the text inputs beside it. */
-body.hivelog-page select:not(.ts-hidden-accessible) {
+:is(body.hivelog-page, body.path-user) select:not(.ts-hidden-accessible) {
   min-height: 2.6rem;
   font-size: 1rem;
 }
@@ -834,4 +835,171 @@ footer[role="contentinfo"]:has(.site-footer--bottom-col) .beeswax-footer-meta {
 .beeswax-footer-meta__versions {
   margin: 0;
   color: var(--bw-ink-faint);
+}
+
+/* ------------------------------------------------------------------ *
+ * Account pages (beeswax >= 1.4.0): log in, register, reset password,
+ * edit and cancel account, drawn in this theme like every other
+ * end-user page. The field boxes come from the "Form fields" block
+ * above; this adds the form layout (width, rhythm, labels, helper
+ * text, groups, the action row) HiveLog's own forms get from the
+ * module's hivelog.forms.css.
+ * ------------------------------------------------------------------ */
+body.path-user
+  :is(
+    form.user-form,
+    form.user-login-form,
+    form.user-register-form,
+    form.user-pass,
+    form.user-cancel-form
+  ) {
+  max-width: 40rem;
+  margin-block: 1rem 2rem;
+}
+
+body.path-user :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form) .form-item {
+  margin-block: 1.1rem;
+}
+
+body.path-user
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+  :is(.form-item > label, legend, .fieldset__label) {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--bw-ink);
+  font-weight: 600;
+}
+
+body.path-user
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+  .form-item
+  :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="submit"]), select, textarea) {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.path-user :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form) :is(.description, .form-item__description) {
+  margin-top: 0.3rem;
+  color: var(--bw-ink-muted);
+  font-size: 0.85rem;
+}
+
+/* A check box or radio sits beside its label, and the label is body weight. */
+body.path-user
+  :is(.user-form, .user-cancel-form)
+  :is(.form-type-checkbox, .form-type-radio) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-block: 0.5rem;
+}
+
+body.path-user
+  :is(.user-form, .user-cancel-form)
+  :is(.form-type-checkbox, .form-type-radio)
+  > input {
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+body.path-user
+  :is(.user-form, .user-cancel-form)
+  :is(.form-type-checkbox, .form-type-radio)
+  > label {
+  display: inline;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Groups (the cancel method, locale settings, the picture): one hairline box. */
+body.path-user :is(.user-form, .user-cancel-form) :is(fieldset, details) {
+  margin-block: 1.25rem;
+  padding: 0;
+  border: 1px solid var(--bw-hairline);
+  border-radius: 6px;
+  background: var(--bw-surface);
+}
+
+body.path-user :is(.user-form, .user-cancel-form) fieldset {
+  padding: 0.75rem 1rem 1rem;
+}
+
+body.path-user :is(.user-form, .user-cancel-form) details > summary {
+  padding: 0.6rem 0.85rem;
+  border-radius: 6px;
+  background: var(--bw-surface-2);
+  color: var(--bw-ink);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+body.path-user :is(.user-form, .user-cancel-form) details[open] > summary {
+  border-bottom: 1px solid var(--bw-hairline);
+  border-radius: 6px 6px 0 0;
+}
+
+body.path-user :is(.user-form, .user-cancel-form) details > :not(summary) {
+  margin-inline: 0.85rem;
+}
+
+body.path-user :is(.user-form, .user-cancel-form) details > .details-wrapper {
+  padding-block: 0.5rem 0.75rem;
+}
+
+/* The password strength meter and the match hint under the new password. */
+body.path-user .password-strength__meter {
+  height: 0.4rem;
+  margin-top: 0.4rem;
+  border-radius: 999px;
+  background: var(--bw-hairline);
+}
+
+body.path-user .password-strength__indicator {
+  border-radius: 999px;
+}
+
+body.path-user :is(.password-strength__title, .password-strength__text, .password-confirm-message, .password-suggestions) {
+  color: var(--bw-ink-muted);
+  font-size: 0.85rem;
+}
+
+/* The action row: Save (or Log in) first; a link beside it ("Cancel account")
+   reads as the destructive way out. */
+body.path-user
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form)
+  .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+body.path-user :is(.user-form, .user-cancel-form) .form-actions a {
+  color: var(--bw-critical);
+}
+
+/* The profile page (/user/N): the markup is a bare avatar and label/value
+   pairs; give the pairs the same small-caps label over value as a HiveLog
+   detail table. */
+body.path-user article.contextual-region {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 40rem;
+  margin-block: 1rem 2rem;
+}
+
+body.path-user article.contextual-region > div:nth-child(2) > div:first-child,
+body.path-user article.contextual-region .label {
+  margin: 0 0 0.15rem;
+  color: var(--bw-ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.path-user article.contextual-region .form-item {
+  margin: 0;
 }
