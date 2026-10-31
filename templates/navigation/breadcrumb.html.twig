@@ -9,7 +9,10 @@
 #}
 {{ attach_library('beeswax/breadcrumb') }}
 {% if breadcrumb %}
-  {% set needs_truncation = (breadcrumb|length) > 3 %}
+  {# A long trail keeps its first two crumbs (the site home and the section
+     it sits in, e.g. HiveLog, which is the way back to the app's dashboard)
+     and its last two, and folds what is between into an ellipsis. #}
+  {% set needs_truncation = (breadcrumb|length) > 4 %}
 
   {% set item_classes = 'flex items-center text-sm md:text-md' %}
 
@@ -19,7 +22,7 @@
       {% for item in breadcrumb %}
         {% set is_first = loop.first %}
         {% set is_last_two = loop.revindex <= 2 %}
-        {% set should_show = not needs_truncation or is_first or is_last_two %}
+        {% set should_show = not needs_truncation or loop.index <= 2 or is_last_two %}
 
         {% if loop.first %}
           <li class="gap-1 md:gap-2 2xl:text-base">
@@ -39,8 +42,8 @@
           </li>
         {% endif %}
 
-        {# Insert ellipsis after first item if truncation is needed #}
-        {% if needs_truncation and loop.index == 2 %}
+        {# Insert ellipsis after the first two items if truncation is needed #}
+        {% if needs_truncation and loop.index == 3 %}
           <li aria-hidden="true">
             {{
               include(
@@ -78,7 +81,7 @@
           {% endif %}
 
           {# Add chevron after item (except last) #}
-          {% if not loop.last and (not needs_truncation or is_last_two or is_first) %}
+          {% if not loop.last and (not needs_truncation or loop.index <= 2 or is_last_two) %}
             <li aria-hidden="true">
               {{
                 include(
