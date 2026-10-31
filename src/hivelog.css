@@ -1293,11 +1293,17 @@ body.path-user table.gin--sticky-table-header {
 }
 
 /* A second button in a card (Cancel beside Confirm) is the quiet one; the first
-   (Log in, Save) keeps the theme's own button, primary or not. */
+   (Log in, Save) keeps the theme's own button, primary or not. Cancel is a link
+   (a.button), so it needs its own box to sit level with the button beside it. */
 form.beeswax-auth-form .form-actions > :is(input[type="submit"], a).button:not(:first-child, .button--primary, .button--danger) {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
   border: 1px solid var(--bw-field-border);
+  border-radius: 6px;
   background: transparent;
   color: var(--bw-ink);
+  line-height: 1.5;
+  text-decoration: none;
 }
 
 form.beeswax-auth-form .form-actions > :is(input[type="submit"], a).button:not(:first-child, .button--primary, .button--danger):hover {
