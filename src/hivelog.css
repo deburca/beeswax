@@ -406,6 +406,8 @@ body.hivelog-page .vertical-tabs {
 body.hivelog-page .vertical-tabs__menu {
   border: 1px solid var(--bw-hairline);
   border-radius: 6px 0 0 6px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   background: var(--bw-surface-2);
 }
 
@@ -461,6 +463,7 @@ body.hivelog-page .vertical-tabs__menu-item-summary {
 }
 
 body.hivelog-page .vertical-tabs__pane {
+  border-radius: 0 6px 6px 0;
   padding: 0.5rem 1.25rem 1rem;
 }
 
@@ -913,18 +916,14 @@ footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(
  * module's hivelog.forms.css.
  * ------------------------------------------------------------------ */
 :is(body.path-user, body:has(.beeswax-auth-form))
-  :is(
-    form.user-form,
-    form.user-login-form,
-    form.user-register-form,
-    form.user-pass,
-    form.user-cancel-form, form.beeswax-auth-form
-  ) {
+  :is(form.user-form, form.user-login-form, form.user-register-form, form.user-pass, form.user-cancel-form, form.beeswax-auth-form) {
   max-width: 40rem;
   margin-block: 1rem 2rem;
 }
 
-:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form) .form-item {
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form)
+  .form-item {
   margin-block: 1.1rem;
 }
 
@@ -945,16 +944,16 @@ footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(
   box-sizing: border-box;
 }
 
-:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form) :is(.description, .form-item__description) {
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.user-form, .user-login-form, .user-register-form, .user-pass, .user-cancel-form, .beeswax-auth-form)
+  :is(.description, .form-item__description) {
   margin-top: 0.3rem;
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
 
 /* A check box or radio sits beside its label, and the label is body weight. */
-:is(body.path-user, body:has(.beeswax-auth-form))
-  :is(.user-form, .user-cancel-form, .beeswax-auth-form)
-  :is(.form-type-checkbox, .form-type-radio) {
+:is(body.path-user, body:has(.beeswax-auth-form)) :is(.user-form, .user-cancel-form, .beeswax-auth-form) :is(.form-type-checkbox, .form-type-radio) {
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
@@ -1025,7 +1024,8 @@ footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(
   border-radius: 999px;
 }
 
-:is(body.path-user, body:has(.beeswax-auth-form)) :is(.password-strength__title, .password-strength__text, .password-confirm-message, .password-suggestions) {
+:is(body.path-user, body:has(.beeswax-auth-form))
+  :is(.password-strength__title, .password-strength__text, .password-confirm-message, .password-suggestions) {
   color: var(--bw-ink-muted);
   font-size: 0.85rem;
 }
