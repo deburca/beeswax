@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project:
 area: theme
 created: 2026-11-13
 branch: feature/0002-honeycomb-background
-release:
+release: 1.9.0
 depends-on:
 blocked-by:
 ---
@@ -52,7 +52,10 @@ re-implements the honeycomb for the theme. It is feasible in plain CSS, with no 
 - **Print and forced colours.** Hide it under `@media print`; it is decorative, so no `forced-colors` handling is needed
   beyond not carrying meaning.
 
-## Decisions needed before starting
+## Decisions (settled)
+Scope agreed: HiveLog pages, account pages and sign-in cards only; the 380pt fade on sign-in cards; 10% opacity in both modes (checked by eye on the dark ground).
+
+## Decisions as first raised
 - **Scope.** Which pages get it: only the HiveLog pages, account pages and sign-in cards (matches the app and keeps
   Canvas/marketing pages and the front page's hero untouched), or every page? Recommended: the first.
 - **Stronger on sign-in cards?** The app uses a shorter, 380 pt fade on its welcome screens; the sign-in card pages are
@@ -60,14 +63,14 @@ re-implements the honeycomb for the theme. It is feasible in plain CSS, with no 
 - **Opacity on dark.** 10% accent on the dark ground may need checking by eye; the app uses the same value in both modes.
 
 ## Acceptance criteria
-- [ ] A honeycomb of pointy-top hexagon outlines appears behind the content of the in-scope pages, in the accent colour at about 10% opacity, fading to nothing before the first interactive content
-- [ ] The pattern's geometry matches the app's (column spacing `cell * sqrt(3)`, row spacing `cell * 1.5`, odd rows offset by half a column, outlines at 0.96 of the cell)
-- [ ] It takes no clicks or focus, adds no scrollbars or horizontal overflow, and is not announced by screen readers (pseudo-element, no content)
-- [ ] Light, dark and *Match the device* all look right; text contrast of headings and body text over the pattern is unchanged (the pattern is too faint to count, but check the area just under the header)
+- [x] A honeycomb of pointy-top hexagon outlines appears behind the content of the in-scope pages, in the accent colour at about 10% opacity, fading to nothing before the first interactive content
+- [x] The pattern's geometry matches the app's (column spacing `cell * sqrt(3)`, row spacing `cell * 1.5`, odd rows offset by half a column, outlines at 0.96 of the cell)
+- [x] It takes no clicks or focus, adds no scrollbars or horizontal overflow, and is not announced by screen readers (pseudo-element, no content)
+- [x] Light, dark and *Match the device* all look right; text contrast of headings and body text over the pattern is unchanged (the pattern is too faint to count, but check the area just under the header)
 - [ ] Phone, tablet and desktop widths: it covers the width, and the fade does not crowd the page title on a short screen
-- [ ] Printing hides it
-- [ ] `CUSTOMIZING.md` documents the tokens and how to turn it off; the geometry note (cell, 0.96, 10%) is kept in sync with Vinculum's `HoneycombBackground.swift`, as the dark palette already is
-- [ ] Release note written for the version that ships this
+- [x] Printing hides it
+- [x] `CUSTOMIZING.md` documents the tokens and how to turn it off; the geometry note (cell, 0.96, 10%) is kept in sync with Vinculum's `HoneycombBackground.swift`, as the dark palette already is
+- [x] Release note written for the version that ships this
 
 ## Implementation notes
 - Key files: `src/hivelog.css` (the rule and its scoping), `src/theme.css` (tokens), `templates/layout/page.html.twig` (only if the page wrapper needs a class or `isolation`), `CUSTOMIZING.md`.
