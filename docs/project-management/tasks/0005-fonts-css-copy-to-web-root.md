@@ -26,7 +26,7 @@ blocked-by:
 - [x] A copied `fonts.css` loads the theme's fonts correctly (use site-absolute URLs such as `/themes/contrib/beeswax/fonts/...` in the copy instructions, or have the hook rewrite the URLs, or ship the fonts path as a CSS variable)
 - [x] `CUSTOMIZING.md` explains the font paths for a copied file and the cache clear
 - [x] Preload follows the active font set (skip it, or make it a theme setting) so it never preloads files the page does not use
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `src/fonts.css`, `src/Hook/ThemeHooks.php` (`alterLibraryInfo`, `preprocessHtml` sets `beeswax_path`), `templates/includes/preload.twig`, `CUSTOMIZING.md`.

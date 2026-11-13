@@ -27,9 +27,9 @@ How the stylesheets and scripts reach the browser, and a few accessibility gaps,
 ## Acceptance criteria
 - [x] Decision recorded on how `hivelog.css` is delivered (minified build output, aggregation, or as is) and applied
 - [x] Dark-mode script works under a strict CSP, or the limitation is documented
-- [ ] Axe/Lighthouse accessibility pass on three representative pages in light and dark, with failures fixed or ticketed
+- [x] Axe/Lighthouse accessibility pass on three representative pages in light and dark, with failures fixed or ticketed (done in [[0011-accessibility-pass-and-contrast-checks]])
 - [x] `prefers-reduced-motion` honoured by every transition the theme adds
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `beeswax.libraries.yml`, `templates/layout/html.html.twig`, `src/hivelog.css`, `src/theme.css`, `lib/vendor/tom-select/`.

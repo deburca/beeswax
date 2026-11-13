@@ -26,7 +26,7 @@ The `group` component (`components/group/group.twig`) takes an `animation` prop.
 ## Acceptance criteria
 - [x] With JavaScript disabled, animated groups are fully visible (hide with a `js`-set class on `<html>`, or reveal with a `<noscript>`/CSS fallback, rather than `opacity-0` unconditionally)
 - [x] A group taller than the viewport still animates in (use a fractional `amount`, or a `margin`, and test on a 375px viewport)
-- [ ] Under `prefers-reduced-motion: reduce` groups appear without movement (and ideally without the fade) (implemented in CSS and JS; not exercised in a browser, the pane cannot emulate the setting: check once on a real device)
+- [ ] Under `prefers-reduced-motion: reduce` groups appear without movement (and ideally without the fade) (implemented in CSS and JS; not exercised in a browser, the pane cannot emulate the setting: check once on a real device) (still open; tracked in [[0011-accessibility-pass-and-contrast-checks]])
 - [x] Groups added after load animate too (Drupal behaviour + `once()`)
 - [x] `npm run build` output regenerated and committed; release note written
 
