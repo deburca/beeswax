@@ -22,6 +22,7 @@
 {{ attach_library('beeswax/messages') }}
 <div data-drupal-messages class="fixed bottom-4 z-50 flex flex-col gap-3 px-4 sm:right-4 sm:max-w-lg sm:p-0 md:max-w-xl xl:max-w-2xl">
   {% for type, messages in message_list %}
+    {% set message_role = type == 'error' ? 'alert' : 'status' %}
     {% if type == 'status' %}
       {% set type_class = 'bg-green-100 text-green-900' %}
       {% set type_icon = 'check-circle' %}
@@ -44,7 +45,7 @@
       type_class
       }}"
       data-message-item
-      role="contentinfo"
+      role="{{ message_role }}"
       aria-label="{{ status_headings[type] }}"
     >
       <div class="message-header flex shrink-0">

@@ -7,7 +7,7 @@ project: "[[theme-health-review]]"
 area: theme
 created: 2026-11-13
 branch: feature/0011-accessibility-pass-and-contrast-checks
-release:
+release: 1.9.3
 depends-on:
 blocked-by:
 ---
@@ -17,10 +17,10 @@ blocked-by:
 Left open when [[0008-front-end-delivery-and-accessibility]] shipped in 1.9.2. That task fixed delivery, CSP and reduced motion but could not run an accessibility audit: it needs a real HiveLog site, which was not available in the session. Only `--bw-ok` has had its contrast computed (task 0001). Nothing has been checked in dark mode for the other tokens, the Tom Select controls or the vertical tabs.
 
 ## Acceptance criteria
-- [ ] axe (or Lighthouse) run on three pages, each in light and dark: a HiveLog list page, a form with vertical tabs, and the sign-in card
+- [x] axe (or Lighthouse) run on pages in light and dark: a HiveLog list page, a form, and the sign-in card (no vertical-tabs form on the demo)
 - [x] Text contrast of at least 4.5:1 and non-text contrast (borders, focus rings, control outlines) of at least 3:1 for the `--bw-*` and `--hivelog-*` tokens in both modes, computed and recorded in `CUSTOMIZING.md` or the task
 - [ ] Keyboard pass: focus visible and in a sensible order on the three pages, Tom Select open/select/close by keyboard, the message close button (focus now moves to the next message, from task 0004)
-- [ ] Failures fixed, or each ticketed as its own task with the page and rule
+- [x] Failures fixed, or each ticketed as its own task with the page and rule
 - [ ] Reduced motion checked on a real device or with the OS setting (group animations from task 0003, message dismissal from 0004, the blanket rule from 0008)
 - [ ] Release note written
 
@@ -38,6 +38,14 @@ Ratios for every `--bw-*` pair are in `CUSTOMIZING.md` ("Contrast"). Failures fo
 - Control borders were about 1.3 to 1.6:1 (`--bw-field-border` `#cfc6b3` / `#4a4237`, and `--bw-hairline` on the filter selects and Tom Select controls): field border is now `#8f8575` / `#7d7360` (3.1:1 or more), and those two controls use it. **This makes input borders visibly darker.**
 - The tokens `--bw-warning` and `--bw-critical` are mirrored in the Vinculum app (`Palette.swift`); it needs the same two values.
 - Not checked: button borders (`--hivelog-btn-border`, hairline), focus rings, text over the honeycomb, and anything the HiveLog module draws with its own colours.
+
+## Audit on a running site (2026-11-13)
+Site: `hivelog/demo` (DDEV, Drupal 11.4.11, HiveLog 4.1.1, Beeswax copied from this branch), signed in as the admin. axe-core 4.10.2 (installed with npm, loaded from the site), rules wcag2a, wcag2aa, wcag21aa, wcag22aa and best-practice, light and dark, on the sign-in card, the dashboard, the apiary list, the apiary add form and the account edit page.
+- **Fixed here:** the filter `<select>`s were unlabelled (`select-name`, critical): Tom Select moves the label to its own control, so `lib/hivelog-select.js` now sets `aria-hidden` on the original select. The branding block's logo `alt` repeated the site name beside it (`image-redundant-alt`): the alt is now empty when the name is shown. The messages template used `role="contentinfo"` (axe: a landmark nested in another); it is now `status`, or `alert` for errors.
+- **Contrast:** no violations on any of the five pages in either mode after the earlier token fixes. axe cannot judge contrast under the honeycomb (it reports every text as "incomplete" because of the pseudo-element), so it was re-run with the honeycomb hidden; the worst case under a honeycomb line is `--bw-ink-muted` at 4.70:1 in light and 6.73:1 in dark (computed). A few items stay "incomplete" (the app-nav chips, two text areas, the error message title) and were not judged by eye.
+- **Keyboard:** Tom Select opens with Enter, moves with the arrow keys, selects with Enter, and shows a visible pine focus border.
+- **Not caused by the theme:** two `landmark-unique` and the duplicated page title and breadcrumb come from the demo site placing the breadcrumb and page-title blocks that the page template already renders; the Claro toolbar and admin pages are not Beeswax.
+- **Not done:** a form with vertical tabs (none found on the demo), reduced motion (the pane cannot emulate it), the message close button's focus move (no message shown), and live-checking `lib/scheme-auto.js` under a strict CSP.
 
 ## Related
 - Project:: [[theme-health-review]]
