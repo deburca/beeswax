@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project: "[[theme-health-review]]"
 area: housekeeping
 created: 2026-11-13
 branch: feature/0012-canvas-components-and-bundled-assets
-release:
+release: 1.9.3
 depends-on:
 blocked-by:
 ---
@@ -26,15 +26,29 @@ Left open when [[0010-dead-assets-and-stale-metadata]] shipped in 1.9.2. That ta
 - **`conflict: drupal/experience_builder` and `require-dev: drupal/canvas`** in `composer.json` assume Canvas; the README now says Canvas is optional, so check these still fit.
 
 ## Acceptance criteria
-- [ ] Decision recorded on the Canvas components (keep, trim or move) and applied, with the usage evidence
-- [ ] Anything removed is named in the release note as a breaking change for content that used it
-- [ ] Demo images and hero duplicates handled, or left with a reason
+- [x] Decision recorded on the Canvas components (keep, trim or move) and applied, with the usage evidence
+- [x] Anything removed is named in the release note as a breaking change for content that used it
+- [x] Demo images and hero duplicates handled, or left with a reason
 - [ ] `screenshot.png` shows the current theme
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `components/`, `src/RenderCallbacks.php`, `src/Hook/ThemeHooks.php` (`alterElementInfo`), `icons/phosphor/`, `beeswax.icons.yml`, `composer.json`, `screenshot.png`.
 - Do not delete icons without checking `beeswax.icons.yml` consumers.
+
+## Decision and evidence (2026-11-13)
+**Keep all 25 components.** Nothing is removed, so there is no breaking change.
+
+Usage was read from the four `../cms2` dev sites (config in `config/*/sync`, content in each site's `canvas_page__components` table):
+- Only `hvg` (hivelog.eu) and `kbg` use Beeswax components. `shh` and `vdg` run their own forks (`hestehoj`, `quick_silver`) with their own copies.
+- Used on hvg and kbg (Canvas pages, the `beeswax` header and footer regions, `node.page.full` template): `button`, `card-icon`, `cta`, `footer`, `heading`, `image`, `navbar`, `section`, `text`.
+- Not used there: `accordion`, `accordion-container`, `anchor`, `badge`, `blockquote`, `card`, `card-logo`, `card-pricing`, `card-testimonial`, `grid`, `group`, `hero-billboard`, `hero-blog`, `hero-side-by-side`, `icon`, `video`. Several are still needed inside the theme: `icon` is included by nine other components, the pager, messages and breadcrumb templates; `group` carries the scroll animation; `heading`, `button` and `text` are included by others; `src/main.css` styles `anchor`, `hero-blog` and `navbar`.
+- Caveat: these are dev copies; live data or sites not in `cms2` were not checked.
+
+## Outcome
+- Done: the two large demo images are 1200 px wide and recompressed (`pexels-...jpg` 247 KB to 171 KB, `jj-ying-...jpg` 241 KB to 152 KB; same file names, so the `component.yml` examples are unchanged).
+- Left as they are, with reasons: the three hero images (component-scoped assets, components stay), the icon set (editors pick from it and removing icons breaks saved content), `RenderCallbacks.php` (`hero-blog` stays), and the `conflict`/`require-dev` lines in `composer.json` (they still describe Canvas correctly).
+- **Not done:** `screenshot.png` still shows the Mercury logo and demo content. A good capture needs a page with the theme's own header and footer placed; the demo site's blocks are not set up for that.
 
 ## Related
 - Project:: [[theme-health-review]]
