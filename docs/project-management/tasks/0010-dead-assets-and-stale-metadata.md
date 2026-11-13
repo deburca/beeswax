@@ -31,7 +31,7 @@ Files and metadata that nothing uses, or that still describe the theme this was 
 - [x] `screenshot.png` optimised
 - [ ] Decision recorded on the Canvas components (keep, trim to the used ones, or move to a separate branch) and applied
 - [x] README and `composer.json` describe the theme as it is today (HiveLog skin, account pages, footer, honeycomb), `generator` removed or corrected
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - To find what a site uses, search its content templates and Canvas pages for `beeswax:<component>` rather than the repo.
