@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: php
 created: 2026-11-13
 branch: feature/0006-page-preprocess-cost-and-hook-cleanup
-release:
+release: 1.9.1
 depends-on:
 blocked-by:
 ---
@@ -26,15 +26,21 @@ blocked-by:
 - `RenderCallbacks::preRenderComponent()` exists only to turn a UNIX timestamp into a date string for `hero-blog`; if that component is removed (task 0010) this class and the `element_info_alter` hook go with it.
 
 ## Acceptance criteria
-- [ ] No uncached entity query per node view (verify with the database log or Devel query count on a node page)
-- [ ] No `assert()` guarding a dereference
-- [ ] `footer_meta` and `rendered_by_canvas` carry correct cache metadata
-- [ ] One translation style; no accumulated info messages on the settings form
+- [x] No uncached entity query per node view (verify with the database log or Devel query count on a node page)
+- [x] No `assert()` guarding a dereference
+- [x] `footer_meta` and `rendered_by_canvas` carry correct cache metadata
+- [x] One translation style; no accumulated info messages on the settings form
 - [ ] Release note written
 
 ## Implementation notes
 - Key file: `src/Hook/ThemeHooks.php` (`preprocessPage`, `footerMeta`, `themeSettingsFormAlter`), `src/RenderCallbacks.php`.
 - There are no PHP tests in the repo (see task 0007); a kernel test for `footerMeta()` and `preprocessPage()` would be the natural first one.
+
+## Outcome
+- The Canvas template lookup is memoised per bundle for the request and guarded by `instanceof NodeInterface` instead of `assert()`. It is still one query per uncached page render, not zero: the result is now covered by the render cache through the content template list cache tag, so cached pages do not run it. The first criterion is therefore only partly met and was not measured with a query count.
+- `preprocessPage()` collects cache metadata and applies it to `$variables['page']`: the Canvas list tag, `config:system.site`, `config:beeswax.settings`, `config:system.theme.global`, and a max-age that expires at New Year when the copyright is shown.
+- `$this->t()` throughout; the settings-form pointer to CUSTOMIZING.md is a form item rather than an info message.
+- Not done: trimming the constructor's injected services, and a kernel test. `RenderCallbacks` waits for task 0010. Not run on a Drupal site.
 
 ## Related
 - Project:: [[theme-health-review]]

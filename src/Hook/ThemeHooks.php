@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\beeswax\Hook;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Breadcrumb\ChainBreadcrumbBuilderInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
@@ -17,7 +18,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
-use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\beeswax\RenderCallbacks;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Contains hook implementations for Beeswax.
  */
 final class ThemeHooks {
-  use MessengerTrait;
   use StringTranslationTrait;
 
   /**
@@ -65,6 +64,13 @@ final class ThemeHooks {
    * The Drupal root.
    */
   private static ?string $appRoot = NULL;
+
+  /**
+   * Canvas template lookups already made this request, by bundle.
+   *
+   * @var array<string, bool>
+   */
+  private array $canvasTemplates = [];
 
   public function __construct(
     private readonly ThemeSettingsProvider $themeSettings,
@@ -120,53 +126,59 @@ final class ThemeHooks {
   public function themeSettingsFormAlter(array &$form): void {
     $form['scheme'] = [
       '#type' => 'radios',
-      '#title' => t('Color scheme'),
+      '#title' => $this->t('Color scheme'),
       '#default_value' => $this->themeSettings->getSetting('scheme'),
       '#options' => [
-        'light' => t('Light'),
-        'dark' => t('Dark'),
-        'auto' => t('Match the device (light or dark)'),
+        'light' => $this->t('Light'),
+        'dark' => $this->t('Dark'),
+        'auto' => $this->t('Match the device (light or dark)'),
       ],
     ];
     $form['footer_contact'] = [
       '#type' => 'textfield',
-      '#title' => t('Footer: contact'),
+      '#title' => $this->t('Footer: contact'),
       '#default_value' => $this->themeSettings->getSetting('footer_contact'),
-      '#description' => t('An email address or a web address (https://…). Shown as a "Contact" link in the footer; leave empty for none.'),
+      '#description' => $this->t('An email address or a web address (https://…). Shown as a "Contact" link in the footer; leave empty for none.'),
     ];
     $form['footer_app_url'] = [
       '#type' => 'textfield',
-      '#title' => t('Footer: app link'),
+      '#title' => $this->t('Footer: app link'),
       '#default_value' => $this->themeSettings->getSetting('footer_app_url'),
-      '#description' => t('A web address (https://…), such as the app\'s App Store page. Shown as a "Get the Vinculum app" link in the footer; leave empty for none.'),
+      '#description' => $this->t('A web address (https://…), such as the app\'s App Store page. Shown as a "Get the Vinculum app" link in the footer; leave empty for none.'),
     ];
     $form['footer_menu'] = [
       '#type' => 'textfield',
-      '#title' => t('Footer: menu'),
+      '#title' => $this->t('Footer: menu'),
       '#default_value' => $this->themeSettings->getSetting('footer_menu'),
-      '#description' => t('The machine name of a menu (such as <code>footer</code>) to list at the left of the footer\'s small print. Remove that menu from the footer component, or its links show twice. Leave empty for none.'),
+      '#description' => $this->t('The machine name of a menu (such as <code>footer</code>) to list at the left of the footer\'s small print. Remove that menu from the footer component, or its links show twice. Leave empty for none.'),
     ];
     $form['footer_copyright'] = [
       '#type' => 'checkbox',
-      '#title' => t('Footer: show "© year site name"'),
+      '#title' => $this->t('Footer: show "© year site name"'),
       '#default_value' => $this->themeSettings->getSetting('footer_copyright'),
     ];
     $form['footer_credit_name'] = [
       '#type' => 'textfield',
-      '#title' => t('Footer: credit name'),
+      '#title' => $this->t('Footer: credit name'),
       '#default_value' => $this->themeSettings->getSetting('footer_credit_name'),
-      '#description' => t('Shows "Made with ♥ by <em>name</em> with a sprinkle of ✦". Leave empty for no credit line.'),
+      '#description' => $this->t('Shows "Made with ♥ by <em>name</em> with a sprinkle of ✦". Leave empty for no credit line.'),
     ];
     $form['footer_credit_url'] = [
       '#type' => 'textfield',
-      '#title' => t('Footer: credit link'),
+      '#title' => $this->t('Footer: credit link'),
       '#default_value' => $this->themeSettings->getSetting('footer_credit_url'),
-      '#description' => t('A web address (https://…) the credit name links to; leave empty for no link.'),
+      '#description' => $this->t('A web address (https://…) the credit name links to; leave empty for no link.'),
     ];
-    $message = $this->t("See <code>@path</code> to learn how to customize Beeswax's fonts, colors, and components.", [
-      '@path' => $this->themeList->getPath('beeswax') . '/CUSTOMIZING.md',
-    ]);
-    $this->messenger()->addMessage($message, 'info');
+    // A description, not a message: a message is queued again every time the
+    // form is built, so it piled up when the form was rebuilt after a
+    // validation error.
+    $form['beeswax_customizing'] = [
+      '#type' => 'item',
+      '#weight' => -100,
+      '#markup' => $this->t("See <code>@path</code> to learn how to customize Beeswax's fonts, colors, and components.", [
+        '@path' => $this->themeList->getPath('beeswax') . '/CUSTOMIZING.md',
+      ]),
+    ];
   }
 
   /**
@@ -226,6 +238,7 @@ final class ThemeHooks {
    */
   #[Hook('preprocess_page')]
   public function preprocessPage(array &$variables): void {
+    $metadata = new CacheableMetadata();
     // @see \Drupal\Core\Block\Plugin\Block\PageTitleBlock::build()
     $variables['title'] = [
       '#type' => 'page_title',
@@ -239,7 +252,7 @@ final class ThemeHooks {
     $variables['breadcrumb'] = $this->breadcrumb->build($this->routeMatch)
       ->toRenderable();
 
-    $variables['footer_meta'] = $this->footerMeta();
+    $variables['footer_meta'] = $this->footerMeta($metadata);
 
     $route_name = $this->routeMatch->getRouteName();
     if ($route_name === 'entity.canvas_page.canonical' || str_starts_with($this->routeMatch->getRouteObject()?->getPath() ?? '', '/canvas/')) {
@@ -247,21 +260,34 @@ final class ThemeHooks {
     }
     elseif ($route_name === 'entity.node.canonical' && $this->moduleHandler->moduleExists('canvas')) {
       $node = $this->routeMatch->getParameter('node');
-      assert($node instanceof NodeInterface);
-
-      $variables['rendered_by_canvas'] = (bool) $this->entityTypeManager->getStorage('content_template')
-        ->getQuery()
-        ->accessCheck(FALSE)
-        ->count()
-        ->condition('content_entity_type_id', 'node')
-        ->condition('content_entity_type_bundle', $node->getType())
-        ->condition('content_entity_type_view_mode', 'full')
-        ->condition('status', TRUE)
-        ->execute();
+      $storage = $this->entityTypeManager->getStorage('content_template');
+      $variables['rendered_by_canvas'] = $node instanceof NodeInterface && $this->hasCanvasTemplate($node->getType());
+      // The answer changes when a content template is added, changed or
+      // removed.
+      $metadata->addCacheTags($storage->getEntityType()->getListCacheTags());
     }
     else {
       $variables['rendered_by_canvas'] = FALSE;
     }
+
+    $metadata->applyTo($variables['page']);
+  }
+
+  /**
+   * Whether an enabled full-view Canvas content template exists for a bundle.
+   *
+   * Memoised for the request, so a page that asks twice runs one query.
+   */
+  private function hasCanvasTemplate(string $bundle): bool {
+    return $this->canvasTemplates[$bundle] ??= (bool) $this->entityTypeManager->getStorage('content_template')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->count()
+      ->condition('content_entity_type_id', 'node')
+      ->condition('content_entity_type_bundle', $bundle)
+      ->condition('content_entity_type_view_mode', 'full')
+      ->condition('status', TRUE)
+      ->execute();
   }
 
   /**
@@ -281,7 +307,10 @@ final class ThemeHooks {
    *   `menu` (a render array or NULL), `links` (list of text and url),
    *   `copyright`, `credit` (name and optional url, or NULL) and `versions`.
    */
-  private function footerMeta(): array {
+  private function footerMeta(CacheableMetadata $metadata): array {
+    // Everything below comes from these settings and the site name, and the
+    // year changes on 1 January.
+    $metadata->addCacheTags(['config:system.site', 'config:beeswax.settings', 'config:system.theme.global']);
     $links = [];
     $contact = trim((string) $this->themeSettings->getSetting('footer_contact'));
     if ($contact !== '') {
@@ -304,6 +333,11 @@ final class ThemeHooks {
     $versions[] = 'Beeswax' . ($theme_version ? ' ' . $theme_version : '');
 
     $site_name = (string) $this->configFactory->get('system.site')->get('name');
+    if ($this->themeSettings->getSetting('footer_copyright')) {
+      // Expire at the turn of the year so the copyright year is never stale.
+      $now = new \DateTimeImmutable();
+      $metadata->setCacheMaxAge(max(1, $now->modify('first day of January next year midnight')->getTimestamp() - $now->getTimestamp()));
+    }
     $credit_name = trim((string) $this->themeSettings->getSetting('footer_credit_name'));
 
     return [
@@ -343,6 +377,4 @@ final class ThemeHooks {
   private function webUrl(string $value): ?string {
     return preg_match('#^https?://[^\s]+$#i', $value) ? $value : NULL;
   }
-
-
 }
