@@ -1,4 +1,11 @@
-@import "tailwindcss";
+/* Tailwind scans only the theme's own markup and scripts for class names.
+   Without this it scans every non-ignored file, docs and notes included, so
+   writing `p-8` in a note changed the compiled CSS (task 0007). */
+@import "tailwindcss" source(none);
+@source "../templates";
+@source "../components";
+@source "../src";
+@source "../lib";
 
 @import "../components/hero-blog/hero-blog.tailwind.css";
 @import "../components/navbar/navbar.tailwind.css";

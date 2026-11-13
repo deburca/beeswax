@@ -8,11 +8,11 @@ To change the fonts or colors, copy the `src/theme.css` and `src/fonts.css` file
 
 ### Light, dark, or the visitor's device
 
-Appearance > Beeswax > **Color scheme** is *Light*, *Dark* or *Match the device*. The dark palette is the `.dark` block in
+Appearance > Beeswax > **Color scheme** is _Light_, _Dark_ or _Match the device_. The dark palette is the `.dark` block in
 `src/theme.css`; it is the same palette the Vinculum iOS app uses (`Palette.swift` there copies these `--bw-*` tokens), so
-change a colour here first, then there. *Match the device* sets the `dark` class on `<html>` from a small inline script in
+change a colour here first, then there. _Match the device_ sets the `dark` class on `<html>` from a small inline script in
 `templates/layout/html.html.twig` (before anything paints, and again when the device's setting changes); with JavaScript off
-the page stays light. If the site's admin theme is Gin, set its *Dark mode* to *Auto* too so its login and admin pages agree.
+the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
 ### HiveLog status colours
 
@@ -44,7 +44,7 @@ name them) and, if you set them under Appearance > Beeswax, a **Contact** link (
 
 Log in, register, reset password, the profile page and edit / cancel account are ordinary pages in this theme (`body.path-user`
 in `src/hivelog.css`): the same header, footer, field boxes and buttons as the HiveLog pages. Drupal draws the edit and
-cancel pages in the *admin* theme unless the route's `_admin_route` option is cleared, and the Gin Login module draws the
+cancel pages in the _admin_ theme unless the route's `_admin_route` option is cleared, and the Gin Login module draws the
 log-in pages in Gin; a site that wants them here must undo both (for example `hvg_landing`'s route subscriber in the
 `cms2` project, and uninstalling Gin Login).
 
