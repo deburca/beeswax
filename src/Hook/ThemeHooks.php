@@ -144,7 +144,7 @@ final class ThemeHooks {
       '#type' => 'textfield',
       '#title' => $this->t('Footer: app link'),
       '#default_value' => $this->themeSettings->getSetting('footer_app_url'),
-      '#description' => $this->t('A web address (https://…), such as the app\'s App Store page. Shown as an app link in the footer (see the label below); leave empty for none.'),
+      '#description' => $this->t("A web address (https://…), such as the app's App Store page. Shown as an app link in the footer (see the label below); leave empty for none."),
     ];
     $form['footer_app_label'] = [
       '#type' => 'textfield',
@@ -156,7 +156,7 @@ final class ThemeHooks {
       '#type' => 'textfield',
       '#title' => $this->t('Footer: menu'),
       '#default_value' => $this->themeSettings->getSetting('footer_menu'),
-      '#description' => $this->t('The machine name of a menu (such as <code>footer</code>) to list at the left of the footer\'s small print. Remove that menu from the footer component, or its links show twice. Leave empty for none.'),
+      '#description' => $this->t("The machine name of a menu (such as <code>footer</code>) to list at the left of the footer's small print. Remove that menu from the footer component, or its links show twice. Leave empty for none."),
     ];
     $form['footer_copyright'] = [
       '#type' => 'checkbox',
@@ -214,7 +214,7 @@ final class ThemeHooks {
    * A site's own form (a demo sign-up, a two-factor code, a captcha step)
    * opts in by adding the same class in its own form.
    *
-   * @see src/hivelog.css "Sign-in cards"
+   * The card style is in the "Sign-in cards" section of src/hivelog.css.
    */
   #[Hook('form_alter')]
   public function formAlter(array &$form, FormStateInterface $form_state, string $form_id): void {
@@ -397,4 +397,5 @@ final class ThemeHooks {
   private function webUrl(string $value): ?string {
     return preg_match('#^https?://[^\s]+$#i', $value) ? $value : NULL;
   }
+
 }
