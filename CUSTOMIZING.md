@@ -14,6 +14,14 @@ change a colour here first, then there. *Match the device* sets the `dark` class
 `templates/layout/html.html.twig` (before anything paints, and again when the device's setting changes); with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its *Dark mode* to *Auto* too so its login and admin pages agree.
 
+### HiveLog status colours
+
+Beeswax maps HiveLog's `--hivelog-*` surface and status tokens from its own `--bw-*` palette (`body.hivelog-page` in
+`src/hivelog.css`), including the `ok` pair (`--hivelog-ok`, `--hivelog-ok-tint`) used for positive states such as an
+inspection's "Clear". Those two tokens first appeared in the HiveLog release that added the `ok` stat-tile sub-line
+(HiveLog task 0256); on an older HiveLog they are simply unused. `--bw-ok` is a yellower green than the pine accent so a
+status stays distinct from the brand colour; it keeps at least 4.5:1 text contrast in both modes.
+
 ### Footer small print
 
 Under the footer region the theme adds one line: the versions running ("HiveLog 3.4.0 · Beeswax 1.3.0", so a bug report can

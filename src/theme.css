@@ -80,6 +80,8 @@
   --bw-critical-tint: #f6e4e2;
   --bw-warning: #a4630a;
   --bw-warning-tint: #f4ead6;
+  --bw-ok: #3d7016;
+  --bw-ok-tint: #e8f3da;
 
   /* Navbar height (kept from Mercury for the hero overlay). */
   --navbar-height: calc(var(--spacing) * 15);
@@ -137,4 +139,6 @@
   --bw-critical-tint: #3a2320;
   --bw-warning: #d99a3c;
   --bw-warning-tint: #352a1a;
+  --bw-ok: #9fd35a;
+  --bw-ok-tint: #27341a;
 }
