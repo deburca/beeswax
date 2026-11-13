@@ -91,10 +91,10 @@
     {% endif %}
   </main>
 
-  {% if page.footer or footer_meta.versions %}
+  {% if page.footer or footer_meta.visible %}
     <footer role="contentinfo">
       {{ page.footer }}
-      {% if footer_meta.versions %}
+      {% if footer_meta.visible %}
         <div class="container mx-auto px-4">
           <div class="beeswax-footer-meta">
             {% if footer_meta.menu or footer_meta.links %}
@@ -112,15 +112,17 @@
             {% if footer_meta.copyright %}
               <p class="beeswax-footer-meta__copyright">{{ footer_meta.copyright }}</p>
             {% endif %}
-            <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
+            {% if footer_meta.versions %}
+              <p class="beeswax-footer-meta__versions">{{ footer_meta.versions }}</p>
+            {% endif %}
             {% if footer_meta.credit %}
+              {% set credit_heart %}<span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--heart">{{ icon('phosphor', 'heart-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'love'|t }}</span>{% endset %}
+              {% set credit_sparkle %}<span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--sparkle">{{ icon('phosphor', 'sparkle-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'sparkles'|t }}</span>{% endset %}
+              {% set credit_name %}{% if footer_meta.credit.url %}<a href="{{ footer_meta.credit.url }}">{{ footer_meta.credit.name }}</a>{% else %}{{ footer_meta.credit.name }}{% endif %}{% endset %}
+              {# One string, so a translation can put the name and the icons where its grammar wants them. The
+                 placeholders are swapped in after translation: t() would escape HTML passed as a placeholder value. #}
               <p class="beeswax-footer-meta__credit">
-                {{ 'Made with'|t }}
-                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--heart">{{ icon('phosphor', 'heart-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'love'|t }}</span>
-                {{ 'by'|t }}
-                {% if footer_meta.credit.url %}<a href="{{ footer_meta.credit.url }}">{{ footer_meta.credit.name }}</a>{% else %}{{ footer_meta.credit.name }}{% endif %}
-                {{ 'with a sprinkle of'|t }}
-                <span class="beeswax-footer-meta__icon beeswax-footer-meta__icon--sparkle">{{ icon('phosphor', 'sparkle-fill', {size: 16}) }}</span><span class="visually-hidden">{{ 'AI'|t }}</span>
+                {{ 'Made with @heart by @name with a sprinkle of @sparkle'|t|replace({'@heart': credit_heart, '@name': credit_name, '@sparkle': credit_sparkle})|raw }}
               </p>
             {% endif %}
           </div>

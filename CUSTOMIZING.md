@@ -39,11 +39,14 @@ geometry (cell 38, outlines drawn at 0.96 of the cell, 10%) is shared with the a
 
 ### Footer small print
 
-Under the footer region the theme adds one line: the versions running ("HiveLog 3.4.0 · Beeswax 1.3.0", so a bug report can
-name them) and, if you set them under Appearance > Beeswax, a **Contact** link (an email address or a web address) and a
-**Get the Vinculum app** link (a web address). Leave a setting empty for no link. The settings are `footer_contact` and
-`footer_app_url` in `beeswax.settings`; the markup is in `templates/layout/page.html.twig` and the style is
-`.beeswax-footer-meta` in `src/hivelog.css`.
+Under the footer region the theme adds a line of small print, set under Appearance > Beeswax. Each part shows only when it is set:
+
+- the versions running ("HiveLog 3.4.0 · Beeswax 1.3.0", so a bug report can name them; **Footer: show the versions** switches it off),
+- a **Contact** link (an email address or a web address),
+- an app link (a web address), worded by **Footer: app link label** (empty reads "Get the app"; the Vinculum sites set "Get the Vinculum app"),
+- a menu, a copyright line, and a credit line ("Made with ♥ by _name_ with a sprinkle of ✦", one translatable string).
+
+The settings are `footer_contact`, `footer_app_url`, `footer_app_label`, `footer_menu`, `footer_copyright`, `footer_versions`, `footer_credit_name` and `footer_credit_url` in `beeswax.settings`; the markup is in `templates/layout/page.html.twig` and the style is `.beeswax-footer-meta` in `src/hivelog.css`. With none set and nothing in the footer region, no footer is drawn.
 
 ### Account pages
 

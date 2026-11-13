@@ -20,6 +20,14 @@ beeswax.settings:
       type: string
       requiredKey: false
       label: Footer app link (a web address)
+    footer_app_label:
+      type: label
+      requiredKey: false
+      label: Footer app link label
+    footer_versions:
+      type: boolean
+      requiredKey: false
+      label: Footer versions line
     footer_menu:
       type: string
       requiredKey: false

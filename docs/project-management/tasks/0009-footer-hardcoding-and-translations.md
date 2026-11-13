@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project: "[[theme-health-review]]"
 area: theme
 created: 2026-11-13
 branch: feature/0009-footer-hardcoding-and-translations
-release:
+release: 1.9.2
 depends-on:
 blocked-by:
 ---
@@ -24,15 +24,23 @@ The footer small print was added for the HiveLog sites (`footerMeta()` in `Theme
 - `footer_copyright` uses `date('Y')` (see the cache note in task 0006).
 
 ## Acceptance criteria
-- [ ] The app-link label is configurable (default neutral, e.g. "Get the app") and the Vinculum wording is only in a site's own settings
-- [ ] The credit line is one translatable string with placeholders
-- [ ] Screen-reader text for the icons reviewed
-- [ ] `config/schema` and `CUSTOMIZING.md` updated for any new setting
+- [x] The app-link label is configurable (default neutral, e.g. "Get the app") and the Vinculum wording is only in a site's own settings
+- [x] The credit line is one translatable string with placeholders
+- [x] Screen-reader text for the icons reviewed
+- [x] `config/schema` and `CUSTOMIZING.md` updated for any new setting
 - [ ] Release note written
 
 ## Implementation notes
 - Key files: `src/Hook/ThemeHooks.php`, `templates/layout/page.html.twig`, `config/install/beeswax.settings.yml`, `config/schema/beeswax.schema.yml`, `CUSTOMIZING.md`, `src/hivelog.css` (`.beeswax-footer-meta`).
 - Existing sites have the current settings stored; adding a setting needs a default that keeps their footer unchanged.
+
+## Outcome
+- New setting `footer_app_label` (empty reads "Get the app"). **Existing sites that set an app link will now read "Get the app" until they set the label**: a theme cannot run an update to keep the old wording, so the 1.9.2 release note must say so. The note is not written here: it lives on PR 16's branch (task 0008), so this task is added to it after that merges.
+- The credit line is one string, `Made with @heart by @name with a sprinkle of @sparkle`. The placeholders are replaced in the template after `|t`, because `t()` escapes HTML given as a placeholder value (checked in core's `FormattableMarkup`).
+- Screen-reader label for the sparkle is now "sparkles" instead of "AI". If the credit is meant to say AI, that wording needs to come back as a setting; flagged for the owner of the footer.
+- New setting `footer_versions` (a stored value that is missing reads as on). The footer no longer always renders: `footer_meta.visible` decides.
+- Schema, install config, form and `CUSTOMIZING.md` updated.
+- Not run on a Drupal site; the `replace`/`raw` rendering of the credit line and the schema `label` type were not exercised.
 
 ## Related
 - Project:: [[theme-health-review]]
