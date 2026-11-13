@@ -28,7 +28,7 @@ The footer small print was added for the HiveLog sites (`footerMeta()` in `Theme
 - [x] The credit line is one translatable string with placeholders
 - [x] Screen-reader text for the icons reviewed
 - [x] `config/schema` and `CUSTOMIZING.md` updated for any new setting
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `src/Hook/ThemeHooks.php`, `templates/layout/page.html.twig`, `config/install/beeswax.settings.yml`, `config/schema/beeswax.schema.yml`, `CUSTOMIZING.md`, `src/hivelog.css` (`.beeswax-footer-meta`).
