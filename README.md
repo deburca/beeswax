@@ -1,6 +1,14 @@
 # Beeswax Theme
 
-Beeswax is a component-based Drupal theme, providing a modern and flexible starting point for site owners to build scalable and efficient websites using [Drupal Canvas](/project/canvas).
+Beeswax is a Drupal theme with a bee and honey identity (a pine and beeswax palette, Fraunces and IBM Plex type, light and dark). It was forked from Mercury and is built with Tailwind CSS and single directory components.
+
+What it provides:
+
+- **A skin for [HiveLog](https://www.drupal.org/project/hivelog)** (`src/hivelog.css`): HiveLog's dashboard, lists, forms and status colours drawn in the Beeswax palette. Beeswax does not need HiveLog; without it that stylesheet has nothing to match.
+- **Account pages:** sign-in, registration, password reset, two-factor and the account edit pages as one framed card.
+- **A footer line:** optional contact, app link, menu, copyright, credit and the versions running.
+- **A honeycomb background** behind HiveLog, account and sign-in pages.
+- **Components** (`components/`) for [Drupal Canvas](/project/canvas) and plain Twig use. Canvas is optional: the HiveLog and account pages do not use it.
 
 ## Customization
 
