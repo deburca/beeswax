@@ -144,7 +144,13 @@ final class ThemeHooks {
       '#type' => 'textfield',
       '#title' => $this->t('Footer: app link'),
       '#default_value' => $this->themeSettings->getSetting('footer_app_url'),
-      '#description' => $this->t('A web address (https://…), such as the app\'s App Store page. Shown as a "Get the Vinculum app" link in the footer; leave empty for none.'),
+      '#description' => $this->t('A web address (https://…), such as the app\'s App Store page. Shown as an app link in the footer (see the label below); leave empty for none.'),
+    ];
+    $form['footer_app_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Footer: app link label'),
+      '#default_value' => $this->themeSettings->getSetting('footer_app_label'),
+      '#description' => $this->t('The words of the app link, such as "Get the Vinculum app". Leave empty for "Get the app".'),
     ];
     $form['footer_menu'] = [
       '#type' => 'textfield',
@@ -156,6 +162,11 @@ final class ThemeHooks {
       '#type' => 'checkbox',
       '#title' => $this->t('Footer: show "© year site name"'),
       '#default_value' => $this->themeSettings->getSetting('footer_copyright'),
+    ];
+    $form['footer_versions'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Footer: show the HiveLog and Beeswax versions'),
+      '#default_value' => $this->themeSettings->getSetting('footer_versions') ?? TRUE,
     ];
     $form['footer_credit_name'] = [
       '#type' => 'textfield',
@@ -305,7 +316,8 @@ final class ThemeHooks {
    *
    * @return array<string, mixed>
    *   `menu` (a render array or NULL), `links` (list of text and url),
-   *   `copyright`, `credit` (name and optional url, or NULL) and `versions`.
+   *   `copyright`, `credit` (name and optional url, or NULL), `versions` and
+   *   `visible` (whether any of them is set).
    */
   private function footerMeta(CacheableMetadata $metadata): array {
     // Everything below comes from these settings and the site name, and the
@@ -321,16 +333,21 @@ final class ThemeHooks {
     }
     $app = $this->webUrl(trim((string) $this->themeSettings->getSetting('footer_app_url')));
     if ($app) {
-      $links[] = ['text' => $this->t('Get the Vinculum app'), 'url' => $app];
+      $label = trim((string) $this->themeSettings->getSetting('footer_app_label'));
+      $links[] = ['text' => $label !== '' ? $label : $this->t('Get the app'), 'url' => $app];
     }
 
+    // Shown unless a site switches it off (a setting stored before this one
+    // existed reads as NULL, which keeps the line).
     $versions = [];
-    if ($this->moduleHandler->moduleExists('hivelog')) {
-      $version = $this->moduleList->getExtensionInfo('hivelog')['version'] ?? '';
-      $versions[] = 'HiveLog' . ($version ? ' ' . $version : '');
+    if ($this->themeSettings->getSetting('footer_versions') ?? TRUE) {
+      if ($this->moduleHandler->moduleExists('hivelog')) {
+        $version = $this->moduleList->getExtensionInfo('hivelog')['version'] ?? '';
+        $versions[] = 'HiveLog' . ($version ? ' ' . $version : '');
+      }
+      $theme_version = $this->themeList->getExtensionInfo('beeswax')['version'] ?? '';
+      $versions[] = 'Beeswax' . ($theme_version ? ' ' . $theme_version : '');
     }
-    $theme_version = $this->themeList->getExtensionInfo('beeswax')['version'] ?? '';
-    $versions[] = 'Beeswax' . ($theme_version ? ' ' . $theme_version : '');
 
     $site_name = (string) $this->configFactory->get('system.site')->get('name');
     if ($this->themeSettings->getSetting('footer_copyright')) {
@@ -340,7 +357,7 @@ final class ThemeHooks {
     }
     $credit_name = trim((string) $this->themeSettings->getSetting('footer_credit_name'));
 
-    return [
+    $meta = [
       'menu' => $this->footerMenu(),
       'links' => $links,
       'copyright' => $this->themeSettings->getSetting('footer_copyright') ? '© ' . date('Y') . ' ' . $site_name : '',
@@ -350,6 +367,9 @@ final class ThemeHooks {
       ],
       'versions' => implode(' · ', $versions),
     ];
+    // Whether there is any small print to draw at all.
+    $meta['visible'] = (bool) array_filter($meta);
+    return $meta;
   }
 
   /**

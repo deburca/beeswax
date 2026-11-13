@@ -1,6 +1,8 @@
 scheme: light
 footer_contact: ''
 footer_app_url: ''
+footer_app_label: ''
+footer_versions: true
 footer_menu: ''
 footer_copyright: false
 footer_credit_name: ''
