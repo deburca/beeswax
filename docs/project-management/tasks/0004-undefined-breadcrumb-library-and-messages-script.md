@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: theme
 created: 2026-11-13
 branch: feature/0004-undefined-breadcrumb-library-and-messages-script
-release:
+release: 1.9.1
 depends-on:
 blocked-by:
 ---
@@ -22,14 +22,19 @@ Two small leftovers from the theme this one was forked from (Mercury / an earlie
 - `lib/messages.js` is registered with `core/drupal` and `core/once` only, which is right, but nothing re-focuses or announces anything after dismissal; consider moving focus to the next sensible element for keyboard users.
 
 ## Acceptance criteria
-- [ ] `beeswax/breadcrumb` is either defined or no longer attached; no "library not found" entries in the Drupal log on a page with a breadcrumb
-- [ ] Behaviour and `once` names no longer mention "byte"
-- [ ] A dismissed message always leaves the layout, with and without transitions
+- [x] `beeswax/breadcrumb` is either defined or no longer attached; no "library not found" entries in the Drupal log on a page with a breadcrumb
+- [x] Behaviour and `once` names no longer mention "byte"
+- [x] A dismissed message always leaves the layout, with and without transitions
 - [ ] Release note written
 
 ## Implementation notes
 - Key files: `templates/navigation/breadcrumb.html.twig`, `beeswax.libraries.yml`, `lib/messages.js`, `templates/misc/status-messages.html.twig`.
 - Verify the undefined-library behaviour on a site (log level and message) before deciding how loud it was.
+
+## Outcome
+- Removed the `attach_library('beeswax/breadcrumb')` call (no script or style was ever meant to ship with it; styling lives in `src/hivelog.css`). Not verified on a live site which log entry the undefined library produced.
+- `lib/messages.js`: behaviour is now `beeswaxMessages` with once id `beeswax-messages`. Dismissal hides immediately under reduced motion, otherwise on `transitionend` or a 400ms timer, whichever comes first. Focus moves to the neighbouring message's close button.
+- Also fixed a stale `byte_theme` namespace in a `page.html.twig` comment.
 
 ## Related
 - Project:: [[theme-health-review]]
