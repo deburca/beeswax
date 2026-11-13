@@ -34,17 +34,10 @@
 <html {{ html_attributes.addClass(html_classes) }}>
   <head>
     {% if scheme|default('light') == 'auto' %}
-      {# Match the device: set the `dark` class before anything paints (no flash of the light page) and follow a change
-         of the device's setting while the page is open. With JavaScript off the page stays light. #}
+      {# Match the device: lib/scheme-auto.js sets the `dark` class before anything paints and follows the device's
+         setting. It is a file, not inline script, so a strict Content-Security-Policy does not break it. #}
+      {{ attach_library('beeswax/scheme-auto') }}
       <meta name="color-scheme" content="light dark">
-      <script>
-        (function () {
-          var query = window.matchMedia('(prefers-color-scheme: dark)');
-          function apply() { document.documentElement.classList.toggle('dark', query.matches); }
-          apply();
-          query.addEventListener('change', apply);
-        })();
-      </script>
     {% endif %}
     <head-placeholder token="{{ placeholder_token }}">
     <title>

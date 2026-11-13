@@ -21,8 +21,20 @@ global:
       # does not reach. Every selector here is `.hivelog-*`-scoped, and it
       # sits in the `theme` CSS group so it always lands after the
       # module's own `component`-group CSS.
-      src/hivelog.css:
+      # Built from src/hivelog.css (npm run build) and minified.
+      build/hivelog.min.css:
         preprocess: false
+        minified: true
+
+# The "match the device" scheme switch. A file rather than an inline script so
+# a Content-Security-Policy that forbids inline script does not break dark
+# mode. Attached from html.html.twig only when the scheme setting is "auto";
+# in the header so it runs before the page paints.
+scheme-auto:
+  version: VERSION
+  header: true
+  js:
+    lib/scheme-auto.js: {}
 
 messages:
   version: VERSION

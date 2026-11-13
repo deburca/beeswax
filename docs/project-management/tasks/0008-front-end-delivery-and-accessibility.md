@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: theme
 created: 2026-11-13
 branch: feature/0008-front-end-delivery-and-accessibility
-release:
+release: 1.9.2
 depends-on:
 blocked-by:
 ---
@@ -25,15 +25,22 @@ How the stylesheets and scripts reach the browser, and a few accessibility gaps,
 - **`!important` and specificity:** `hivelog.css` contains two `!important`s and several `body.hivelog-page` + `:is(...)` chains that exist to beat the module or Tailwind; list them with the reason so they can be retired as HiveLog changes.
 
 ## Acceptance criteria
-- [ ] Decision recorded on how `hivelog.css` is delivered (minified build output, aggregation, or as is) and applied
-- [ ] Dark-mode script works under a strict CSP, or the limitation is documented
+- [x] Decision recorded on how `hivelog.css` is delivered (minified build output, aggregation, or as is) and applied
+- [x] Dark-mode script works under a strict CSP, or the limitation is documented
 - [ ] Axe/Lighthouse accessibility pass on three representative pages in light and dark, with failures fixed or ticketed
-- [ ] `prefers-reduced-motion` honoured by every transition the theme adds
+- [x] `prefers-reduced-motion` honoured by every transition the theme adds
 - [ ] Release note written
 
 ## Implementation notes
 - Key files: `beeswax.libraries.yml`, `templates/layout/html.html.twig`, `src/hivelog.css`, `src/theme.css`, `lib/vendor/tom-select/`.
 - Measure before and after (request count, transferred bytes) on a HiveLog page.
+
+## Outcome
+- **Delivery:** `hivelog.css` is now built with esbuild into `build/hivelog.min.css` (46.6 KB to 25.6 KB) and served as a minified, un-aggregated file like `main.min.css`; `theme.css` and `fonts.css` stay as written. Still one request more than a single bundle; request count not measured on a HiveLog page. Drupal aggregation was not chosen because its CSS minifier is untested here against `:is()`, `mask-composite` and the data-URI mask.
+- **CSP:** the inline "match the device" script is now `lib/scheme-auto.js` in a header library, attached only when the scheme setting is `auto`. Documented in `CUSTOMIZING.md`.
+- **Reduced motion:** one `prefers-reduced-motion: reduce` block in `src/main.css` cuts every transition and animation (it uses `!important`, deliberately, to beat Tailwind utilities and HiveLog rules).
+- **Documented:** Tom Select upgrade procedure (`lib/vendor/README.md`); the `!important`s and specificity chains in `CUSTOMIZING.md`.
+- **Not done:** the axe/Lighthouse pass in light and dark (needs a HiveLog site; the third criterion stays unticked), and the dark-mode contrast spot checks. Nothing was loaded in a browser.
 
 ## Related
 - Project:: [[theme-health-review]]

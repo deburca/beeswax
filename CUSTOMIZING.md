@@ -15,8 +15,8 @@ Two things to know about the copy:
 
 Appearance > Beeswax > **Color scheme** is _Light_, _Dark_ or _Match the device_. The dark palette is the `.dark` block in
 `src/theme.css`; it is the same palette the Vinculum iOS app uses (`Palette.swift` there copies these `--bw-*` tokens), so
-change a colour here first, then there. _Match the device_ sets the `dark` class on `<html>` from a small inline script in
-`templates/layout/html.html.twig` (before anything paints, and again when the device's setting changes); with JavaScript off
+change a colour here first, then there. _Match the device_ sets the `dark` class on `<html>` from a small script (`lib/scheme-auto.js`, attached from
+`templates/layout/html.html.twig`) before anything paints, and again when the device's setting changes; with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
 ### HiveLog status colours
@@ -26,6 +26,18 @@ Beeswax maps HiveLog's `--hivelog-*` surface and status tokens from its own `--b
 inspection's "Clear". Those two tokens first appeared in the HiveLog release that added the `ok` stat-tile sub-line
 (HiveLog task 0256); on an older HiveLog they are simply unused. `--bw-ok` is a yellower green than the pine accent so a
 status stays distinct from the brand colour; it keeps at least 4.5:1 text contrast in both modes.
+
+### Strict Content-Security-Policy
+
+The scheme switch for _Match the device_ is a file (`lib/scheme-auto.js`, library `beeswax/scheme-auto`), not inline script, so a policy that forbids inline script does not break it. The theme's templates add no inline script (`<style>` and inline `style` attributes are a separate directive, `style-src`).
+
+### Compiled CSS
+
+`src/hivelog.css` is minified into `build/hivelog.min.css` by `npm run build`; edit the source, not the build. Only `theme.css` and `fonts.css` are served as written, because those are the ones meant to be copied and hot-edited.
+
+### Where HiveLog.css fights something else
+
+For whoever retires these as HiveLog changes: the two `!important`s in `src/hivelog.css` are on `body.path-user` table headers (`position: static` over Gin's sticky header, and `display: none` for Gin's sticky copy `gin--sticky-table-header`); both go once the admin pages no longer carry Gin's markup. The `body.hivelog-page`, `body.path-user` and `:is(...)` chains exist to outrank the HiveLog module's own `component`-group CSS and Tailwind's utilities, since the skin sits in the `theme` group after them.
 
 ### Honeycomb background
 
