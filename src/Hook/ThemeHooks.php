@@ -211,6 +211,10 @@ final class ThemeHooks {
     $variables['scheme'] = $this->themeSettings->getSetting('scheme');
     // Get the theme base path for font preloading.
     $variables['beeswax_path'] = $this->requestStack->getCurrentRequest()->getBasePath() . '/' . $this->themeList->getPath('beeswax');
+    // Preload only the theme's own fonts: a site that copied fonts.css to the
+    // web root may use a different set, and a preload the page never uses
+    // costs a request and triggers a browser warning.
+    $variables['preload_fonts'] = !file_exists(self::$appRoot . '/fonts.css');
 
     // The `hivelog-page` <body> class that src/hivelog.css scopes to is
     // added by the module itself (hivelog_preprocess_html(), hivelog

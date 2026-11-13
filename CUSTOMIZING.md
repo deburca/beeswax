@@ -6,6 +6,11 @@
 
 To change the fonts or colors, copy the `src/theme.css` and `src/fonts.css` files to the web root, so that `theme.css` and `fonts.css` are sitting next to `index.php`. Commit them to your Git repository, and clear Drupal's cache. You can customize them however you like; changes you make to it will be reflected immediately on your site.
 
+Two things to know about the copy:
+
+- **Font paths.** `fonts.css` refers to the font files with relative URLs (`../fonts/...`), which only resolve from `src/`. In the copy, change each `../fonts/` to the site-absolute path of the theme's `fonts/` directory (for example `/themes/custom/beeswax/fonts/`), or point the rules at your own font files. Drupal serves the copy as it is and does not rewrite URLs.
+- **Preloading and caches.** While no `fonts.css` sits in the web root, the theme preloads Fraunces and IBM Plex Sans (latin). Once you copy it, the preload is skipped, because your set may differ. Adding or removing either copy is picked up after a cache clear.
+
 ### Light, dark, or the visitor's device
 
 Appearance > Beeswax > **Color scheme** is _Light_, _Dark_ or _Match the device_. The dark palette is the `.dark` block in

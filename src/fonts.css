@@ -10,7 +10,10 @@
  * under ./fonts so the site makes no third-party request.
  *
  * preprocess: false — edit without rebuilding the compiled CSS. Copy this
- * file next to index.php to hot-edit.
+ * file next to index.php to hot-edit. The font URLs below are relative to
+ * this file, so in the copy change each `../fonts/` to the site-absolute path
+ * of the theme's fonts directory (for example `/themes/custom/beeswax/fonts/`)
+ * or to your own files. The theme then stops preloading its fonts.
  */
 
 /* Fraunces — variable (opsz 9..144, wght 400..600). */
