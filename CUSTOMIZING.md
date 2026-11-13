@@ -27,6 +27,18 @@ inspection's "Clear". Those two tokens first appeared in the HiveLog release tha
 (HiveLog task 0256); on an older HiveLog they are simply unused. `--bw-ok` is a yellower green than the pine accent so a
 status stays distinct from the brand colour; it keeps at least 4.5:1 text contrast in both modes.
 
+### Strict Content-Security-Policy
+
+The scheme switch for _Match the device_ is a file (`lib/scheme-auto.js`, library `beeswax/scheme-auto`), not inline script, so a policy that forbids inline script does not break it. The theme's templates add no inline script (`<style>` and inline `style` attributes are a separate directive, `style-src`).
+
+### Compiled CSS
+
+`src/hivelog.css` is minified into `build/hivelog.min.css` by `npm run build`; edit the source, not the build. Only `theme.css` and `fonts.css` are served as written, because those are the ones meant to be copied and hot-edited.
+
+### Where HiveLog.css fights something else
+
+For whoever retires these as HiveLog changes: the two `!important`s in `src/hivelog.css` are on `body.path-user` table headers (`position: static` over Gin's sticky header, and `display: none` for Gin's sticky copy `gin--sticky-table-header`); both go once the admin pages no longer carry Gin's markup. The `body.hivelog-page`, `body.path-user` and `:is(...)` chains exist to outrank the HiveLog module's own `component`-group CSS and Tailwind's utilities, since the skin sits in the `theme` group after them.
+
 ### Honeycomb background
 
 HiveLog pages, the account pages and the sign-in cards get a faint honeycomb behind the top of the page, the same one the

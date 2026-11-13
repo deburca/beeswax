@@ -400,3 +400,18 @@
     opacity: 1;
   }
 }
+
+/* Reduced motion: every transition and animation the theme (or a Tailwind
+   class) adds is cut to an instant change. The scroll-in reveal handles
+   reduced motion itself, in motion.js. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
