@@ -28,7 +28,7 @@ The theme commits its compiled output (`build/main.min.css`, `build/motion.js`) 
 - [x] `format` no longer touches unrelated files; `AGENTS.md` updated to match
 - [x] A GitHub Actions workflow runs `format:check`, the build and a `git diff --exit-code build/`, plus `php -l` (and phpcs if adopted) on pull requests
 - [x] `package.json` version is either kept in sync with releases or removed
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `package.json`, `package-lock.json`, `.prettierrc`, `.github/` (new), `AGENTS.md` (workflow section), `build/`.

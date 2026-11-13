@@ -25,7 +25,7 @@ Two small leftovers from the theme this one was forked from (Mercury / an earlie
 - [x] `beeswax/breadcrumb` is either defined or no longer attached; no "library not found" entries in the Drupal log on a page with a breadcrumb
 - [x] Behaviour and `once` names no longer mention "byte"
 - [x] A dismissed message always leaves the layout, with and without transitions
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `templates/navigation/breadcrumb.html.twig`, `beeswax.libraries.yml`, `lib/messages.js`, `templates/misc/status-messages.html.twig`.

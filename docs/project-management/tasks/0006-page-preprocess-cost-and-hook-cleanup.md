@@ -30,7 +30,7 @@ blocked-by:
 - [x] No `assert()` guarding a dereference
 - [x] `footer_meta` and `rendered_by_canvas` carry correct cache metadata
 - [x] One translation style; no accumulated info messages on the settings form
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key file: `src/Hook/ThemeHooks.php` (`preprocessPage`, `footerMeta`, `themeSettingsFormAlter`), `src/RenderCallbacks.php`.

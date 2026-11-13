@@ -29,7 +29,7 @@ Files and metadata that nothing uses, or that still describe the theme this was 
 ## Acceptance criteria
 - [x] Unreferenced files removed; duplicate images collapsed to one copy each
 - [x] `screenshot.png` optimised
-- [ ] Decision recorded on the Canvas components (keep, trim to the used ones, or move to a separate branch) and applied
+- [x] Decision recorded on the Canvas components (keep, trim to the used ones, or move to a separate branch) and applied (decided in [[0012-canvas-components-and-bundled-assets]]: keep all)
 - [x] README and `composer.json` describe the theme as it is today (HiveLog skin, account pages, footer, honeycomb), `generator` removed or corrected
 - [x] Release note written
 
