@@ -15,8 +15,8 @@ Two things to know about the copy:
 
 Appearance > Beeswax > **Color scheme** is _Light_, _Dark_ or _Match the device_. The dark palette is the `.dark` block in
 `src/theme.css`; it is the same palette the Vinculum iOS app uses (`Palette.swift` there copies these `--bw-*` tokens), so
-change a colour here first, then there. _Match the device_ sets the `dark` class on `<html>` from a small inline script in
-`templates/layout/html.html.twig` (before anything paints, and again when the device's setting changes); with JavaScript off
+change a colour here first, then there. _Match the device_ sets the `dark` class on `<html>` from a small script (`lib/scheme-auto.js`, attached from
+`templates/layout/html.html.twig`) before anything paints, and again when the device's setting changes; with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
 ### HiveLog status colours
