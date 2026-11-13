@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project:
 area: theme
 created: 2026-11-13
 branch: feature/0001-hivelog-ok-tokens
-release:
+release: 1.9.0
 depends-on:
 blocked-by:
 ---
@@ -27,12 +27,12 @@ The first HiveLog page to emit the `ok` variant is the inspection page (hivelog 
 more. Needs the HiveLog release that contains task 0256.
 
 ## Acceptance criteria
-- [ ] `src/hivelog.css` maps `--hivelog-ok` and `--hivelog-ok-tint` in the `body.hivelog-page` block, beside critical and warning
-- [ ] `src/theme.css` defines `--bw-ok` and `--bw-ok-tint`, light and dark (`.dark`), rather than aliasing `--bw-accent`: "ok" is a status and must stay distinguishable from the brand colour on a tile that also has accent-coloured links
-- [ ] Text contrast of `--bw-ok` on `--bw-surface`, and of the sub-line on the tile, is at least 4.5:1 in both modes
+- [x] `src/hivelog.css` maps `--hivelog-ok` and `--hivelog-ok-tint` in the `body.hivelog-page` block, beside critical and warning
+- [x] `src/theme.css` defines `--bw-ok` and `--bw-ok-tint`, light and dark (`.dark`), rather than aliasing `--bw-accent`: "ok" is a status and must stay distinguishable from the brand colour on a tile that also has accent-coloured links
+- [x] Text contrast of `--bw-ok` on `--bw-surface`, and of the sub-line on the tile, is at least 4.5:1 in both modes
 - [ ] The `ok` sub-line renders on a stat tile in light and dark (an inspection with disease signs "None" on a HiveLog site shows one)
-- [ ] The minimum HiveLog version that introduced the tokens is stated where the theme documents its HiveLog expectations (`CUSTOMIZING.md`, and the release note)
-- [ ] Release note written for the version that ships this
+- [x] The minimum HiveLog version that introduced the tokens is stated where the theme documents its HiveLog expectations (`CUSTOMIZING.md`, and the release note)
+- [x] Release note written for the version that ships this
 
 ## Implementation notes
 - Key files: `src/theme.css` (palette: light block near `--bw-accent`, dark block under `.dark`), `src/hivelog.css` (token mapping, `body.hivelog-page` block), `CUSTOMIZING.md`.

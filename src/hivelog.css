@@ -81,6 +81,8 @@ body.hivelog-page {
   --hivelog-critical-tint: var(--bw-critical-tint);
   --hivelog-warning: var(--bw-warning);
   --hivelog-warning-tint: var(--bw-warning-tint);
+  --hivelog-ok: var(--bw-ok);
+  --hivelog-ok-tint: var(--bw-ok-tint);
 }
 
 /* ------------------------------------------------------------------ *
