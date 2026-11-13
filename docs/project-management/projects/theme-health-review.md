@@ -27,7 +27,7 @@ WHERE contains(string(project), this.file.name)
 SORT priority asc, file.name asc
 ```
 
-Suggested order: [[0003-group-animations-hide-content]], [[0004-undefined-breadcrumb-library-and-messages-script]], [[0005-fonts-css-copy-to-web-root]], [[0006-page-preprocess-cost-and-hook-cleanup]], [[0007-build-reproducibility-ci-and-checks]], [[0008-front-end-delivery-and-accessibility]], [[0009-footer-hardcoding-and-translations]], [[0010-dead-assets-and-stale-metadata]]. Follow-ups opened after 1.9.2: [[0011-accessibility-pass-and-contrast-checks]], [[0012-canvas-components-and-bundled-assets]].
+Suggested order: [[0003-group-animations-hide-content]], [[0004-undefined-breadcrumb-library-and-messages-script]], [[0005-fonts-css-copy-to-web-root]], [[0006-page-preprocess-cost-and-hook-cleanup]], [[0007-build-reproducibility-ci-and-checks]], [[0008-front-end-delivery-and-accessibility]], [[0009-footer-hardcoding-and-translations]], [[0010-dead-assets-and-stale-metadata]]. Follow-ups opened after 1.9.2: [[0011-accessibility-pass-and-contrast-checks]], [[0012-canvas-components-and-bundled-assets]], [[0013-php-quality-tests-and-ignored-templates]].
 
 ## Open questions
 - Is any of the Canvas component library (`components/`, 25 components) used by the HiveLog sites? Removing unused ones is only safe once that is known (task 0010).
