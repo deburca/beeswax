@@ -67,7 +67,7 @@ Scope agreed: HiveLog pages, account pages and sign-in cards only; the 380pt fad
 - [x] The pattern's geometry matches the app's (column spacing `cell * sqrt(3)`, row spacing `cell * 1.5`, odd rows offset by half a column, outlines at 0.96 of the cell)
 - [x] It takes no clicks or focus, adds no scrollbars or horizontal overflow, and is not announced by screen readers (pseudo-element, no content)
 - [x] Light, dark and *Match the device* all look right; text contrast of headings and body text over the pattern is unchanged (the pattern is too faint to count, but check the area just under the header)
-- [ ] Phone, tablet and desktop widths: it covers the width, and the fade does not crowd the page title on a short screen
+- [x] Phone, tablet and desktop widths: it covers the width, and the fade does not crowd the page title on a short screen (checked at 375px and 1024px)
 - [x] Printing hides it
 - [x] `CUSTOMIZING.md` documents the tokens and how to turn it off; the geometry note (cell, 0.96, 10%) is kept in sync with Vinculum's `HoneycombBackground.swift`, as the dark palette already is
 - [x] Release note written for the version that ships this
