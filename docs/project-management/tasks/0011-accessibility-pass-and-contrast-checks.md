@@ -22,7 +22,7 @@ Left open when [[0008-front-end-delivery-and-accessibility]] shipped in 1.9.2. T
 - [x] Keyboard pass: focus visible and in a sensible order on the three pages, Tom Select open/select/close by keyboard, the message close button (focus now moves to the next message, from task 0004)
 - [x] Failures fixed, or each ticketed as its own task with the page and rule
 - [ ] Reduced motion checked on a real device or with the OS setting (group animations from task 0003, message dismissal from 0004, the blanket rule from 0008)
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `src/theme.css` (palette, `.dark` block), `src/hivelog.css`, `src/tom-select.css`, `lib/hivelog-select.js`, `lib/messages.js`.
