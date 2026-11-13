@@ -43,7 +43,7 @@ body.hivelog-page .ts-wrapper.single .ts-control {
   min-height: 2.25rem;
   align-items: center;
   padding: 0.35rem 1.6rem 0.35rem 0.5rem;
-  border: 1px solid var(--bw-hairline);
+  border: 1px solid var(--bw-field-border);
   border-radius: 4px;
   background: var(--bw-surface);
   color: var(--bw-ink);
