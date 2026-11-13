@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: theme
 created: 2026-11-13
 branch: feature/0005-fonts-css-copy-to-web-root
-release:
+release: 1.9.1
 depends-on:
 blocked-by:
 ---
@@ -23,14 +23,20 @@ blocked-by:
 - `file_exists(self::$appRoot . '/theme.css')` runs on each `library_info_alter` for the beeswax extension; cheap, but the result is not cached with the library info beyond the normal library cache, so adding or removing the copy needs a cache clear (documented? say so).
 
 ## Acceptance criteria
-- [ ] A copied `fonts.css` loads the theme's fonts correctly (use site-absolute URLs such as `/themes/contrib/beeswax/fonts/...` in the copy instructions, or have the hook rewrite the URLs, or ship the fonts path as a CSS variable)
-- [ ] `CUSTOMIZING.md` explains the font paths for a copied file and the cache clear
-- [ ] Preload follows the active font set (skip it, or make it a theme setting) so it never preloads files the page does not use
+- [x] A copied `fonts.css` loads the theme's fonts correctly (use site-absolute URLs such as `/themes/contrib/beeswax/fonts/...` in the copy instructions, or have the hook rewrite the URLs, or ship the fonts path as a CSS variable)
+- [x] `CUSTOMIZING.md` explains the font paths for a copied file and the cache clear
+- [x] Preload follows the active font set (skip it, or make it a theme setting) so it never preloads files the page does not use
 - [ ] Release note written
 
 ## Implementation notes
 - Key files: `src/fonts.css`, `src/Hook/ThemeHooks.php` (`alterLibraryInfo`, `preprocessHtml` sets `beeswax_path`), `templates/includes/preload.twig`, `CUSTOMIZING.md`.
 - Test on a real site: copy both files, clear caches, check the network panel for the `.woff2` requests.
+
+## Outcome
+- Chose documentation over rewriting URLs: Drupal serves the copy unprocessed, so `CUSTOMIZING.md` and a note in `src/fonts.css` tell the site to use site-absolute font paths.
+- `preprocessHtml` sets `preload_fonts` (false when `fonts.css` exists in the web root); `html.html.twig` includes `preload.twig` only then, and now with `only`.
+- Cache clear after adding or removing a copy is documented.
+- Not done: preloading is not a theme setting, and Fraunces still preloads on every page by default. Not tested on a real site.
 
 ## Related
 - Project:: [[theme-health-review]]

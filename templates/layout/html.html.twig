@@ -52,7 +52,9 @@
     </title>
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
-    {% include '@beeswax/includes/preload.twig' %}
+    {% if preload_fonts %}
+      {% include '@beeswax/includes/preload.twig' with { beeswax_path: beeswax_path } only %}
+    {% endif %}
   </head>
   <body {{ attributes.addClass(body_classes) }}>
     {#
