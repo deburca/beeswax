@@ -374,3 +374,22 @@
     @apply text-lg md:text-xl; /* H5 */
   }
 }
+
+/* Scroll-in animations (the `group` component's `animation` prop, see
+   src/motion.js). Hidden only while scripting is on and the visitor has not
+   asked for reduced motion; without JavaScript, or with reduced motion, the
+   content is simply there. `data-animated` is set when the reveal starts. If
+   motion.js never runs (blocked, errored) the timer below reveals the
+   content after a few seconds rather than leaving it invisible. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-animation]:not([data-animation=""]):not([data-animated]) {
+    opacity: 0;
+    animation: bw-reveal 1ms 4s forwards;
+  }
+}
+
+@keyframes bw-reveal {
+  to {
+    opacity: 1;
+  }
+}

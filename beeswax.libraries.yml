@@ -36,6 +36,7 @@ motion:
   js:
     build/motion.js: { minified: true }
   dependencies:
+    - core/drupal
     - core/once
 
 # Upgrades HiveLog <select>s to Tom Select so the option list can be
