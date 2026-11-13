@@ -1,7 +1,7 @@
 ---
 type: task
 tags: [beeswax/task]
-status: in-progress
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: theme
@@ -19,7 +19,7 @@ Left open when [[0008-front-end-delivery-and-accessibility]] shipped in 1.9.2. T
 ## Acceptance criteria
 - [x] axe (or Lighthouse) run on pages in light and dark: a HiveLog list page, a form, and the sign-in card (no vertical-tabs form on the demo)
 - [x] Text contrast of at least 4.5:1 and non-text contrast (borders, focus rings, control outlines) of at least 3:1 for the `--bw-*` and `--hivelog-*` tokens in both modes, computed and recorded in `CUSTOMIZING.md` or the task
-- [ ] Keyboard pass: focus visible and in a sensible order on the three pages, Tom Select open/select/close by keyboard, the message close button (focus now moves to the next message, from task 0004)
+- [x] Keyboard pass: focus visible and in a sensible order on the three pages, Tom Select open/select/close by keyboard, the message close button (focus now moves to the next message, from task 0004)
 - [x] Failures fixed, or each ticketed as its own task with the page and rule
 - [ ] Reduced motion checked on a real device or with the OS setting (group animations from task 0003, message dismissal from 0004, the blanket rule from 0008)
 - [ ] Release note written
@@ -45,7 +45,11 @@ Site: `hivelog/demo` (DDEV, Drupal 11.4.11, HiveLog 4.1.1, Beeswax copied from t
 - **Contrast:** no violations on any of the five pages in either mode after the earlier token fixes. axe cannot judge contrast under the honeycomb (it reports every text as "incomplete" because of the pseudo-element), so it was re-run with the honeycomb hidden; the worst case under a honeycomb line is `--bw-ink-muted` at 4.70:1 in light and 6.73:1 in dark (computed). A few items stay "incomplete" (the app-nav chips, two text areas, the error message title) and were not judged by eye.
 - **Keyboard:** Tom Select opens with Enter, moves with the arrow keys, selects with Enter, and shows a visible pine focus border.
 - **Not caused by the theme:** two `landmark-unique` and the duplicated page title and breadcrumb come from the demo site placing the breadcrumb and page-title blocks that the page template already renders; the Claro toolbar and admin pages are not Beeswax.
-- **Not done:** a form with vertical tabs (none found on the demo), reduced motion (the pane cannot emulate it), the message close button's focus move (no message shown), and live-checking `lib/scheme-auto.js` under a strict CSP.
+- **Second pass (same demo, current `main`):** a throwaway content type with the node form shown in Beeswax gave a page with vertical tabs. With the skin class on the page (the skin only styles `body.hivelog-page`) axe finds no contrast or other violations in light or dark, and the tabs work by keyboard (Tab reaches them, Enter selects, a 2px pine focus outline). **Outside HiveLog pages the vertical tabs are unthemed: in dark mode core's light-grey tabs carry the theme's light text (1.04:1).** That is a gap in scope, not a regression, and is left as is; it would need the vertical-tabs rules unscoped. No HiveLog form on the demo has vertical tabs, so the rules were only proven on this stand-in.
+- **Messages:** status messages render with `role="status"`; dismissing one hides it, and when it was the last one focus now moves to `<main>` (it was left unplaced before). Neighbouring-message focus was not exercised.
+- **Scheme script:** with the scheme set to *Match the device*, `scheme-auto.js` loads from the header, there is no inline script in the markup, and `dark` is set from the device. No strict CSP header was applied to prove the point.
+- The throwaway content type, its nodes and the config changes were removed from the demo; its `composer.json` and `composer.lock` still carry `drupal/cva`.
+- **Still open:** reduced motion on a real device (the pane cannot emulate it), and the same audit on a real site (`hivelog.ddev.site` is blocked in the pane).
 
 ## Related
 - Project:: [[theme-health-review]]
