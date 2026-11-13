@@ -515,7 +515,7 @@ npm run format
 npm run build
 ```
 
-**Note**: `npm run format` only touches what `.prettierignore` does not exclude (it skips `docs/`, `lib/vendor/`, `build/`, the Drupal info and config YAML, and a few hand-formatted templates), so it no longer rewrites unrelated files. The build is reproducible (Tailwind scans only `templates/`, `components/`, `src/` and `lib/`, not docs or notes), so a clean tree must not change after `npm run build`. CI (`.github/workflows/ci.yml`) runs `npm run format:check`, `npm run check:build` (rebuilds and fails if `build/` differs from what is committed) and `php -l` on `src/**/*.php`: run the first two locally before pushing.
+**Note**: `npm run format` only touches what `.prettierignore` does not exclude (it skips `docs/`, `lib/vendor/`, `build/`, the Drupal info and config YAML, and a few hand-formatted templates), so it no longer rewrites unrelated files. The build is reproducible (Tailwind scans only `templates/`, `components/`, `src/` and `lib/`, not docs or notes), so a clean tree must not change after `npm run build`. CI (`.github/workflows/ci.yml`) runs `npm run format:check`, `npm run check:build` (rebuilds and fails if `build/` differs from what is committed) and `php -l` on `src/**/*.php` and `phpcs` (Drupal and DrupalPractice) on `src` and `tests`: run the first two locally before pushing, and phpcs if you touch PHP. Kernel tests are described in `tests/README.md`.
 
 **Note**: These commands should be run from the Beeswax theme directory (`web/themes/custom/beeswax/`). Running these commands ensures that:
 - Code follows consistent formatting standards

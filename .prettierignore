@@ -23,11 +23,6 @@ composer.json
 docs/
 # Vendored third-party code (Tom Select) is kept exactly as released.
 lib/vendor/
-# These two templates use Twig tags inside HTML tags, which the Twig plugin
-# cannot parse (and which AGENTS.md says not to write): fix the templates,
-# then remove these lines.
-templates/field/field--node--field-content.html.twig
-templates/navigation/menu--main.html.twig
 # Inline icons and text in the footer small print are hand-formatted: Prettier
 # adds whitespace inside the spans, which shifts the icons.
 templates/layout/page.html.twig

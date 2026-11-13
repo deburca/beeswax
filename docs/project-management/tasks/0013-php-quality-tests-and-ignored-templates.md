@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project: "[[theme-health-review]]"
 area: tests
 created: 2026-11-13
 branch: feature/0013-php-quality-tests-and-ignored-templates
-release:
+release: 1.9.3
 depends-on:
 blocked-by:
 ---
@@ -25,16 +25,24 @@ Left open by [[0006-page-preprocess-cost-and-hook-cleanup]] and [[0007-build-rep
 - **`CUSTOMIZING.md`/`AGENTS.md`:** say how to run whatever checks are added.
 
 ## Acceptance criteria
-- [ ] phpcs (and phpstan if adopted) pass locally and run in `.github/workflows/ci.yml`
-- [ ] At least one test covers `footerMeta()` and the `preprocessPage()` cache metadata, and runs in CI or has documented steps to run
-- [ ] The two ignored templates follow the `AGENTS.md` rules and are no longer in `.prettierignore`, with their rendered output checked
-- [ ] Constructor dependencies reduced, or a note says why they stay
-- [ ] Release note written
+- [x] phpcs (and phpstan if adopted) pass locally and run in `.github/workflows/ci.yml`
+- [x] At least one test covers `footerMeta()` and the `preprocessPage()` cache metadata, and runs in CI or has documented steps to run
+- [x] The two ignored templates follow the `AGENTS.md` rules and are no longer in `.prettierignore`, with their rendered output checked
+- [x] Constructor dependencies reduced, or a note says why they stay
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `src/Hook/ThemeHooks.php`, `src/RenderCallbacks.php`, `.github/workflows/ci.yml`, `.prettierignore`, `AGENTS.md`, the two templates above.
 - Keep CI fast: it is about 15 seconds now. A Drupal-based test job is much heavier; consider running it only on PHP changes.
 - Needs a Drupal site or a composer-built test harness; neither exists in the repo.
+
+## Outcome
+- **phpcs:** Drupal and DrupalPractice standards run in CI (`src` and `tests`). It found five problems in `ThemeHooks.php` (two backslash-escaped translatable strings, a `@see` with extra text, and the class's closing-brace spacing, which 0006 had removed wrongly): fixed. CI installs `drupal/coder` with composer; that job was written, not run, until this PR's checks. phpstan was not adopted: a theme with one class gives it little to check and it needs a Drupal codebase.
+- **Kernel test:** `tests/src/Kernel/FooterMetaTest.php`, five tests (versions by default, nothing visible when switched off, the app label default and override, a non-http(s) address dropped, cache tags and the New Year max-age). It passes on a real Drupal (PHPUnit 11.5, PHP 8.4, the `../cms2` codebase with the theme temporarily overlaid, restored afterwards). Not run in CI (needs `core-dev`); steps are in `tests/README.md`. `preprocessPage()` itself (the Canvas lookup and its cache tag) has no test: it needs a routed request.
+- **Templates:** `field--node--field-content` and `menu--main` follow the `AGENTS.md` rules and are out of `.prettierignore`. Checked on the hivelog demo: the main menu HTML is the same as before apart from whitespace, and the active-trail class and `aria-current` still appear on the front page. The formatter turns `(a ?: b).addClass()` into `a ?: b.addClass()`, which silently skips the classes, so the template builds the attributes in two steps (noted in a comment).
+- Also fixed: the main menu's `aria-label` came from an undefined `menu_label`, so it was empty; it now reads "Main navigation".
+- **Constructor:** left at 11 services. Title, breadcrumb and route match feed `preprocessPage()` for the page template; replacing them with blocks would change rendering, and splitting the footer into its own class needs a service registration a theme cannot declare. Revisit if the hook class grows.
+- **`page.html.twig`** stays in `.prettierignore` (its inline icon spans are hand-formatted); the credit line's `|replace|raw` output is not covered by a test.
 
 ## Related
 - Project:: [[theme-health-review]]
