@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: high
 project: "[[theme-health-review]]"
 area: components
 created: 2026-11-13
 branch: feature/0003-group-animations-hide-content
-release:
+release: 1.9.1
 depends-on:
 blocked-by:
 ---
@@ -24,11 +24,11 @@ The `group` component (`components/group/group.twig`) takes an `animation` prop.
 - `fade_*` transforms are fixed at 100px; the delay and duration data attributes are read without validation (fine, but an invalid value silently becomes the default).
 
 ## Acceptance criteria
-- [ ] With JavaScript disabled, animated groups are fully visible (hide with a `js`-set class on `<html>`, or reveal with a `<noscript>`/CSS fallback, rather than `opacity-0` unconditionally)
-- [ ] A group taller than the viewport still animates in (use a fractional `amount`, or a `margin`, and test on a 375px viewport)
-- [ ] Under `prefers-reduced-motion: reduce` groups appear without movement (and ideally without the fade)
-- [ ] Groups added after load animate too (Drupal behaviour + `once()`)
-- [ ] `npm run build` output regenerated and committed; release note written
+- [x] With JavaScript disabled, animated groups are fully visible (hide with a `js`-set class on `<html>`, or reveal with a `<noscript>`/CSS fallback, rather than `opacity-0` unconditionally)
+- [x] A group taller than the viewport still animates in (use a fractional `amount`, or a `margin`, and test on a 375px viewport)
+- [ ] Under `prefers-reduced-motion: reduce` groups appear without movement (and ideally without the fade) (implemented in CSS and JS; not exercised in a browser, the pane cannot emulate the setting: check once on a real device)
+- [x] Groups added after load animate too (Drupal behaviour + `once()`)
+- [x] `npm run build` output regenerated and committed; release note written
 
 ## Implementation notes
 - Key files: `components/group/group.twig` (CVA `animation` variants), `src/motion.js`, `beeswax.libraries.yml` (`motion` library), `build/motion.js`.
@@ -37,3 +37,10 @@ The `group` component (`components/group/group.twig`) takes an `animation` prop.
 
 ## Related
 - Project:: [[theme-health-review]]
+
+## Done
+- `components/group/group.twig`: the `opacity-0` variants are gone; the group only carries `data-animation`, `data-delay`, `data-duration`.
+- `src/main.css`: groups are hidden only inside `@media (scripting: enabled) and (prefers-reduced-motion: no-preference)`, and only until `data-animated` is set. A CSS timer (`bw-reveal`, 4s) reveals them if `motion.js` never runs, so content cannot stay invisible. Browsers without `scripting` media-query support never hide.
+- `src/motion.js`: a Drupal behaviour (`beeswaxMotion`, `once`) so groups added later animate; one `inView` observer per element, `amount: "some"` with a -10% bottom margin, dropped after the first reveal (scrolling back no longer replays it); reduced motion reveals with no movement; inline `opacity`/`transform` are cleared afterwards.
+- `beeswax.libraries.yml`: the `motion` library now depends on `core/drupal`.
+- Tested on a static page with the built CSS and JS and stubbed `Drupal`/`once`: below-the-fold groups hidden until scrolled to, a 3000px-tall group reveals when its top enters, no-JS and unloaded-script cases reveal after the timer, an empty `animation` is never hidden.
