@@ -1,7 +1,7 @@
 ---
 type: task
 tags: [beeswax/task]
-status: review
+status: done
 priority: medium
 project: "[[theme-health-review]]"
 area: theme
