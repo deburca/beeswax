@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Formatting
+        run: npm run format:check
+
+      # Rebuilds build/ and fails if the committed output differs: someone
+      # changed a source file (or the toolchain) and did not commit the build.
+      - name: Build is up to date
+        run: npm run check:build
+
+      - name: PHP syntax
+        run: find src -name '*.php' -print0 | xargs -0 -n1 php -l

@@ -18,3 +18,20 @@ components/**/*.css
 package-lock.json
 # JSON files are indented differently according to Drupal coding standards.
 composer.json
+# The project-management vault: notes carry Dataview queries, inline-array
+# frontmatter and hand-aligned tables that Prettier rewrites.
+docs/
+# Vendored third-party code (Tom Select) is kept exactly as released.
+lib/vendor/
+# These two templates use Twig tags inside HTML tags, which the Twig plugin
+# cannot parse (and which AGENTS.md says not to write): fix the templates,
+# then remove these lines.
+templates/field/field--node--field-content.html.twig
+templates/navigation/menu--main.html.twig
+# Inline icons and text in the footer small print are hand-formatted: Prettier
+# adds whitespace inside the spans, which shifts the icons.
+templates/layout/page.html.twig
+# Drupal's own YAML files keep Drupal's single-quote convention, and the
+# release flow edits the version line in the info file by hand.
+beeswax.info.yml
+config/

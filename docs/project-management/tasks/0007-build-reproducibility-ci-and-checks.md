@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[theme-health-review]]"
 area: tooling
 created: 2026-11-13
 branch: feature/0007-build-reproducibility-ci-and-checks
-release:
+release: 1.9.1
 depends-on:
 blocked-by:
 ---
@@ -24,10 +24,10 @@ The theme commits its compiled output (`build/main.min.css`, `build/motion.js`) 
 - **Versions out of step:** `package.json` says `version 1.0.3` while the theme is 1.9.0 (the tags and `beeswax.info.yml` agree with each other). `generator: mercury:1.0.5` in `beeswax.info.yml` is stale.
 
 ## Acceptance criteria
-- [ ] `npm ci && npm run build` is byte-for-byte reproducible and matches the committed `build/` (pin exact versions or rely on the lockfile with `npm ci`, and document the Node version in `.nvmrc`/`engines`)
-- [ ] `format` no longer touches unrelated files; `AGENTS.md` updated to match
-- [ ] A GitHub Actions workflow runs `format:check`, the build and a `git diff --exit-code build/`, plus `php -l` (and phpcs if adopted) on pull requests
-- [ ] `package.json` version is either kept in sync with releases or removed
+- [x] `npm ci && npm run build` is byte-for-byte reproducible and matches the committed `build/` (pin exact versions or rely on the lockfile with `npm ci`, and document the Node version in `.nvmrc`/`engines`)
+- [x] `format` no longer touches unrelated files; `AGENTS.md` updated to match
+- [x] A GitHub Actions workflow runs `format:check`, the build and a `git diff --exit-code build/`, plus `php -l` (and phpcs if adopted) on pull requests
+- [x] `package.json` version is either kept in sync with releases or removed
 - [ ] Release note written
 
 ## Implementation notes
@@ -37,3 +37,10 @@ The theme commits its compiled output (`build/main.min.css`, `build/motion.js`) 
 
 ## Related
 - Project:: [[theme-health-review]]
+
+## Done
+- **Root cause of the unstable build was not the toolchain** (installed Tailwind 4.3.3, esbuild 0.28.2 and motion match the lockfile, and two builds in a row are byte-identical). Tailwind v4 scans every non-ignored file for class names, so any note that mentioned `isolate`, `table`, `drop-shadow`, `ease-in` or an example like AGENTS.md's `bg-[var(--hgc-btn-bg)]` made it into `build/main.min.css`; writing `bg-red-500` in a docs file added that rule. `src/main.css` now uses `@import "tailwindcss" source(none)` plus `@source` for `templates`, `components`, `src` and `lib`. This drops about 1.7 KB of unused rules (none from the theme's own markup: every dropped rule came from AGENTS.md or prose in docs).
+- `.prettierignore` now also excludes `docs/`, `lib/vendor/`, the Drupal info and config YAML, `templates/layout/page.html.twig` (Prettier adds whitespace inside its inline icon spans) and two templates the Twig plugin cannot parse (`field--node--field-content`, `menu--main`; both also break the AGENTS.md rules on tags inside HTML tags, so they want fixing, then un-ignoring). `prettier --check .` passes on a clean tree; `lib/hivelog-select.js` and `CUSTOMIZING.md` were formatted (quotes, emphasis marks only).
+- `package.json`: stale `version` removed (the theme version lives in `beeswax.info.yml`), `engines.node >=24` added (`.nvmrc` is 24.12.0), `check:build` script added. `package-lock.json` regenerated: it also gains npm's bundled optional wasm entries for Tailwind's oxide, which `npm ci` on Linux needs.
+- `.github/workflows/ci.yml`: format check, `check:build`, `php -l`.
+- Not done: phpcs/phpstan and tests (still none); `generator: mercury:1.0.5` is in task 0010.
