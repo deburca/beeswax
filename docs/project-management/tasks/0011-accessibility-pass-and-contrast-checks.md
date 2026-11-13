@@ -51,6 +51,21 @@ Site: `hivelog/demo` (DDEV, Drupal 11.4.11, HiveLog 4.1.1, Beeswax copied from t
 - The throwaway content type, its nodes and the config changes were removed from the demo; its `composer.json` and `composer.lock` still carry `drupal/cva`.
 - **Still open:** reduced motion on a real device (the pane cannot emulate it), and the same audit on a real site (`hivelog.ddev.site` is blocked in the pane).
 
+## Reduced motion on a real device (2026-11-13)
+Device: iPhone, iOS 27.2, Safari, hivelog.eu running HiveLog 4.2.2 and Beeswax 1.9.3, Reduce Motion on. Canvas editing is blocked there (the host's Apache returns 403 to the `PATCH` Canvas uses), so no new animated group could be made.
+
+| Test | Result |
+| --- | --- |
+| 6 mobile menu | instant (pass) |
+| 7 filter select | the tester was unsure whether it animated ("b or d") |
+| 8 in-page jump | no suitable link on the page (not tested) |
+| 9 honeycomb | still (pass) |
+| 1 to 5, 10, 11 | not run |
+
+Test 7 was checked on the demo in Chromium with Reduce Motion off: opening the filter dropdown goes from `display: none` to its full size and opacity in the first frame, with no CSS transition or animation events, and the dropdown, its options and the control all have a 0s transition. Tom Select's own CSS has no open/close animation (only a loading spinner and a clear button) and its script never scrolls smoothly. So the theme has nothing to animate there; what was seen on the phone is probably iOS itself (the viewport moving to the control, or the keyboard). Not measured in iOS Safari.
+
+Still unverified on a device: tests 1 to 3 (animated and tall groups), 4 (message dismissal), 5 (tap colour change), and the control runs with the setting off. The box stays open.
+
 ## Related
 - Project:: [[theme-health-review]]
 - Follows:: [[0008-front-end-delivery-and-accessibility]]
