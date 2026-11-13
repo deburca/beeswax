@@ -19,6 +19,22 @@ change a colour here first, then there. _Match the device_ sets the `dark` class
 `templates/layout/html.html.twig`) before anything paints, and again when the device's setting changes; with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
+### Contrast
+
+Checked by computation (WCAG 2.x ratios) on 2026-11-13, not yet by an automated tool on a live page: text pairs need 4.5:1 and control borders 3:1.
+
+| Pair                                             | Light        | Dark         |
+| ------------------------------------------------ | ------------ | ------------ |
+| `--bw-ink` on ground / surface / surface-2       | 14.4 to 16.7 | 12.4 to 15.0 |
+| `--bw-ink-muted` on ground / surface / surface-2 | 4.95 to 5.72 | 6.47 to 7.84 |
+| `--bw-accent` on surface, on its tint            | 6.29, 5.36   | 6.59, 5.47   |
+| `--bw-critical` on surface, on its tint          | 6.54, 5.33   | 5.68, 4.99   |
+| `--bw-warning` on surface, on its tint           | 5.58, 4.67   | 6.82, 5.77   |
+| `--bw-ok` on surface, on its tint                | 5.95, 5.18   | 9.43, 7.50   |
+| `--bw-field-border` on surface / ground          | 3.63, 3.43   | 3.55, 3.89   |
+
+`--bw-ink-faint` (2.96 to 3.14 light, 4.04 to 4.43 dark) is below 4.5:1, so it is used only for hover borders (3:1 or more), never for text; use `--bw-ink-muted` for small grey text. `--bw-hairline` (about 1.3:1) is for dividers and card edges, not for the border of a control: use `--bw-field-border`. Changing `--bw-warning`, `--bw-critical` or the field border here means changing them in the Vinculum app's `Palette.swift` too.
+
 ### HiveLog status colours
 
 Beeswax maps HiveLog's `--hivelog-*` surface and status tokens from its own `--bw-*` palette (`body.hivelog-page` in
