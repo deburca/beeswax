@@ -1,13 +1,13 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: low
 project: "[[theme-health-review]]"
 area: housekeeping
 created: 2026-11-13
 branch: feature/0010-dead-assets-and-stale-metadata
-release:
+release: 1.9.2
 depends-on:
 blocked-by:
 ---
@@ -27,16 +27,23 @@ Files and metadata that nothing uses, or that still describe the theme this was 
 - **`conflict: drupal/experience_builder` and `require-dev: drupal/canvas`** in `composer.json` carry the Canvas assumption; if Canvas is optional for HiveLog sites, say so in the README.
 
 ## Acceptance criteria
-- [ ] Unreferenced files removed; duplicate images collapsed to one copy each
-- [ ] `screenshot.png` optimised
+- [x] Unreferenced files removed; duplicate images collapsed to one copy each
+- [x] `screenshot.png` optimised
 - [ ] Decision recorded on the Canvas components (keep, trim to the used ones, or move to a separate branch) and applied
-- [ ] README and `composer.json` describe the theme as it is today (HiveLog skin, account pages, footer, honeycomb), `generator` removed or corrected
+- [x] README and `composer.json` describe the theme as it is today (HiveLog skin, account pages, footer, honeycomb), `generator` removed or corrected
 - [ ] Release note written
 
 ## Implementation notes
 - To find what a site uses, search its content templates and Canvas pages for `beeswax:<component>` rather than the repo.
 - Do not delete `icons/phosphor/` files without checking `beeswax.icons.yml` consumers; removing icons breaks any saved content that references them.
 - Removing a component is a breaking change for a site that has content using it: do it in a minor release with a note.
+
+## Outcome
+- Removed `components/footer/assets/starshot_ds.svg` and the navbar component's `assets/logo-light.svg` and `logo-dark.svg` (nothing references them; the navbar logo is a slot). The theme-root `logo-dark.svg` stays (it is `logo:` in `beeswax.info.yml`); the root `logo-light.svg` stays too, unreferenced, since a site may link to it by path.
+- The three identical hero images stay: a component's `assets/` path is scoped to that component, so they cannot share one copy without moving them out of the components. Not changed.
+- `screenshot.png`: 400 KB to 96 KB with pngquant (lossy, 70-95). **It still shows the Mercury logo and demo content**; a fresh screenshot needs a running site and was not taken.
+- `generator: mercury:1.0.5` removed. `composer.json` description and `README.md` rewritten (HiveLog skin, account pages, footer, honeycomb; Canvas optional).
+- **Not done:** the decision on the 25 Canvas components (needs to know which a site uses), the demo image sizes, and the 5.9 MB icon set. `RenderCallbacks.php` stays while `hero-blog` does. The "release note written" box is unticked: the 1.9.2 note is on PR 16's branch.
 
 ## Related
 - Project:: [[theme-health-review]]
