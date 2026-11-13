@@ -86,6 +86,55 @@ body.hivelog-page {
 }
 
 /* ------------------------------------------------------------------ *
+ * Honeycomb background (task 0002). The faint hexagon grid the Vinculum
+ * app draws behind its screens (HoneycombBackground.swift): pointy-top
+ * outlines, accent colour at 10%, fading to nothing downwards. Columns
+ * are cell * sqrt(3) apart, rows cell * 1.5, every second row shifted
+ * half a column, each outline drawn at 0.96 of the cell so neighbours
+ * leave a hairline gap. Keep these numbers in step with the app.
+ *
+ * A pseudo-element on the body, so no markup changes: the tile is an
+ * SVG used as a mask (its colour is the accent token, so light, dark
+ * and a recoloured theme.css follow), intersected with a gradient that
+ * fades it out. Absolute, not fixed, so it scrolls away with the page;
+ * behind everything, takes no clicks. Tune with --bw-honeycomb-* in
+ * theme.css; `--bw-honeycomb-opacity: 0` turns it off.
+ * ------------------------------------------------------------------ */
+:is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form))::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--bw-honeycomb-height, 600px);
+  z-index: -1;
+  pointer-events: none;
+  background: var(--bw-accent);
+  opacity: var(--bw-honeycomb-opacity, 0.1);
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 65.818 114' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='black' stroke-width='1'%3E%3Cpolygon points='0.00,-36.48 31.59,-18.24 31.59,18.24 0.00,36.48 -31.59,18.24 -31.59,-18.24'/%3E%3Cpolygon points='65.82,-36.48 97.41,-18.24 97.41,18.24 65.82,36.48 34.23,18.24 34.23,-18.24'/%3E%3Cpolygon points='0.00,77.52 31.59,95.76 31.59,132.24 0.00,150.48 -31.59,132.24 -31.59,95.76'/%3E%3Cpolygon points='65.82,77.52 97.41,95.76 97.41,132.24 65.82,150.48 34.23,132.24 34.23,95.76'/%3E%3Cpolygon points='32.91,20.52 64.50,38.76 64.50,75.24 32.91,93.48 1.32,75.24 1.32,38.76'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(#000, transparent);
+  mask-size:
+    calc(var(--bw-honeycomb-cell, 38px) * 1.7320508) calc(var(--bw-honeycomb-cell, 38px) * 3),
+    100% 100%;
+  mask-repeat: repeat, no-repeat;
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+/* The sign-in cards are short pages: the app's welcome screens use a
+   380pt fade, so the pattern is gone before the card's fields. */
+body:has(.beeswax-auth-form)::before {
+  height: var(--bw-honeycomb-height-short, 380px);
+}
+
+@media print {
+  :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form))::before {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Typography — HiveLog scope only.
  * ------------------------------------------------------------------ */
 .hivelog-dashboard,

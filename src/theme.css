@@ -83,6 +83,12 @@
   --bw-ok: #3d7016;
   --bw-ok-tint: #e8f3da;
 
+  /* Honeycomb background (task 0002): the Vinculum app's values. */
+  --bw-honeycomb-cell: 38px;
+  --bw-honeycomb-opacity: 0.1;
+  --bw-honeycomb-height: 600px;
+  --bw-honeycomb-height-short: 380px;
+
   /* Navbar height (kept from Mercury for the hero overlay). */
   --navbar-height: calc(var(--spacing) * 15);
 

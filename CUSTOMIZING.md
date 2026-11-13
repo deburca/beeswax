@@ -22,6 +22,16 @@ inspection's "Clear". Those two tokens first appeared in the HiveLog release tha
 (HiveLog task 0256); on an older HiveLog they are simply unused. `--bw-ok` is a yellower green than the pine accent so a
 status stays distinct from the brand colour; it keeps at least 4.5:1 text contrast in both modes.
 
+### Honeycomb background
+
+HiveLog pages, the account pages and the sign-in cards get a faint honeycomb behind the top of the page, the same one the
+Vinculum app draws (`HoneycombBackground.swift` there): pointy-top hexagon outlines in the accent colour at 10% opacity,
+fading to nothing downwards (600px, or 380px on the sign-in cards). It is a pseudo-element on the body (`src/hivelog.css`),
+so it needs no markup, takes no clicks, scrolls away with the page and is hidden when printing. Tune it in `src/theme.css`:
+`--bw-honeycomb-opacity` (`0` turns it off), `--bw-honeycomb-cell` (the hexagon radius, 38px), `--bw-honeycomb-height` and
+`--bw-honeycomb-height-short`. The colour is `--bw-accent`, so it follows the colour scheme and your own palette. The
+geometry (cell 38, outlines drawn at 0.96 of the cell, 10%) is shared with the app: change it there too.
+
 ### Footer small print
 
 Under the footer region the theme adds one line: the versions running ("HiveLog 3.4.0 · Beeswax 1.3.0", so a bug report can
