@@ -208,7 +208,7 @@
     @apply mb-1 block text-sm font-semibold md:text-base;
   }
 
-  .form-item:focus-within,
+  .form-item:not(.form-type-vertical-tabs):focus-within,
   .fieldgroup:focus-within {
     > label,
     .fieldset-legend {
