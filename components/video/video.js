@@ -23,8 +23,16 @@ class Video extends ComponentInstance {
     this.playIcon = this.playPauseButton.querySelector(".video-icon-play");
     this.pauseIcon = this.playPauseButton.querySelector(".video-icon-pause");
 
-    // Set initial state based on video autoplay attribute
-    this.#isPlaying = this.videoElement.autoplay;
+    // Autoplay is a courtesy to people who have not asked for less motion:
+    // if they have, stop it (the pause control stays, so they can start it).
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (this.videoElement.autoplay && reduceMotion) {
+      this.videoElement.pause();
+    }
+
+    // Set initial state: an autoplaying video is about to play (it may not
+    // have started yet), unless it was just stopped above.
+    this.#isPlaying = reduceMotion ? !this.videoElement.paused : this.videoElement.autoplay || !this.videoElement.paused;
 
     // Update icon to match initial state
     this.updateIcon();
@@ -71,8 +79,11 @@ class Video extends ComponentInstance {
     }
 
     // Update aria-label for accessibility
-    const label = this.#isPlaying ? "Pause video" : "Play video";
-    this.playPauseButton.setAttribute("aria-label", label);
+    // The labels are translated in the template and passed in data attributes.
+    const label = this.#isPlaying ? this.playPauseButton.dataset.labelPause : this.playPauseButton.dataset.labelPlay;
+    if (label) {
+      this.playPauseButton.setAttribute("aria-label", label);
+    }
   }
 
   get isPlaying() {

@@ -3,39 +3,78 @@
 {% set video_autoplay = autoplay ?: false %}
 {% set video_muted = muted ?: false %}
 {% set video_loop = loop ?: false %}
-{% set video_aria_label = caption ?: false %}
+{% set video_aria_label = caption ?: 'Video'|t %}
 {% set video_poster = poster.src ?: false %}
 
-<figure class="video-component cq-full grid w-full gap-2 relative">
+{# An autoplaying video always gets a control to pause it (WCAG 2.2.2), whatever "controls" says. #}
+{% set show_controls = controls or video_autoplay %}
+{% set label_play = 'Play video'|t %}
+{% set label_pause = 'Pause video'|t %}
+
+{% set icon_play_variants =
+  html_cva(
+    base: 'video-icon-play',
+    variants: {
+      autoplay: {
+        yes: 'hidden',
+        no: ''
+      }
+    }
+  )
+%}
+
+{% set icon_pause_variants =
+  html_cva(
+    base: 'video-icon-pause',
+    variants: {
+      autoplay: {
+        yes: '',
+        no: 'hidden'
+      }
+    }
+  )
+%}
+
+{% set autoplay_state = video_autoplay ? 'yes' : 'no' %}
+
+<figure class="video-component cq-full relative grid w-full gap-2">
   <video
     {{ video_attributes
       .setAttribute('autoplay', video_autoplay)
       .setAttribute('muted', video_muted)
       .setAttribute('loop', video_loop)
+      .setAttribute('playsinline', true)
       .setAttribute('aria-label', video_aria_label)
       .setAttribute('poster', video_poster)
     }}
     src="{{ media.src }}"
-    class="h-auto w-full rounded-lg aspect-video object-cover"
+    class="aspect-video h-auto w-full rounded-lg object-cover"
   >
-    Your browser does not support the video tag.
+    {% if captions_src %}
+      <track kind="captions" src="{{ captions_src }}" srclang="{{ captions_lang|default('en') }}" label="{{ captions_label|default('Captions'|t) }}">
+    {% endif %}
+    {{ 'Your browser does not support the video tag.'|t }}
   </video>
-  {% if controls %}
-    <div class="video-controls absolute bottom-4 right-4 flex items-center gap-2">
+  {% if show_controls %}
+    <div class="video-controls absolute right-4 bottom-4 flex items-center gap-2">
+      {# The dark disc keeps the white icon readable over any footage; the outline is the focus indicator (ADR-0002). #}
       <button
-        aria-label="{{ autoplay ? 'Pause video' : 'Play video' }}"
-        class="text-white cursor-pointer"
+        type="button"
+        aria-label="{{ video_autoplay ? label_pause : label_play }}"
+        data-label-play="{{ label_play }}"
+        data-label-pause="{{ label_pause }}"
+        class="flex cursor-pointer items-center justify-center rounded-full bg-black/60 p-1 text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
-        <span class="video-icon-play{{ autoplay ? ' hidden' : '' }}">
+        <span class="{{ icon_play_variants.apply({ autoplay: autoplay_state }) }}">
           {% include "beeswax:icon" with {
             icon: "play-circle",
-            icon_size: "large",
+            icon_size: "large"
           } only %}
         </span>
-        <span class="video-icon-pause{{ autoplay ? '' : ' hidden' }}">
+        <span class="{{ icon_pause_variants.apply({ autoplay: autoplay_state }) }}">
           {% include "beeswax:icon" with {
             icon: "pause-circle",
-            icon_size: "large",
+            icon_size: "large"
           } only %}
         </span>
       </button>
