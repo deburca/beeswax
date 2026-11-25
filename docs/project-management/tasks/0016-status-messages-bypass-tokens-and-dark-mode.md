@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0016-status-messages-bypass-tokens-and-dark-mode
-release:
+release: 1.9.5
 depends-on:
 blocked-by:
 ---
@@ -30,7 +30,7 @@ blocked-by:
 - [ ] Checked on a 360px viewport with a long form
 - [x] Decision on auto-dismiss for success messages recorded in the task
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `templates/misc/status-messages.html.twig`, `lib/messages.js`, `src/theme.css`.

@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0024-touch-targets-and-focus-audit-of-hivelog-skin
-release:
+release: 1.9.5
 depends-on:
 blocked-by:
 ---
@@ -29,7 +29,7 @@ blocked-by:
 - [x] No interactive target under 24px; primary touch controls 44px
 - [x] Literal colours replaced or documented
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Needs a running HiveLog site, as in [[0011-accessibility-pass-and-contrast-checks]]; record the HiveLog version and browser.

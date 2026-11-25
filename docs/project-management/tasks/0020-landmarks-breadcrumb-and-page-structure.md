@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0020-landmarks-breadcrumb-and-page-structure
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -33,7 +33,7 @@ From reading `templates/layout/page.html.twig`, `templates/navigation/breadcrumb
 - [x] No double separators; hidden crumbs reachable, or a note on why not
 - [x] `npm run format` and `npm run build`
 - [ ] Rendered check on a front page, a Canvas page and a HiveLog list
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `templates/layout/page.html.twig`, `templates/navigation/breadcrumb.html.twig`, `templates/navigation/pager.html.twig`, `templates/misc/page-title.html.twig`.

@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: tooling
 created: 2026-11-25
 branch: feature/0021-agents-md-compliance-sweep
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -28,7 +28,7 @@ blocked-by:
 - [x] `button.twig` has no dead branch and renders `type="button"` unless told otherwise
 - [x] A small script in `package.json` (and CI) greps for the two include patterns and fails on a match
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Isolating a context can drop variables a template silently relied on (for example `navbar.twig` blocks); test each with its `component.yml` example and in Canvas.

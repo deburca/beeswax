@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: components
 created: 2026-11-25
 branch: feature/0017-navbar-mobile-menu-interaction
-release:
+release: 1.9.5
 depends-on:
 blocked-by:
 ---

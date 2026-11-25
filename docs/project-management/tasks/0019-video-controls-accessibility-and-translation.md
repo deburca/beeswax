@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: components
 created: 2026-11-25
 branch: feature/0019-video-controls-accessibility-and-translation
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -32,7 +32,7 @@ From reading `components/video/video.twig` and `video.js` for [[ui-and-interacti
 - [x] Autoplay videos always have a pause control, and do not autoplay under reduced motion
 - [x] A way to supply captions (`<track>` slot or prop) documented
 - [x] `playsinline` added; `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `components/video/video.twig`, `video.js`, `video.component.yml`.

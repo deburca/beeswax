@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0023-colour-scheme-preference-and-media-queries
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -30,7 +30,7 @@ Gaps in how the theme responds to the visitor's settings, found for [[ui-and-int
 - [x] A forced-colors check on the navbar, buttons, form fields and pager, with fixes
 - [x] A minimal print stylesheet for non-HiveLog pages, or a decision not to
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `templates/layout/html.html.twig`, `lib/scheme-auto.js`, `src/theme.css`, `src/main.css`, `CUSTOMIZING.md`.
