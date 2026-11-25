@@ -17,6 +17,8 @@
   })
 %}
 
+{% set menu_id = 'navbar--menu'|clean_unique_id %}
+
 <div class="navbar relative z-[500] container mx-auto flex justify-between p-2 px-4 md:py-4">
   <div class="navbar--logo self-center [&>div]:flex [&>div]:flex-col [&>div]:justify-center">
     {% block logo %}
@@ -25,6 +27,7 @@
   </div>
 
   <div
+    id="{{ menu_id }}"
     class="navbar--menu fixed inset-0 top-[calc(var(--drupal-displace-offset-top,0px)+var(--gin-toolbar-height,0px)-var(--navbar-scroll-top,0px))] grid shrink-1 grow-1 grid-cols-[1fr] grid-rows-[auto_1fr_auto] flex-col items-stretch justify-start bg-background pb-8 md:static md:flex md:h-auto md:flex-row md:items-center md:bg-transparent md:pb-0"
   >
     <div
@@ -37,6 +40,7 @@
       </div>
 
       <button
+        type="button"
         class="navbar--hide-menu flex h-[44px] w-[44px] flex-0 cursor-pointer items-center justify-center p-2 md:hidden"
         aria-label="{{ 'Hide menu'|t }}"
       >
@@ -65,38 +69,21 @@
     <div
       class="navbar--links col-span-1 col-start-1 row-span-1 row-start-3 ml-auto flex w-full flex-initial shrink-0 grow-0 flex-col justify-end gap-2 md:w-auto md:flex-row"
     >
+      {# CTAs: fill the slot. There is no default, so a site never ships placeholder example.com buttons. #}
       {% block links %}
-        {{
-          include(
-            'beeswax:button',
-            {
-              variant: 'primary',
-              label: 'Button'|t,
-              icon: 'arrow-right',
-              href: 'https://example.com',
-              size: 'medium'
-            }
-          )
-        }}
 
-        {{
-          include(
-            'beeswax:button',
-            {
-              variant: 'secondary',
-              label: 'Another'|t,
-              icon: 'arrow-right',
-              href: 'https://example.com',
-              size: 'medium'
-            }
-          )
-        }}
       {% endblock %}
     </div>
   </div>
 
   <div class="navbar--hamburger-container flex min-h-[44px] min-w-[44px] shrink-0 grow-0 items-center justify-center md:hidden">
-    <button class="navbar--hamburger flex items-center justify-center" aria-label="{{ 'Show menu'|t }}">
+    <button
+      type="button"
+      class="navbar--hamburger flex items-center justify-center"
+      aria-label="{{ 'Show menu'|t }}"
+      aria-expanded="false"
+      aria-controls="{{ menu_id }}"
+    >
       {{
         include(
           '@beeswax/components/icon/icon.twig',

@@ -56,8 +56,10 @@
           'data-level': 1
         })
       %}
-      {% if item.in_active_trail %}
-        {% set link_attributes = link_attributes.setAttribute('aria-current', 'true') %}
+      {# aria-current marks the current page only; the active trail (a parent of the current page) keeps its
+         `menu-item--active-trail` class but is not "current". #}
+      {% if url is not empty and (url|trim) == path('<current>') %}
+        {% set link_attributes = link_attributes.setAttribute('aria-current', 'page') %}
       {% endif %}
 
       <li {{ item_attributes }}>

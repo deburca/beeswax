@@ -3,6 +3,8 @@ import { measureScrollbarAndObserve } from "../../lib/measureScrollbar.js";
 
 class Navbar extends ComponentInstance {
   #savedAsOpen = false;
+  #desktopQuery;
+  #inertElements = [];
 
   init() {
     this.closeButton = this.el.querySelector(".navbar--hide-menu");
@@ -12,9 +14,6 @@ class Navbar extends ComponentInstance {
     measureScrollbarAndObserve(this.el.querySelector(".navbar--dropdown-menu"));
 
     this.menuButton.addEventListener("click", () => {
-      this.menu.querySelectorAll(".dropdown-menu__expand-button--has-been-opened").forEach((button) => {
-        button.classList.remove("dropdown-menu__expand-button--has-been-opened");
-      });
       this.isOpen = true;
     });
 
@@ -22,9 +21,18 @@ class Navbar extends ComponentInstance {
       this.isOpen = false;
     });
 
+    // The overlay only exists below the desktop breakpoint: if the window
+    // grows while it is open, close it so the page is not left inert.
+    this.#desktopQuery = window.matchMedia("(min-width: 48rem)");
+    this.#desktopQuery.addEventListener("change", (e) => {
+      if (e.matches && this.isOpen) {
+        this.isOpen = false;
+      }
+    });
+
     // Keep up with scroll amount for mobile menu positioning.
     const scrollHandler = this.measureScrollTop.bind(this);
-    const desktopMQ = window.matchMedia("(min-width: 48rem)");
+    const desktopMQ = this.#desktopQuery;
 
     // Attach on page load only if less than desktop width AND navbar is visible.
     if (!desktopMQ.matches && this.el.getBoundingClientRect().bottom > 0) {
@@ -58,16 +66,60 @@ class Navbar extends ComponentInstance {
   }
 
   set isOpen(value) {
-    if (value) {
+    const open = !!value;
+    if (open === this.#savedAsOpen) {
+      return;
+    }
+    this.#savedAsOpen = open;
+
+    if (open) {
       this.menu.classList.add("navbar--menu--open");
-      this.menu.querySelector("a, button").focus();
       document.documentElement.classList.add("navbar-modal-open");
+      this.menuButton.setAttribute("aria-expanded", "true");
+      this.#makeRestInert();
+      // Escape closes the overlay, as it does any dialog.
+      document.addEventListener("keydown", this.#onKeydown);
+      this.menu.querySelector("a, button").focus();
     } else {
       this.menu.classList.remove("navbar--menu--open");
       document.documentElement.classList.remove("navbar-modal-open");
+      this.menuButton.setAttribute("aria-expanded", "false");
+      document.removeEventListener("keydown", this.#onKeydown);
+      this.#restoreInert();
+      // Return focus to the control that opened the overlay. The button is
+      // not visible on desktop, where focus is left alone.
+      if (!this.#desktopQuery.matches) {
+        this.menuButton.focus();
+      }
     }
+  }
 
-    this.#savedAsOpen = !!value;
+  #onKeydown = (event) => {
+    if (event.key === "Escape") {
+      this.isOpen = false;
+    }
+  };
+
+  // Make everything except the overlay inert while it is open, so Tab and
+  // screen readers cannot reach the page behind it. Walks from the menu up to
+  // <body> and marks every sibling on the way.
+  #makeRestInert() {
+    this.#inertElements = [];
+    for (let node = this.menu; node && node !== document.body; node = node.parentElement) {
+      for (const sibling of node.parentElement.children) {
+        if (sibling !== node && !sibling.inert) {
+          sibling.inert = true;
+          this.#inertElements.push(sibling);
+        }
+      }
+    }
+  }
+
+  #restoreInert() {
+    this.#inertElements.forEach((element) => {
+      element.inert = false;
+    });
+    this.#inertElements = [];
   }
 
   get isOpen() {
