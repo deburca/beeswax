@@ -27,3 +27,6 @@ public/components
 CLAUDE.md
 .claude/*
 !build/
+
+# Obsidian settings for the docs vault are per-person (workspace layout, plugins)
+docs/.obsidian/
