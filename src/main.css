@@ -431,3 +431,13 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Without JavaScript nothing opens an accordion, so show every panel: the
+   collapsed state (a zero height) is only there for the script to animate. */
+@media (scripting: none) {
+  .accordion--content {
+    height: auto;
+    overflow: visible;
+    padding-block: calc(var(--spacing) * 5);
+  }
+}

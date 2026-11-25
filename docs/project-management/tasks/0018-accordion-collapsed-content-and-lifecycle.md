@@ -1,7 +1,7 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[ui-and-interaction-review]]"
 area: components
@@ -27,11 +27,12 @@ From reading `components/accordion/accordion.js`, `accordion.twig` and `accordio
 - A comment in `set isOpen()` ends with a stray "Even" after a closing code fence.
 
 ## Acceptance criteria
-- [ ] Collapsed content is not exposed to assistive technology and not focusable
-- [ ] Without JavaScript every panel is readable
-- [ ] Resize handling uses one `ResizeObserver` or a removable listener
+- [x] Collapsed content is not exposed to assistive technology and not focusable
+- [x] Without JavaScript every panel is readable
+- [x] Resize handling uses one `ResizeObserver` or a removable listener
 - [ ] Verified in the Canvas editor and with keyboard and a screen reader
-- [ ] `npm run format` and `npm run build`; release note written
+- [x] `npm run format` and `npm run build`
+- [ ] Release note written
 
 ## Implementation notes
 - Key files: `components/accordion/`, `components/accordion-container/`, `lib/component.js`.
@@ -40,3 +41,12 @@ From reading `components/accordion/accordion.js`, `accordion.twig` and `accordio
 ## Related
 - Project:: [[ui-and-interaction-review]]
 - Decisions:: [[0003-interactive-component-accessibility-contract]]
+
+## Outcome (2026-11-25)
+- **Collapsed content:** a closed panel is `inert` (set in the `isOpen` setter), which takes it out of the tab order and the accessibility tree. The `tabindex` rewriting and `data-original-tabindex` bookkeeping are gone, so content added later is covered too.
+- **No JavaScript:** `@media (scripting: none)` in `src/main.css` gives `.accordion--content` `height: auto`, `overflow: visible` and its open padding, so every panel reads. The title buttons still do nothing without script. Needs a browser with `scripting` media support (Chrome 120, Firefox 113, Safari 17); older ones still see closed panels.
+- **Lifecycle:** the per-accordion `window` resize listener is a `ResizeObserver` on the accordion (width changes only, debounced 350ms as before), disconnected in a new `remove()` that `ComponentType.removeComponent` calls on detach.
+- **Measuring:** `measureNaturalHeight()` now changes only classes, not the open state, so no `aria-expanded` flicker and no `accordionopen` events; the `shouldDispatchEvents` flag it needed is gone. The stray "Even" after the code fence is fixed.
+- **Verified** in a harness (the real `accordion.js` and `accordion-container.js` with the built CSS, in an iframe, in the browser pane): initial states and `--natural-height`, click to open and close, the container closing the other panel, `inert` and `aria-expanded` following state, and a narrower iframe re-measuring a 296px panel to 656px with the `accordion--resizing` class cleared. Not tried: the Canvas editor, a screen reader, the `scripting: none` rule (no way to turn scripting off here), or the Twig itself.
+- **Decisions, not changed:** the heading stays `text-2xl` at every level (the size is a design choice, and `heading_level` keeps the document outline right); the open and close animation and icon rotation stay at 500ms and are cut by the global reduced-motion rule. Closing siblings in a container is silent; that matches the usual pattern and is left.
+- Stacked on the 0017 branch.
