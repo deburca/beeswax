@@ -5,38 +5,35 @@
  * (hivelog/docs/project-management/projects/dashboard-landing-page-mockup.html),
  * see ADR-0060 / task 0061.
  *
- * The shadcn-style variable names are kept so Mercury's Tailwind `@theme`
- * mapping in src/main.css keeps working; only the values change. The
- * `--bw-*` variables are Beeswax additions consumed by the HiveLog skin
- * (src/hivelog.css).
+ * Every colour is written once, as a `--bw-*` token (the names the Vinculum
+ * app's Palette.swift mirrors). The shadcn-style names Mercury's Tailwind
+ * `@theme` mapping in src/main.css uses (`--background`, `--primary`, ...)
+ * are aliases of them, so a light/dark value is never typed twice
+ * (ADR-0001 / task 0022). Beware the naming trap: `--accent` is the PALE
+ * TINT (`--bw-accent-tint`), `--primary` is the solid pine (`--bw-accent`).
  *
  * preprocess: false — edit without rebuilding the compiled CSS.
  */
 
 :root {
-  /* Core surfaces / ink (mockup: --ground / --surface / --surface-2 / --ink). */
-  --background: #faf8f4;
-  --foreground: #241d15;
-  --card: #ffffff;
-  --card-foreground: #241d15;
-  --muted: #f3eee4;
-  --muted-foreground: #6f6555;
-  --secondary: #f3eee4;
-  --secondary-foreground: #241d15;
-  --border: #e7e0d1;
-  --input: #e7e0d1;
-
-  /* Pine accent (mockup: --accent / --accent-tint). `--accent` in this
-     token set is the subtle tint; `--primary` is the solid pine. */
-  --primary: #2f6b4f;
+  /* shadcn-style names, as aliases of the --bw-* palette below. */
+  --background: var(--bw-ground);
+  --foreground: var(--bw-ink);
+  --card: var(--bw-surface);
+  --card-foreground: var(--bw-ink);
+  --muted: var(--bw-surface-2);
+  --muted-foreground: var(--bw-ink-muted);
+  --secondary: var(--bw-surface-2);
+  --secondary-foreground: var(--bw-ink);
+  --border: var(--bw-hairline);
+  --input: var(--bw-hairline);
+  /* Pine: `--primary` is the solid colour, `--accent` the pale tint. */
+  --primary: var(--bw-accent);
   --primary-foreground: #ffffff;
-  --accent: #e6efe8;
-  --accent-foreground: #2f6b4f;
-
-  /* Semantic (mockup: --critical). */
-  --destructive: #b3261e;
+  --accent: var(--bw-accent-tint);
+  --accent-foreground: var(--bw-accent);
+  --destructive: var(--bw-critical);
   --destructive-foreground: #ffffff;
-
   /* Type. Body/UI = IBM Plex Sans; display/wordmark = Fraunces (applied
      by the HiveLog skin); numerics/chips = IBM Plex Mono. */
   --font-sans: "IBM Plex Sans", system-ui, "Helvetica Neue", Arial, sans-serif;
@@ -82,6 +79,10 @@
   --bw-warning-tint: #f4ead6;
   --bw-ok: #3d7016;
   --bw-ok-tint: #e8f3da;
+  --bw-info: #2b5f8f;
+  --bw-info-tint: #e4eef7;
+  /* Control borders need 3:1 on every surface (WCAG 1.4.11); --bw-hairline is for dividers. */
+  --bw-field-border: #8f8575;
 
   /* Honeycomb background (task 0002): the Vinculum app's values. */
   --bw-honeycomb-cell: 38px;
@@ -100,26 +101,9 @@
 .dark {
   /* Native controls (date pickers, scrollbars, select menus) draw dark too. */
   color-scheme: dark;
-
-  --background: #181510;
-  --foreground: #efe9db;
-  --card: #221e17;
-  --card-foreground: #efe9db;
-  --muted: #2b261d;
-  --muted-foreground: #b4a994;
-  --secondary: #2b261d;
-  --secondary-foreground: #efe9db;
-  --border: #39322a;
-  --input: #39322a;
-
-  --primary: #63b389;
+  /* The shadcn-style names follow the --bw-* values below. */
   --primary-foreground: #12201a;
-  --accent: #22302a;
-  --accent-foreground: #63b389;
-
-  --destructive: #e2685f;
   --destructive-foreground: #12201a;
-
   --shadow-color: #000000;
   --shadow-2xs: 0 1px 2px hsl(0 0% 0% / 0.45);
   --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.45);
@@ -147,4 +131,7 @@
   --bw-warning-tint: #352a1a;
   --bw-ok: #9fd35a;
   --bw-ok-tint: #27341a;
+  --bw-info: #7db4e3;
+  --bw-info-tint: #1d2935;
+  --bw-field-border: #7d7360;
 }
