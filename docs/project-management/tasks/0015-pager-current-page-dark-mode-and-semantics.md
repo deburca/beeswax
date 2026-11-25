@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0015-pager-current-page-dark-mode-and-semantics
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -30,7 +30,7 @@ Found by reading `templates/includes/pager.twig` and `templates/navigation/pager
 - [x] No block element inside inline; no redundant `role` or `title`
 - [ ] Checked at 320px width and with keyboard
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `templates/includes/pager.twig`, `templates/navigation/pager.html.twig`, `templates/views/views-mini-pager.html.twig`.

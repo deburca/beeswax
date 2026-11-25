@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0014-form-focus-and-error-states-use-pale-accent
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -31,7 +31,7 @@ Found by reading `src/main.css` (project [[ui-and-interaction-review]]); not yet
 - [x] Errors use `--destructive` (and a text-safe variant) and read 4.5:1 in both modes
 - [x] A selected `<select>` value no longer looks like placeholder text
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `src/main.css` (`@layer base` form block), `src/theme.css`.

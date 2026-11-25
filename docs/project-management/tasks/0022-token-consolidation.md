@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: theme
 created: 2026-11-25
 branch: feature/0022-token-consolidation
-release:
+release: 1.9.5
 depends-on:
 blocked-by:
 ---

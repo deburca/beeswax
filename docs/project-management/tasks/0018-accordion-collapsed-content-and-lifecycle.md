@@ -7,7 +7,7 @@ project: "[[ui-and-interaction-review]]"
 area: components
 created: 2026-11-25
 branch: feature/0018-accordion-collapsed-content-and-lifecycle
-release:
+release: 1.9.5
 depends-on: 
 blocked-by:
 ---
@@ -32,7 +32,7 @@ From reading `components/accordion/accordion.js`, `accordion.twig` and `accordio
 - [x] Resize handling uses one `ResizeObserver` or a removable listener
 - [ ] Verified in the Canvas editor and with keyboard and a screen reader
 - [x] `npm run format` and `npm run build`
-- [ ] Release note written
+- [x] Release note written
 
 ## Implementation notes
 - Key files: `components/accordion/`, `components/accordion-container/`, `lib/component.js`.
