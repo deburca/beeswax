@@ -28,6 +28,17 @@ props:
     loop:
       title: Play on a loop
       type: boolean
+    captions_src:
+      title: Captions file (WebVTT)
+      type: string
+      format: uri-reference
+    captions_lang:
+      title: Captions language code
+      type: string
+      default: en
+    captions_label:
+      title: Captions label
+      type: string
 
 libraryOverrides:
   js:

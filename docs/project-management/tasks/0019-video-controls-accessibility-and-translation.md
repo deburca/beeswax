@@ -1,7 +1,7 @@
 ---
 type: task
 tags: [beeswax/task]
-status: backlog
+status: review
 priority: medium
 project: "[[ui-and-interaction-review]]"
 area: components
@@ -27,11 +27,12 @@ From reading `components/video/video.twig` and `video.js` for [[ui-and-interacti
 - Twig uses `{% include ... only %}` correctly but with a trailing comma in the hash (`icon_size: "large",`), which Prettier tolerates; confirm Twig 3 does too.
 
 ## Acceptance criteria
-- [ ] Visible focus indicator and a 3:1 icon against a scrim
-- [ ] All labels translatable (Twig and JS)
-- [ ] Autoplay videos always have a pause control, and do not autoplay under reduced motion
-- [ ] A way to supply captions (`<track>` slot or prop) documented
-- [ ] `playsinline` added; `npm run format` and `npm run build`; release note written
+- [x] Visible focus indicator and a 3:1 icon against a scrim
+- [x] All labels translatable (Twig and JS)
+- [x] Autoplay videos always have a pause control, and do not autoplay under reduced motion
+- [x] A way to supply captions (`<track>` slot or prop) documented
+- [x] `playsinline` added; `npm run format` and `npm run build`
+- [ ] Release note written
 
 ## Implementation notes
 - Key files: `components/video/video.twig`, `video.js`, `video.component.yml`.
@@ -39,3 +40,12 @@ From reading `components/video/video.twig` and `video.js` for [[ui-and-interacti
 ## Related
 - Project:: [[ui-and-interaction-review]]
 - Decisions:: [[0002-focus-and-interaction-state-pattern]], [[0003-interactive-component-accessibility-contract]]
+
+## Outcome (2026-11-25)
+- **Focus and contrast:** the button is a dark disc (`bg-black/60`, `hover:bg-black/80`) with the white icon, and draws a 2px white outline offset 2px on `:focus-visible` (ADR-0002); the disc is what gives the icon contrast over any footage. Checked with a real Tab press in a harness: `:focus-visible` matches and the outline is solid 2px white.
+- **Translation:** "Play video", "Pause video", the fallback text and the default `aria-label` ("Video", used when there is no caption) go through `|t`. The script no longer holds any English: the translated labels travel in `data-label-play` and `data-label-pause`, and `updateIcon()` reads them (verified with French labels).
+- **Autoplay:** the pause control now renders whenever `autoplay` is on, even with "controls" off. Under `prefers-reduced-motion` the script pauses an autoplaying video and shows the play state. Without JavaScript an autoplaying video still autoplays; `muted` is the visitor's only brake there.
+- **Captions:** new props `captions_src` (WebVTT), `captions_lang` (default `en`) and `captions_label` render a `<track kind="captions">`. Canvas editors enter a file URL; there is no slot for several tracks.
+- **`playsinline`** added. The icon spans' `hidden` toggles are now CVAs (no inline `{% if %}`), and the initial state comes from the video (`autoplay || !paused`) instead of only the attribute.
+- Not changed: a single `aria-pressed` button (the label swap tests the same and reads well), `preload`, and the hash's trailing comma (Prettier keeps it; it is valid in Twig 3).
+- **Not done:** the real Twig was not rendered on Drupal or in Canvas; the `captions_*` props were not tried in the Canvas props form; a play/pause click on real footage and the reduced-motion pause were not exercised (no media file, no way to set the OS preference here). Release note not written. Stacked on the 0018 branch.
