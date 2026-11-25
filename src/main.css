@@ -459,3 +459,32 @@ main[tabindex="-1"]:focus {
     padding-block: calc(var(--spacing) * 5);
   }
 }
+
+/* Windows High Contrast and other forced-colour modes drop background colours,
+   so a filled control would lose its edge: the button component and the pager
+   add their own (forced-colors: variants); the core form buttons get it here.
+   Focus outlines are real outlines and survive. */
+@media (forced-colors: active) {
+  .form-submit,
+  input.button {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* Print: no navigation chrome or floating controls, and nothing waiting for a
+   scroll animation. A page set to the dark scheme prints on white paper, so the
+   print block in theme.css restores the light ink. */
+@media print {
+  .skip-link,
+  .navbar--menu,
+  .navbar--hamburger-container,
+  [data-drupal-messages],
+  .video-controls {
+    display: none !important;
+  }
+
+  [data-animation] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -133,6 +133,7 @@ final class ThemeHooks {
         'dark' => $this->t('Dark'),
         'auto' => $this->t('Match the device (light or dark)'),
       ],
+      '#description' => $this->t("Match the device follows the visitor's device setting with a small script: with JavaScript off, the page stays light."),
     ];
     $form['footer_contact'] = [
       '#type' => 'textfield',

@@ -135,3 +135,22 @@
   --bw-info-tint: #1d2935;
   --bw-field-border: #7d7360;
 }
+
+/* Paper is white: print a dark-scheme page with the light ink and surfaces.
+   These are the :root values above (--bw-ground, surface, surface-2, ink,
+   ink-muted, hairline, accent, accent-tint, critical, and the two -foreground literals); keep them in step if those change. */
+@media print {
+  :root.dark {
+    --bw-ground: #faf8f4;
+    --bw-surface: #ffffff;
+    --bw-surface-2: #f3eee4;
+    --bw-ink: #241d15;
+    --bw-ink-muted: #6f6555;
+    --bw-hairline: #e7e0d1;
+    --bw-accent: #2f6b4f;
+    --bw-accent-tint: #e6efe8;
+    --bw-critical: #b3261e;
+    --primary-foreground: #ffffff;
+    --destructive-foreground: #ffffff;
+  }
+}

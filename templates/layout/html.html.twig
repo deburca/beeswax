@@ -29,15 +29,27 @@
   node_type ? 'page-node-type-' ~ (node_type|clean_class),
   db_offline ? 'db-offline'
 ] %}
-{% set html_classes = scheme|default('light') == 'dark' ? ['dark'] : [] %}
+{# Only these three are values of the scheme setting; anything else reads as light. #}
+{% set scheme_value = scheme|default('light') in ['dark', 'auto'] ? scheme : 'light' %}
+{% set html_classes = scheme_value == 'dark' ? ['dark'] : [] %}
+{# Tells the browser which scheme the page uses before the CSS arrives (no white flash, matching scrollbars and
+   form controls), and colours its toolbar. The two theme-color values are --bw-ground in src/theme.css; change
+   them here if a site changes that colour. #}
+{% set color_scheme_content = scheme_value == 'auto' ? 'light dark' : scheme_value %}
 <!DOCTYPE html>
 <html {{ html_attributes.addClass(html_classes) }}>
   <head>
-    {% if scheme|default('light') == 'auto' %}
+    <meta name="color-scheme" content="{{ color_scheme_content }}">
+    {% if scheme_value == 'auto' %}
       {# Match the device: lib/scheme-auto.js sets the `dark` class before anything paints and follows the device's
          setting. It is a file, not inline script, so a strict Content-Security-Policy does not break it. #}
       {{ attach_library('beeswax/scheme-auto') }}
-      <meta name="color-scheme" content="light dark">
+      <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+      <meta name="theme-color" content="#181510" media="(prefers-color-scheme: dark)">
+    {% elseif scheme_value == 'dark' %}
+      <meta name="theme-color" content="#181510">
+    {% else %}
+      <meta name="theme-color" content="#faf8f4">
     {% endif %}
     <head-placeholder token="{{ placeholder_token }}">
     <title>
