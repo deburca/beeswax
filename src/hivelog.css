@@ -901,7 +901,7 @@ body.hivelog-page nav[aria-label="breadcrumb"] li.active {
 
 /* The footer component's own bottom row, when nothing is in it: the small
    print draws that row now, so the empty one is not shown as well. */
-footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(:has(.site-footer--bottom-col *)) {
+footer .site-footer div:has(> .site-footer--bottom-col):not(:has(.site-footer--bottom-col *)) {
   display: none;
 }
 
@@ -1139,7 +1139,7 @@ footer[role="contentinfo"] .site-footer div:has(> .site-footer--bottom-col):not(
 
 /* The profile page is the same card as the sign-in forms (beeswax >= 1.5.2):
    framed, centred, with the breadcrumb and title narrowed to its column. */
-body.path-user:has(main article) header[role="banner"] > .container {
+body.path-user:has(main article) .beeswax-page-head {
   max-width: calc(var(--bw-auth-width, 30rem) + 2rem);
 }
 
@@ -1173,11 +1173,11 @@ body.path-user main article {
   --bw-account-width: 40rem;
 }
 
-body:has(.beeswax-auth-form) header[role="banner"] > .container {
+body:has(.beeswax-auth-form) .beeswax-page-head {
   max-width: calc(var(--bw-auth-width) + 2rem);
 }
 
-body:has(.beeswax-auth-form--wide) header[role="banner"] > .container {
+body:has(.beeswax-auth-form--wide) .beeswax-page-head {
   max-width: calc(var(--bw-account-width) + 2rem);
 }
 

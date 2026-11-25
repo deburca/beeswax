@@ -325,6 +325,12 @@
   }
 }
 
+/* <main> is the skip link's target (tabindex -1): it takes focus without a
+   ring around the whole page. */
+main[tabindex="-1"]:focus {
+  outline: none;
+}
+
 /* Override the moderation form block background */
 .entity-moderation-form {
   background: inherit;
