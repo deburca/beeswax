@@ -51,14 +51,8 @@
  */
 #}
 <div class="layout-container">
-  <header role="banner">
+  <header>
     {{ page.header }}
-    {% if not rendered_by_canvas %}
-      <div class="container mx-auto px-4 pb-4">
-        {{ breadcrumb }}
-        {{ title }}
-      </div>
-    {% endif %}
   </header>
 
   {{ page.primary_menu }}
@@ -70,8 +64,18 @@
 
   {{ page.help }}
 
-  <main role="main">
-    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+  {# The skip link in html.html.twig lands on <main> itself (tabindex -1), so the page title below is
+     inside the main landmark and the next Tab goes to the first control. #}
+  <main id="main-content" tabindex="-1">
+    {% if not rendered_by_canvas %}
+      <div class="beeswax-page-head container mx-auto px-4 pb-4">
+        {# One breadcrumb: a site that places the breadcrumb block in the Breadcrumb region gets that one. #}
+        {% if not page.breadcrumb %}
+          {{ breadcrumb }}
+        {% endif %}
+        {{ title }}
+      </div>
+    {% endif %}
 
     <div class="layout-content">
       {{ page.content }}
@@ -79,20 +83,20 @@
     {# /.layout-content #}
 
     {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
+      <aside class="layout-sidebar-first">
         {{ page.sidebar_first }}
       </aside>
     {% endif %}
 
     {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
+      <aside class="layout-sidebar-second">
         {{ page.sidebar_second }}
       </aside>
     {% endif %}
   </main>
 
   {% if page.footer or footer_meta.visible %}
-    <footer role="contentinfo">
+    <footer>
       {{ page.footer }}
       {% if footer_meta.visible %}
         <div class="container mx-auto px-4">

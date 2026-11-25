@@ -15,13 +15,15 @@
 
   {% set item_classes = 'flex items-center text-sm md:text-md' %}
 
-  <nav aria-label="breadcrumb" class="container mx-auto my-2 w-full md:my-3 2xl:my-4">
-    <h2 id="system-breadcrumb" class="sr-only">{{ 'Breadcrumb' }}</h2>
+  <nav aria-label="{{ 'Breadcrumb'|t }}" class="container mx-auto my-2 w-full md:my-3 2xl:my-4">
     <ol class="m-0 flex list-none flex-row items-center gap-1 p-0 font-body leading-none text-foreground md:gap-2">
       {% for item in breadcrumb %}
         {% set is_first = loop.first %}
         {% set is_last_two = loop.revindex <= 2 %}
         {% set should_show = not needs_truncation or loop.index <= 2 or is_last_two %}
+        {# The first crumb is drawn as the home icon above; a middle crumb with no URL is not drawn at all, and must
+           not leave its separator behind. #}
+        {% set is_drawn = loop.last or is_first or item.url %}
 
         {% if loop.first %}
           <li class="gap-1 md:gap-2 2xl:text-base">
@@ -80,7 +82,7 @@
           {% endif %}
 
           {# Add chevron after item (except last) #}
-          {% if not loop.last and (not needs_truncation or loop.index <= 2 or is_last_two) %}
+          {% if not loop.last and is_drawn %}
             <li aria-hidden="true">
               {{
                 include(
