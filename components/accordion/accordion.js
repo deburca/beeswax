@@ -6,13 +6,10 @@ class Accordion extends ComponentInstance {
   // accordion. The hash makes it so you can't get or set this property outside
   // of this file.
   #savedAsOpen;
+  #resizeObserver;
 
   static openClass = "accordion--open";
   static animateClass = "accordion--animate";
-
-  // Whether ancestor accordion containers should close other accordions when
-  // this one is opened.
-  shouldDispatchEvents = true;
 
   init() {
     if (currentlyInCanvasEditor()) {
@@ -23,19 +20,9 @@ class Accordion extends ComponentInstance {
       return;
     }
 
-    // Save our togglable classes for easy reference.
+    // Save our togglable elements for easy reference.
     this.button = this.el.querySelector(".accordion--title");
     this.contentContainer = this.el.querySelector(".accordion--content");
-    this.focusableDescendants = this.contentContainer.querySelectorAll(
-      ":is(input, select, textarea, button, object):not(:disabled), a:is([href]), [tabindex]",
-    );
-
-    // Keep track of the starting tabindex for all focusable descendants, so we
-    // can restore them after nuking them when the accordion is closed.
-    this.focusableDescendants.forEach((el) => {
-      el.tabIndex = el.tabIndex || 0;
-      el.dataset.originalTabIndex = el.tabIndex;
-    });
 
     // With the `set isOpen()` below, merely setting this property does all the
     // stuff necessary to open or close the accordion.
@@ -45,13 +32,17 @@ class Accordion extends ComponentInstance {
     // animate to it with CSS.
     this.measureNaturalHeight();
 
-    // The previous line enables animations, but we're not ready for them yet.
-    this.el.classList.remove(Accordion.animateClass);
-
-    // Remeasure the height on every (debounced) resize event.
+    // Remeasure the height when the width changes (debounced). The observer is
+    // disconnected in remove(), so a re-rendered accordion leaves nothing behind.
     let timeout = 0;
+    let lastWidth = this.el.getBoundingClientRect().width;
 
-    window.addEventListener("resize", (e) => {
+    this.#resizeObserver = new ResizeObserver(() => {
+      const width = this.el.getBoundingClientRect().width;
+      if (width === lastWidth) {
+        return;
+      }
+      lastWidth = width;
       this.el.classList.add("accordion--resizing");
       window.clearTimeout(timeout);
       timeout = window.setTimeout(() => {
@@ -59,6 +50,7 @@ class Accordion extends ComponentInstance {
         this.el.classList.remove("accordion--resizing");
       }, 350);
     });
+    this.#resizeObserver.observe(this.el);
 
     // Make the button work.
     this.button.addEventListener("click", () => {
@@ -83,15 +75,13 @@ class Accordion extends ComponentInstance {
   // } else {
   //   this.close();
   // }
-  // ```Even
+  // ```
   set isOpen(val) {
     if (val) {
       // First do all the DOM manipulation needed to actually open the
       // accordion.
       this.el.classList.add(Accordion.openClass);
-      this.focusableDescendants.forEach((el) => {
-        el.tabIndex = el.dataset.originalTabIndex;
-      });
+      this.contentContainer.inert = false;
       this.button.setAttribute("aria-expanded", "true");
 
       // Then stash the current state in a simple private property with no
@@ -100,15 +90,14 @@ class Accordion extends ComponentInstance {
 
       // Dispatch an event that any accordion container ancestors can use to
       // close other accordions.
-      if (this.shouldDispatchEvents) {
-        this.el.dispatchEvent(new Event("accordionopen", { bubbles: true }));
-      }
+      this.el.dispatchEvent(new Event("accordionopen", { bubbles: true }));
     } else {
       // DOM manipulation.
       this.el.classList.remove(Accordion.openClass);
-      this.focusableDescendants.forEach((el) => {
-        el.tabIndex = -1;
-      });
+      // A closed panel is only clipped by CSS: `inert` also takes it out of
+      // the tab order and the accessibility tree, and keeps any focusable
+      // content added later out of both.
+      this.contentContainer.inert = true;
       this.button.setAttribute("aria-expanded", "false");
       // Stash current state.
       this.#savedAsOpen = false;
@@ -121,26 +110,37 @@ class Accordion extends ComponentInstance {
   }
 
   // Measure how tall the content should be when open so we can smoothly animate
-  // to it using CSS.
+  // to it using CSS. Only classes change here, not the open state, so assistive
+  // technology sees no `aria-expanded` flicker and ancestors hear nothing.
   measureNaturalHeight() {
-    // What we do here should not be seen by ancestor accordions.
-    this.shouldDispatchEvents = false;
-    // Remember what state the accordion started in.
-    const previousState = this.isOpen;
-    // Turn off animations.
+    const hadAnimate = this.el.classList.contains(Accordion.animateClass);
+    const wasOpen = this.el.classList.contains(Accordion.openClass);
+    const wasResizing = this.el.classList.contains("accordion--resizing");
+
+    // Turn off animations and lay the content out at its natural height.
     this.el.classList.remove(Accordion.animateClass);
-    // Open the accordion if it's not already open.
-    this.isOpen = true;
-    // Measure the natural height and make it available to CSS as a custom
-    // property.
+    this.el.classList.add(Accordion.openClass, "accordion--resizing");
+
+    // Make the natural height available to CSS as a custom property.
     const height = this.contentContainer.getBoundingClientRect().height;
     this.el.style.setProperty("--natural-height", `${height}px`);
-    // Restore the accordion to the state it started in.
-    this.isOpen = previousState;
-    // Re-enable animations.
-    this.el.classList.add(Accordion.animateClass);
-    // Become visible to ancestor accordions again.
-    this.shouldDispatchEvents = true;
+
+    // Put everything back the way it was.
+    if (!wasOpen) {
+      this.el.classList.remove(Accordion.openClass);
+    }
+    if (!wasResizing) {
+      this.el.classList.remove("accordion--resizing");
+    }
+    void this.el.offsetHeight;
+    if (hadAnimate) {
+      this.el.classList.add(Accordion.animateClass);
+    }
+  }
+
+  // Called by ComponentType when the accordion is removed from the page.
+  remove() {
+    this.#resizeObserver?.disconnect();
   }
 }
 
