@@ -17,7 +17,6 @@
 {% set pager_nav_link_classes = 'flex items-center justify-center gap-1 py-2 rounded hover:bg-muted transition-colors duration-300' %}
 {% set pager_icon_link_classes = 'pager__icon flex shrink-0 items-center justify-center' %}
 {% set pager_icon_ellipsis_classes = 'pager__icon flex shrink-0 items-center justify-center' %}
-{% set var = value %}
 {% set classes = ['pager', 'my-4', 'font-medium'] %}
 {% set ellipsis_container_classes = ['flex items-center justify-center rounded px-2 py-1.5'] %}
 
@@ -57,7 +56,8 @@
                       {
                         icon: 'caret-double-left',
                         icon_size: 'extra-small'
-                      }
+                      },
+                      with_context: false
                     )
                   }}
                 </span>
@@ -84,7 +84,8 @@
                   {
                     icon: 'caret-left',
                     icon_size: 'extra-small'
-                  }
+                  },
+                  with_context: false
                 )
               }}
             </span>
@@ -103,7 +104,8 @@
                   {
                     icon: 'dots-three',
                     icon_size: 'extra-small'
-                  }
+                  },
+                  with_context: false
                 )
               }}
             </span>
@@ -139,7 +141,8 @@
                   {
                     icon: 'dots-three',
                     icon_size: 'extra-small'
-                  }
+                  },
+                  with_context: false
                 )
               }}
             </span>
@@ -164,7 +167,8 @@
                   {
                     icon: 'caret-right',
                     icon_size: 'extra-small'
-                  }
+                  },
+                  with_context: false
                 )
               }}
             </span>
@@ -189,7 +193,8 @@
                       {
                         icon: 'caret-double-right',
                         icon_size: 'extra-small'
-                      }
+                      },
+                      with_context: false
                     )
                   }}
                 </span>
