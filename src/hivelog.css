@@ -32,23 +32,18 @@
   --hivelog-btn-border-hover: var(--bw-ink-faint);
 
   --hivelog-btn-primary-bg: var(--bw-accent);
-  --hivelog-btn-primary-fg: #ffffff;
+  --hivelog-btn-primary-fg: var(--primary-foreground);
   --hivelog-btn-primary-border: var(--bw-accent);
   --hivelog-btn-primary-bg-hover: var(--bw-accent-hover);
   --hivelog-btn-primary-border-hover: var(--bw-accent-hover);
 
   --hivelog-btn-danger-bg: var(--bw-critical);
-  --hivelog-btn-danger-fg: #ffffff;
+  --hivelog-btn-danger-fg: var(--destructive-foreground);
   --hivelog-btn-danger-border: var(--bw-critical);
   --hivelog-btn-danger-bg-hover: var(--bw-critical-hover);
   --hivelog-btn-danger-border-hover: var(--bw-critical-hover);
 
   --hivelog-btn-radius: 6px;
-}
-
-.dark {
-  --hivelog-btn-primary-fg: #12201a;
-  --hivelog-btn-danger-fg: #12201a;
 }
 
 /* ------------------------------------------------------------------ *
@@ -316,9 +311,9 @@ body.hivelog-page .hivelog-filter-form .form-item select {
 
 body.hivelog-page .hivelog-filter-form .form-item input:focus,
 body.hivelog-page .hivelog-filter-form .form-item select:focus {
-  outline: none;
   border-color: var(--bw-accent);
-  box-shadow: 0 0 0 2px var(--bw-accent-tint);
+  outline: 2px solid var(--bw-accent);
+  outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------------ *
@@ -617,8 +612,8 @@ body.hivelog-page h3.hivelog-list-heading__title {
 :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .ts-wrapper.focus .ts-control {
   border-color: var(--bw-accent);
   background-color: var(--bw-surface);
-  box-shadow: 0 0 0 3px var(--bw-accent-tint);
-  outline: none;
+  outline: 2px solid var(--bw-accent);
+  outline-offset: 2px;
 }
 
 :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) select:focus {
@@ -751,35 +746,30 @@ body.hivelog-page h3.hivelog-list-heading__title {
   .navbar--dropdown-menu nav li.menu-item--active-trail > a {
     border-color: var(--bw-accent);
     background: var(--bw-accent);
-    color: #ffffff;
+    color: var(--primary-foreground);
   }
 
   .navbar--dropdown-menu nav li.menu-item--active-trail > a:hover {
     border-color: var(--bw-accent-hover);
     background: var(--bw-accent-hover);
-    color: #ffffff;
+    color: var(--primary-foreground);
   }
 
   /* The call-to-action is honey (the logo's amber), so it never reads as a
      second "current page" pill next to the pine one. */
   .navbar--links a {
     padding-inline: 1.25rem;
-    border: 1px solid #d9a735;
-    background: #e9b949;
-    color: #241d15;
+    border: 1px solid var(--bw-honey-border);
+    background: var(--bw-honey);
+    color: var(--bw-on-honey);
     font-weight: 600;
   }
 
   .navbar--links a:hover,
   .navbar--links a:focus-visible {
-    border-color: #c4931f;
-    background: #f0c55f;
-    color: #241d15;
-  }
-
-  .dark .navbar--dropdown-menu nav li.menu-item--active-trail > a,
-  .dark .navbar--dropdown-menu nav li.menu-item--active-trail > a:hover {
-    color: #12201a;
+    border-color: var(--bw-honey-border-hover);
+    background: var(--bw-honey-hover);
+    color: var(--bw-on-honey);
   }
 }
 
@@ -1414,4 +1404,24 @@ form.beeswax-auth-form .form-actions > :is(input[type="submit"], a).button:not(:
 
 .beeswax-prose strong {
   font-weight: 600;
+}
+
+/* Touch targets (WCAG 2.5.8 asks 24px, and 44px is what a thumb needs). On a
+   touch screen the skin's controls grow to 44px; with a mouse they keep their
+   compact size. Checkboxes and radios are 24px so the box itself is a target. */
+@media (pointer: coarse) {
+  body.hivelog-page .hivelog-filter-form .form-item :is(input, select),
+  body.hivelog-page .ts-wrapper.single .ts-control,
+  :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) :is(input:not([type="checkbox"], [type="radio"], [type="file"]), select),
+  :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) .ts-control,
+  .navbar--dropdown-menu nav li a,
+  .navbar--links a,
+  body.hivelog-page .vertical-tabs__menu-item a {
+    min-height: 2.75rem;
+  }
+
+  :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form)) :is(input[type="checkbox"], input[type="radio"]) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
