@@ -19,6 +19,8 @@ change a colour here first, then there. _Match the device_ sets the `dark` class
 `templates/layout/html.html.twig`) before anything paints, and again when the device's setting changes; with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
+The page also sends `<meta name="color-scheme">` (`light`, `dark` or `light dark`) so the browser draws its canvas, scrollbars and form controls in the right scheme before the CSS arrives, and a `theme-color` for the browser toolbar (`#faf8f4` light, `#181510` dark: the `--bw-ground` values, written in `templates/layout/html.html.twig`; change them there if you change that colour). With JavaScript off, _Match the device_ cannot read the device, so the page stays light; there is no visitor toggle, by design (the scheme is a site setting, and a per-visitor choice would need a cookie and a cache variation on every page). Printing always uses the light ink, even on a dark page, and drops the navigation, floating controls and messages. In Windows High Contrast mode the button component, the core form buttons and the pager's current page get a border, since backgrounds are not drawn.
+
 ### Tokens
 
 Every colour is written once in `src/theme.css`, as a `--bw-*` token (light in `:root`, dark in `.dark`). The shadcn-style names that Tailwind uses (`--background`, `--primary`, `--muted`, ...) are aliases of those, so changing `--bw-accent` changes `--primary` too, in both modes. Two names are easy to misread: **`--accent` is the pale tint** (`--bw-accent-tint`) and **`--primary` is the solid pine** (`--bw-accent`); do not use `text-accent` or `border-accent` for text or an outline.
