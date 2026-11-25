@@ -1,14 +1,14 @@
 ---
 type: decision
 tags: [beeswax/decision]
-status: proposed
+status: accepted
 date: 2026-11-25
 supersedes:
 ---
 # ADR-0001: Token architecture and source of truth
 
 ## Status
-proposed
+accepted (2026-11-25), implemented in [[0022-token-consolidation]] with one change: `--accent` is documented, not renamed (see below)
 
 ## Context
 Colour comes from three places that do not agree on names or location:
@@ -29,5 +29,6 @@ Proposed: one source of truth per meaning.
 
 ## Consequences
 - Positive: dark mode is correct by construction; a site can re-skin from one copied file; the pale-tint trap disappears if `--accent` is renamed (e.g. `--accent-tint`) in the same change.
+- Decided while implementing: `--accent` keeps its name for now. Renaming it breaks any site that copied `theme.css` and the Canvas editors' `text-accent`/`bg-accent` choices, for a gain that documentation and the `check:colours` rule already cover. Revisit if the trap bites again.
 - Negative / trade-offs: renaming `--accent` is a breaking change for any site that copied `theme.css`; needs a minor release note and a mirrored change in the app.
 - Follow-up tasks: [[0022-token-consolidation]], [[0016-status-messages-bypass-tokens-and-dark-mode]], [[0015-pager-current-page-dark-mode-and-semantics]]

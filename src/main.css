@@ -29,6 +29,18 @@
   --color-border: var(--border);
   --color-input: var(--input);
 
+  /* Status colours and control borders (--bw-*): use these, not a Tailwind
+     palette colour, so the page follows dark mode (ADR-0001). */
+  --color-ok: var(--bw-ok);
+  --color-ok-tint: var(--bw-ok-tint);
+  --color-info: var(--bw-info);
+  --color-info-tint: var(--bw-info-tint);
+  --color-warning: var(--bw-warning);
+  --color-warning-tint: var(--bw-warning-tint);
+  --color-critical: var(--bw-critical);
+  --color-critical-tint: var(--bw-critical-tint);
+  --color-field-border: var(--bw-field-border);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);

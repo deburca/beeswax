@@ -14,6 +14,7 @@
     "s:tailwindcss": "tailwindcss --input ./src/main.css --minify --output ./build/main.min.css",
     "s:hivelog": "esbuild ./src/hivelog.css --minify --outfile=./build/hivelog.min.css",
     "s:motion": "esbuild ./src/motion.js --bundle --minify --format=iife --outfile=./build/motion.js",
+    "check:colours": "node scripts/check-literal-colours.mjs",
     "check:twig": "node scripts/check-twig-includes.mjs",
     "check:build": "npm run build && git diff --exit-code build/"
   },

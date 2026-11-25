@@ -33,6 +33,10 @@ jobs:
       - name: Twig includes isolate their context
         run: npm run check:twig
 
+      # ADR-0001: colours come from theme tokens, not Tailwind palette colours or bare white/black.
+      - name: No literal colours
+        run: npm run check:colours
+
       - name: PHP syntax
         run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
 

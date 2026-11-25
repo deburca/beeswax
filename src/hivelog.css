@@ -572,14 +572,6 @@ body.hivelog-page h3.hivelog-list-heading__title {
  * profile, edit, log in, reset) every field is one box: hairline-dark
  * border, 6px radius, a pine focus ring.
  * ------------------------------------------------------------------ */
-:root {
-  --bw-field-border: #8f8575; /* 3.1:1 or more on every surface (WCAG 1.4.11) */
-}
-
-.dark {
-  --bw-field-border: #7d7360; /* 3.2:1 or more on every surface */
-}
-
 :is(body.hivelog-page, body.path-user, body:has(.beeswax-auth-form))
   :is(
     input[type="text"],

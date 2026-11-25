@@ -21,8 +21,7 @@
 #}
 {{ attach_library('beeswax/messages') }}
 
-{# Colours come from the --bw-* tokens, so each type follows the palette and dark mode (task 0016).
-   Drupal has no "info" token yet (ADR-0001), so info uses the accent. #}
+{# Colours come from the --bw-* tokens (task 0016, 0022), so each type follows the palette and dark mode. #}
 {% set message_variants =
   html_cva(
     base: [
@@ -32,10 +31,10 @@
     ],
     variants: {
       type: {
-        status: 'border-[var(--bw-ok)] bg-[var(--bw-ok-tint)]',
-        info: 'border-[var(--bw-accent)] bg-[var(--bw-accent-tint)]',
-        warning: 'border-[var(--bw-warning)] bg-[var(--bw-warning-tint)]',
-        error: 'border-[var(--bw-critical)] bg-[var(--bw-critical-tint)]'
+        status: 'border-ok bg-ok-tint',
+        info: 'border-info bg-info-tint',
+        warning: 'border-warning bg-warning-tint',
+        error: 'border-critical bg-critical-tint'
       }
     }
   )
@@ -46,10 +45,10 @@
     base: 'my-auto',
     variants: {
       type: {
-        status: 'text-[var(--bw-ok)]',
-        info: 'text-[var(--bw-accent)]',
-        warning: 'text-[var(--bw-warning)]',
-        error: 'text-[var(--bw-critical)]'
+        status: 'text-ok',
+        info: 'text-info',
+        warning: 'text-warning',
+        error: 'text-critical'
       }
     }
   )

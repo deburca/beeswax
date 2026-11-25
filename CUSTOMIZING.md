@@ -19,6 +19,14 @@ change a colour here first, then there. _Match the device_ sets the `dark` class
 `templates/layout/html.html.twig`) before anything paints, and again when the device's setting changes; with JavaScript off
 the page stays light. If the site's admin theme is Gin, set its _Dark mode_ to _Auto_ too so its login and admin pages agree.
 
+### Tokens
+
+Every colour is written once in `src/theme.css`, as a `--bw-*` token (light in `:root`, dark in `.dark`). The shadcn-style names that Tailwind uses (`--background`, `--primary`, `--muted`, ...) are aliases of those, so changing `--bw-accent` changes `--primary` too, in both modes. Two names are easy to misread: **`--accent` is the pale tint** (`--bw-accent-tint`) and **`--primary` is the solid pine** (`--bw-accent`); do not use `text-accent` or `border-accent` for text or an outline.
+
+Status and control colours reach Tailwind as `ok`, `info`, `warning`, `critical` (each with a `-tint`) and `field-border`: `bg-ok-tint`, `border-critical`, `text-info`, `border-field-border`. Use those, not a palette colour (`bg-green-100`) or a bare `text-white`: `npm run check:colours` (also in CI) fails on them, except `bg-black/NN` overlays and the files that draw over photographs or video.
+
+A site that copies `theme.css` to the web root now gets the whole palette, including `--bw-field-border` and the `--bw-info` pair.
+
 ### Contrast
 
 Checked by computation (WCAG 2.x ratios) on 2026-11-13, not yet by an automated tool on a live page: text pairs need 4.5:1 and control borders 3:1.
@@ -31,6 +39,7 @@ Checked by computation (WCAG 2.x ratios) on 2026-11-13, not yet by an automated 
 | `--bw-critical` on surface, on its tint          | 6.54, 5.33   | 5.68, 4.99   |
 | `--bw-warning` on surface, on its tint           | 5.58, 4.67   | 6.82, 5.77   |
 | `--bw-ok` on surface, on its tint                | 5.95, 5.18   | 9.43, 7.50   |
+| `--bw-info` on surface, on its tint              | 6.70, 5.70   | 7.51, 6.69   |
 | `--bw-field-border` on surface / ground          | 3.63, 3.43   | 3.55, 3.89   |
 
 `--bw-ink-faint` (2.96 to 3.14 light, 4.04 to 4.43 dark) is below 4.5:1, so it is used only for hover borders (3:1 or more), never for text; use `--bw-ink-muted` for small grey text. `--bw-hairline` (about 1.3:1) is for dividers and card edges, not for the border of a control: use `--bw-field-border`. Changing `--bw-warning`, `--bw-critical` or the field border here means changing them in the Vinculum app's `Palette.swift` too.
