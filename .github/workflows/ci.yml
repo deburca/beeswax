@@ -29,6 +29,10 @@ jobs:
       - name: Build is up to date
         run: npm run check:build
 
+      # AGENTS.md: every include isolates its context (`with_context: false` or `only`).
+      - name: Twig includes isolate their context
+        run: npm run check:twig
+
       - name: PHP syntax
         run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
 

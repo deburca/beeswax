@@ -52,10 +52,10 @@
   {% set additional_classes = additional_classes|join(' ') %}
 {% endif %}
 
-{# If href is provided and button is not disabled, present a link; otherwise render a button #}
-{% set disabled_attr = is_disabled ? 'aria-disabled="true"' : '' %}
+{# If href is provided and button is not disabled, present a link; otherwise render a button. A disabled
+   control is always a button (a link cannot be disabled), so only that branch carries `disabled`. #}
 {% set button_disabled_attr = is_disabled ? 'disabled' : '' %}
-{% set href = disabled|default(false) ? null : href %}
+{% set href = is_disabled ? null : href %}
 
 {% if href %}
   <a
@@ -71,7 +71,6 @@
       additional_classes
     )
     }}"
-    {{ disabled_attr }}
   >
     {% if has_icon %}
       <span class="{{ icon_classes }}">
@@ -92,6 +91,7 @@
   </a>
 {% else %}
   <button
+    type="button"
     class="{{
     button_variants.apply(
       {

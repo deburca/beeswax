@@ -22,7 +22,7 @@
 <div class="navbar relative z-[500] container mx-auto flex justify-between p-2 px-4 md:py-4">
   <div class="navbar--logo self-center [&>div]:flex [&>div]:flex-col [&>div]:justify-center">
     {% block logo %}
-      {{ include('@beeswax/templates/block/block--system-branding-block.html.twig') }}
+      {{ include('@beeswax/templates/block/block--system-branding-block.html.twig', {}, with_context: false) }}
     {% endblock %}
   </div>
 
@@ -50,7 +50,8 @@
             {
               icon: 'x',
               icon_size: 'medium'
-            }
+            },
+            with_context: false
           )
         }}
       </button>
@@ -90,7 +91,8 @@
           {
             icon: 'list',
             icon_size: 'medium'
-          }
+          },
+          with_context: false
         )
       }}
     </button>

@@ -31,4 +31,16 @@
  * @see template_preprocess_pager()
  */
 #}
-{{ include('@beeswax/includes/pager.twig') }}
+{{
+  include(
+    '@beeswax/includes/pager.twig',
+    {
+      heading_id: heading_id,
+      pagination_heading_level: pagination_heading_level,
+      items: items,
+      current: current|default(null),
+      ellipses: ellipses|default({})
+    },
+    with_context: false
+  )
+}}
