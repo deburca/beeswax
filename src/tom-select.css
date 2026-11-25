@@ -67,7 +67,14 @@ body.hivelog-page .ts-wrapper.single .ts-control input {
 
 body.hivelog-page .ts-wrapper.single.focus .ts-control {
   border-color: var(--bw-accent);
-  box-shadow: 0 0 0 2px var(--bw-accent-tint);
+  outline: 2px solid var(--bw-accent);
+  outline-offset: 2px;
+}
+
+/* The control draws the focus indicator; the input inside it must not draw a
+   second one (the global :focus-visible rule would). */
+.ts-wrapper .ts-control input:focus-visible {
+  outline: none;
 }
 
 /* Caret. */

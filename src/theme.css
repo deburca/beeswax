@@ -79,6 +79,12 @@
   --bw-warning-tint: #f4ead6;
   --bw-ok: #3d7016;
   --bw-ok-tint: #e8f3da;
+  /* The call-to-action honey (the logo's amber): the same in both schemes, with dark ink on it. */
+  --bw-honey: #e9b949;
+  --bw-honey-hover: #f0c55f;
+  --bw-honey-border: #d9a735;
+  --bw-honey-border-hover: #c4931f;
+  --bw-on-honey: #241d15;
   --bw-info: #2b5f8f;
   --bw-info-tint: #e4eef7;
   /* Control borders need 3:1 on every surface (WCAG 1.4.11); --bw-hairline is for dividers. */

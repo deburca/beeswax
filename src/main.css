@@ -119,6 +119,14 @@
     @apply bg-background font-normal text-foreground antialiased;
   }
 
+  /* One focus indicator for everything that can take keyboard focus
+     (ADR-0002). A component that draws its own indicator (an `outline-*`
+     utility, or an outline in the HiveLog skin) wins over this layer. */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
   p {
     @apply mb-4;
   }
