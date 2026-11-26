@@ -38,6 +38,14 @@
 
 {% set autoplay_state = video_autoplay ? 'yes' : 'no' %}
 
+{% set control_button_classes =
+  [
+    'flex cursor-pointer items-center justify-center',
+    'rounded-full bg-black/60 p-1 text-white hover:bg-black/80',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+  ]|join(' ')
+%}
+
 <figure class="video-component cq-full relative grid w-full gap-2">
   <video
     {{ video_attributes
@@ -64,7 +72,7 @@
         aria-label="{{ button_label }}"
         data-label-play="{{ label_play }}"
         data-label-pause="{{ label_pause }}"
-        class="flex cursor-pointer items-center justify-center rounded-full bg-black/60 p-1 text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        class="{{ control_button_classes }}"
       >
         <span class="{{ icon_play_variants.apply({ autoplay: autoplay_state }) }}">
           {% include "beeswax:icon" with {

@@ -2,8 +2,12 @@
 
 {% set date_formatted = date|date('m.d.Y') %}
 
+{% set content_classes = ['hero-blog--content container mx-auto flex flex-col gap-8 px-6', 'md:w-full md:gap-12 lg:w-10/12 xl:w-8/12']|join(' ') %}
+
+{% set backdrop_classes = ['absolute -bottom-8 z-[-1] h-[calc(33.3%+32px)] w-full bg-accent', 'md:-bottom-12 md:h-[calc(33.3%+48px)]']|join(' ') %}
+
 <section class="{{ classes|join(' ') }} cq-full">
-  <div class="hero-blog--content container mx-auto flex flex-col gap-8 px-6 md:w-full md:gap-12 lg:w-10/12 xl:w-8/12">
+  <div class="{{ content_classes }}">
     <p>
       <time datetime="{{ date_formatted }}">{{ date_formatted }}</time>
     </p>
@@ -40,6 +44,6 @@
         loading: 'eager'
       } only %}
     </div>
-    <div class="absolute -bottom-8 z-[-1] h-[calc(33.3%+32px)] w-full bg-accent md:-bottom-12 md:h-[calc(33.3%+48px)]"></div>
+    <div class="{{ backdrop_classes }}"></div>
   </div>
 </section>

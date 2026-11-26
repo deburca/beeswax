@@ -19,6 +19,58 @@
 
 {% set menu_id = 'navbar--menu'|clean_unique_id %}
 
+{% set menu_classes =
+  [
+    'navbar--menu fixed inset-0',
+    'top-[calc(var(--drupal-displace-offset-top,0px)+var(--gin-toolbar-height,0px)-var(--navbar-scroll-top,0px))]',
+    'grid shrink-1 grow-1 grid-cols-[1fr] grid-rows-[auto_1fr_auto]',
+    'flex-col items-stretch justify-start bg-background pb-8',
+    'md:static md:flex md:h-auto md:flex-row md:items-center md:bg-transparent md:pb-0'
+  ]|join(' ')
+%}
+
+{% set modal_top_classes =
+  [
+    'navbar--modal-top relative z-[500]',
+    'col-span-1 col-start-1 row-span-1 row-start-1',
+    'container mx-auto flex w-full justify-between p-2 md:hidden'
+  ]|join(' ')
+%}
+
+{% set modal_logo_classes =
+  [
+    'navbar--modal-logo flex min-h-[44px] flex-1 flex-col items-start justify-center md:hidden',
+    '[&>div]:flex [&>div]:flex-col [&>div]:justify-center'
+  ]|join(' ')
+%}
+
+{% set close_button_classes =
+  ['navbar--hide-menu flex h-[44px] w-[44px] flex-0', 'cursor-pointer items-center justify-center p-2 md:hidden']|join(' ')
+%}
+
+{% set menu_wrapper_classes =
+  [
+    'navbar--dropdown-menu-wrapper relative',
+    'col-span-1 col-start-1 row-span-1 row-start-2',
+    'container mx-auto min-h-0 w-full flex-1 p-2 px-4',
+    'after:pointer-events-none after:absolute after:bottom-0 after:z-3 after:h-24 after:w-full',
+    "after:bg-linear-to-b after:from-transparent after:to-background after:content-['']",
+    'md:p-0 md:after:content-none'
+  ]|join(' ')
+%}
+
+{% set links_classes =
+  [
+    'navbar--links col-span-1 col-start-1 row-span-1 row-start-3',
+    'ml-auto flex w-full flex-initial shrink-0 grow-0 flex-col justify-end gap-2',
+    'md:w-auto md:flex-row'
+  ]|join(' ')
+%}
+
+{% set hamburger_container_classes =
+  ['navbar--hamburger-container flex min-h-[44px] min-w-[44px]', 'shrink-0 grow-0 items-center justify-center md:hidden']|join(' ')
+%}
+
 <div class="navbar relative z-[500] container mx-auto flex justify-between p-2 px-4 md:py-4">
   <div class="navbar--logo self-center [&>div]:flex [&>div]:flex-col [&>div]:justify-center">
     {% block logo %}
@@ -26,24 +78,13 @@
     {% endblock %}
   </div>
 
-  <div
-    id="{{ menu_id }}"
-    class="navbar--menu fixed inset-0 top-[calc(var(--drupal-displace-offset-top,0px)+var(--gin-toolbar-height,0px)-var(--navbar-scroll-top,0px))] grid shrink-1 grow-1 grid-cols-[1fr] grid-rows-[auto_1fr_auto] flex-col items-stretch justify-start bg-background pb-8 md:static md:flex md:h-auto md:flex-row md:items-center md:bg-transparent md:pb-0"
-  >
-    <div
-      class="navbar--modal-top relative z-[500] col-span-1 col-start-1 row-span-1 row-start-1 container mx-auto flex w-full justify-between p-2 md:hidden"
-    >
-      <div
-        class="navbar--modal-logo flex min-h-[44px] flex-1 flex-col items-start justify-center md:hidden [&>div]:flex [&>div]:flex-col [&>div]:justify-center"
-      >
+  <div id="{{ menu_id }}" class="{{ menu_classes }}">
+    <div class="{{ modal_top_classes }}">
+      <div class="{{ modal_logo_classes }}">
         {{ block('logo') }}
       </div>
 
-      <button
-        type="button"
-        class="navbar--hide-menu flex h-[44px] w-[44px] flex-0 cursor-pointer items-center justify-center p-2 md:hidden"
-        aria-label="{{ 'Hide menu'|t }}"
-      >
+      <button type="button" class="{{ close_button_classes }}" aria-label="{{ 'Hide menu'|t }}">
         {{
           include(
             '@beeswax/components/icon/icon.twig',
@@ -57,9 +98,7 @@
       </button>
     </div>
 
-    <div
-      class="navbar--dropdown-menu-wrapper relative col-span-1 col-start-1 row-span-1 row-start-2 container mx-auto min-h-0 w-full flex-1 p-2 px-4 after:pointer-events-none after:absolute after:bottom-0 after:z-3 after:h-24 after:w-full after:bg-linear-to-b after:from-transparent after:to-background after:content-[''] md:p-0 md:after:content-none"
-    >
+    <div class="{{ menu_wrapper_classes }}">
       <div class="{{ dropdown_menu_classes }}">
         {% block navigation %}
 
@@ -67,9 +106,7 @@
       </div>
     </div>
 
-    <div
-      class="navbar--links col-span-1 col-start-1 row-span-1 row-start-3 ml-auto flex w-full flex-initial shrink-0 grow-0 flex-col justify-end gap-2 md:w-auto md:flex-row"
-    >
+    <div class="{{ links_classes }}">
       {# CTAs: fill the slot. There is no default, so a site never ships placeholder example.com buttons. #}
       {% block links %}
 
@@ -77,7 +114,7 @@
     </div>
   </div>
 
-  <div class="navbar--hamburger-container flex min-h-[44px] min-w-[44px] shrink-0 grow-0 items-center justify-center md:hidden">
+  <div class="{{ hamburger_container_classes }}">
     <button
       type="button"
       class="navbar--hamburger flex items-center justify-center"

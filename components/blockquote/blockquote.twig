@@ -2,6 +2,10 @@
 
 {% set cite_attr = cite_url ? 'cite="' ~ cite_url ~ '"' : '' %}
 
+{% set cite_link_classes =
+  ['text-base leading-[1.2] font-normal not-italic', 'underline underline-offset-2 duration-300 hover:opacity-80']|join(' ')
+%}
+
 <blockquote class="{{ classes|join(' ') }} relative ms-10 text-foreground" {{ cite_attr }}>
   <svg
     class="absolute -start-8 -top-6 size-16 text-muted"
@@ -25,13 +29,7 @@
       {{ cite_name }}<br />
       <cite>
         {% if cite_url %}
-          <a
-            href="{{ cite_url }}"
-            target="_blank"
-            class="text-base leading-[1.2] font-normal not-italic underline underline-offset-2 duration-300 hover:opacity-80"
-          >
-            {{ cite_text }}
-          </a>
+          <a href="{{ cite_url }}" target="_blank" class="{{ cite_link_classes }}">{{ cite_text }}</a>
         {% else %}
           <span class="text-base leading-[1.2] font-normal not-italic">{{ cite_text }}</span>
         {% endif %}
