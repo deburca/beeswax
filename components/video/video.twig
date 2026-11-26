@@ -10,6 +10,7 @@
 {% set show_controls = controls or video_autoplay %}
 {% set label_play = 'Play video'|t %}
 {% set label_pause = 'Pause video'|t %}
+{% set button_label = video_autoplay ? label_pause : label_play %}
 
 {% set icon_play_variants =
   html_cva(
@@ -60,7 +61,7 @@
       {# The dark disc keeps the white icon readable over any footage; the outline is the focus indicator (ADR-0002). #}
       <button
         type="button"
-        aria-label="{{ video_autoplay ? label_pause : label_play }}"
+        aria-label="{{ button_label }}"
         data-label-play="{{ label_play }}"
         data-label-pause="{{ label_pause }}"
         class="flex cursor-pointer items-center justify-center rounded-full bg-black/60 p-1 text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"

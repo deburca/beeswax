@@ -1,6 +1,7 @@
 {% set button_id = 'accordion--title'|clean_unique_id %}
 {% set content_id = 'accordion--content'|clean_unique_id %}
 {% set heading_level = heading_level|default('3') %}
+{% set open_by_default_value = open_by_default ? 'true' : 'false' %}
 
 {% set section = html_cva(base: ['accordion', 'overflow-hidden', 'border-b border-border', 'bg-clip-padding', 'bg-background']) %}
 
@@ -30,7 +31,7 @@
 
 {% set content_classes = content.apply({}) %}
 
-<div class="{{ section_classes }}" data-open-by-default="{{ open_by_default ? 'true' : 'false' }}">
+<div class="{{ section_classes }}" data-open-by-default="{{ open_by_default_value }}">
   {# The heading tag is necessary for accessibility reasons. #}
   {% set heading_class = 'text-2xl' %}
   {% set button_content %}
