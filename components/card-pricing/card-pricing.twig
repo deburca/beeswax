@@ -3,7 +3,7 @@
 
 {% set card =
   html_cva(
-    base: ['group relative flex flex-col gap-4 rounded-sm p-5 shadow-lg transition-colors duration-300 md:gap-6 xl:gap-7 2xl:p-8'],
+    base: ['group relative flex flex-col gap-4 rounded-sm p-5 shadow-lg', 'transition-colors duration-300 md:gap-6 xl:gap-7 2xl:p-8'],
     variants: {
       promoted: {
         no: ['bg-card text-card-foreground hover:bg-muted hover:text-muted-foreground'],
@@ -50,7 +50,7 @@
           text_color: 'default',
           text_size: 'heading-responsive-4xl',
           align: 'left',
-          heading_classes: ['text-[1.375rem]', 'leading-tight', 'font-bold', 'text-inherit']
+          heading_classes: ['text-[1.375rem]', 'leading-tight', 'text-inherit']
         },
         with_context: false
       )
